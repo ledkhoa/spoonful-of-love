@@ -10,7 +10,9 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "check": "prettier . --check",
-    "prettier": "prettier . --write"
+    "prettier": "prettier . --write",
+    "migration:new": "supabase migration new",
+    "migration:up": "supabase migration up"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -50,6 +52,7 @@
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "supabase": "^2.48.3",
     "typescript": "~5.9.2"
   },
   "private": true
