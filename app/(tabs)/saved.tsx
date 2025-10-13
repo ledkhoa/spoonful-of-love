@@ -3,11 +3,8 @@ import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import RecipeCard from '@/components/RecipeCard';
-import {
-  dummyRecipes,
-  RecipeCard as RecipeCardType,
-} from '@/dummy-data/recipe-card';
+import SavedCard from '@/components/SavedCard';
+import { dummyRecipes, Recipe } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
 
 export default function Saved() {
@@ -27,8 +24,8 @@ export default function Saved() {
     router.back();
   };
 
-  const renderRecipeItem = ({ item }: { item: RecipeCardType }) => (
-    <RecipeCard
+  const renderRecipeItem = ({ item }: { item: Recipe }) => (
+    <SavedCard
       recipe={item}
       onPress={() => handleRecipePress(item.id)}
       onSavePress={() => handleSavePress(item.id)}

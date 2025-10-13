@@ -2,11 +2,12 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
-import type { RecipeCard } from '@/dummy-data/recipe-card';
+import type { Recipe } from '@/dummy-data/recipe-card';
 import PremiumBadge from './PremiumBadge';
+import AgeRange from './AgeRange';
 
 interface FeaturedRecipeCardProps {
-  recipe: RecipeCard;
+  recipe: Recipe;
   onPress?: () => void;
   onSavePress?: () => void;
 }
@@ -18,7 +19,7 @@ export default function FeaturedRecipeCard({
 }: FeaturedRecipeCardProps) {
   return (
     <TouchableOpacity
-      className='bg-cream-50 rounded-2xl shadow-md shadow-neutral-400/40 mb-4'
+      className='bg-cream-50 rounded-2xl shadow-sm shadow-neutral-400/40 mb-4 pb-4'
       onPress={onPress}
       activeOpacity={0.7}
     >
@@ -48,30 +49,30 @@ export default function FeaturedRecipeCard({
       </View>
 
       {/* Content Container */}
-      <View className='p-4'>
+      <View className='px-4 pt-4 pb-2'>
         {/* Title */}
-        <Text className='text-lg font-bold text-neutral-800 mb-2'>
+        <Text
+          className='text-lg font-bold text-neutral-800 mb-2'
+          numberOfLines={2}
+        >
           {recipe.title}
         </Text>
 
         {/* Description */}
-        <Text className='text-sm text-neutral-600 mb-3 leading-5'>
+        <Text
+          className='text-sm text-neutral-600 leading-5 mb-3'
+          numberOfLines={4}
+          style={{ height: 60 }}
+        >
           {recipe.description}
         </Text>
 
         {/* Age Range */}
-        <View className='flex-row items-center mb-3'>
-          <Ionicons
-            name='accessibility-outline'
-            size={14}
-            color={colors.accent[500]}
-          />
-          <Text className='text-xs text-accent-500 ml-1 font-medium'>
-            {recipe.maxMonths
-              ? `${recipe.minMonths}-${recipe.maxMonths} months`
-              : `${recipe.minMonths}+ months`}
-          </Text>
-        </View>
+        <AgeRange
+          minMonths={recipe.minMonths}
+          maxMonths={recipe.maxMonths}
+          compressedView={false}
+        />
 
         {/* Rating and Reviews */}
         <View className='flex-row items-center'>

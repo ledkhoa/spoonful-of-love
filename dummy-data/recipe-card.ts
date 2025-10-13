@@ -1,4 +1,4 @@
-export type RecipeCard = {
+export type Recipe = {
   id: string;
   title: string;
   description: string;
@@ -12,7 +12,7 @@ export type RecipeCard = {
   maxMonths?: number;
 };
 
-export const dummyRecipes: RecipeCard[] = [
+export const dummyRecipes: Recipe[] = [
   {
     id: '1',
     title: 'Fluffy Banana Pancakes',

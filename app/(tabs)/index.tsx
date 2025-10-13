@@ -1,35 +1,16 @@
 import React from 'react';
-import { View, Text, FlatList, TextInput } from 'react-native';
+import { View, Text, FlatList, TextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import FeaturedRecipeCard from '@/components/FeaturedRecipeCard';
 import RecipeCard from '@/components/RecipeCard';
-import {
-  dummyRecipes,
-  RecipeCard as RecipeCardType,
-} from '@/dummy-data/recipe-card';
+import { dummyRecipes, Recipe } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
-
-type ListItem = {
-  type: 'featured-header' | 'featured-recipe' | 'more-header' | 'more-recipe';
-  recipe?: RecipeCardType;
-};
 
 export default function Index() {
   // Filter featured and regular recipes
   const featuredRecipes = dummyRecipes.filter((recipe) => recipe.isFeatured);
   const moreRecipes = dummyRecipes.filter((recipe) => !recipe.isFeatured);
-
-  // Create a single data array with section headers
-  const listData: ListItem[] = [
-    { type: 'featured-header' },
-    ...featuredRecipes.map((recipe) => ({
-      type: 'featured-recipe' as const,
-      recipe,
-    })),
-    { type: 'more-header' },
-    ...moreRecipes.map((recipe) => ({ type: 'more-recipe' as const, recipe })),
-  ];
 
   const handleRecipePress = (recipeId: string) => {
     console.log('Recipe pressed:', recipeId);
@@ -41,48 +22,23 @@ export default function Index() {
     // TODO: Toggle save state
   };
 
-  const renderItem = ({ item }: { item: ListItem }) => {
-    switch (item.type) {
-      case 'featured-header':
-        return (
-          <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
-            Popular Recipes
-          </Text>
-        );
+  const renderFeaturedItem = ({ item }: { item: Recipe }) => (
+    <View style={{ width: 280 }}>
+      <FeaturedRecipeCard
+        recipe={item}
+        onPress={() => handleRecipePress(item.id)}
+        onSavePress={() => handleSavePress(item.id)}
+      />
+    </View>
+  );
 
-      case 'featured-recipe':
-        return item.recipe ? (
-          <View className='mb-4'>
-            <FeaturedRecipeCard
-              recipe={item.recipe}
-              onPress={() => handleRecipePress(item.recipe!.id)}
-              onSavePress={() => handleSavePress(item.recipe!.id)}
-            />
-          </View>
-        ) : null;
-
-      case 'more-header':
-        return (
-          <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
-            More Recipes
-          </Text>
-        );
-
-      case 'more-recipe':
-        return item.recipe ? (
-          <View className='mb-2'>
-            <RecipeCard
-              recipe={item.recipe}
-              onPress={() => handleRecipePress(item.recipe!.id)}
-              onSavePress={() => handleSavePress(item.recipe!.id)}
-            />
-          </View>
-        ) : null;
-
-      default:
-        return null;
-    }
-  };
+  const renderMoreItem = ({ item }: { item: Recipe }) => (
+    <RecipeCard
+      recipe={item}
+      onPress={() => handleRecipePress(item.id)}
+      onSavePress={() => handleSavePress(item.id)}
+    />
+  );
 
   return (
     <SafeAreaView
@@ -105,14 +61,46 @@ export default function Index() {
         </View>
       </View>
 
-      <FlatList
-        data={listData}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => `${item.type}-${index}`}
-        className='flex-1 px-6 bg-cream-100'
+      <ScrollView
+        className='flex-1 bg-cream-100'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 24 }}
-      />
+      >
+        <View className='px-6'>
+          {/* Featured Recipes Section */}
+          <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
+            Popular Recipes
+          </Text>
+        </View>
+
+        <FlatList
+          data={featuredRecipes}
+          renderItem={renderFeaturedItem}
+          keyExtractor={(item) => `featured-${item.id}`}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingLeft: 24, paddingRight: 24 }}
+          ItemSeparatorComponent={() => <View className='w-4' />}
+        />
+
+        <View className='px-6'>
+          {/* More Recipes Section */}
+          <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
+            More Recipes
+          </Text>
+
+          <FlatList
+            data={moreRecipes}
+            renderItem={renderMoreItem}
+            keyExtractor={(item) => `more-${item.id}`}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={false}
+            columnWrapperStyle={{ justifyContent: 'space-between' }}
+            ItemSeparatorComponent={() => <View className='h-2' />}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
