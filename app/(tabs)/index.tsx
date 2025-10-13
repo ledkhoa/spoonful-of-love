@@ -23,7 +23,7 @@ export default function Index() {
   };
 
   const renderFeaturedItem = ({ item }: { item: Recipe }) => (
-    <View style={{ width: 280 }}>
+    <View className='w-[280]'>
       <FeaturedRecipeCard
         recipe={item}
         onPress={() => handleRecipePress(item.id)}
@@ -46,7 +46,7 @@ export default function Index() {
       edges={['top', 'left', 'right']}
     >
       {/* Header */}
-      <View className='px-6 py-5 bg-primary-500'>
+      <View className='px-4 py-5 bg-primary-500'>
         <Text className='text-3xl font-bold text-neutral-800 mb-3'>
           Spoonful of Love
         </Text>
@@ -66,7 +66,7 @@ export default function Index() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 24 }}
       >
-        <View className='px-6'>
+        <View className='px-4'>
           {/* Featured Recipes Section */}
           <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
             Popular Recipes
@@ -79,27 +79,27 @@ export default function Index() {
           keyExtractor={(item) => `featured-${item.id}`}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingLeft: 24, paddingRight: 24 }}
-          ItemSeparatorComponent={() => <View className='w-4' />}
+          contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
+          ItemSeparatorComponent={() => <View className='w-3' />}
         />
 
-        <View className='px-6'>
+        <View className='px-4'>
           {/* More Recipes Section */}
           <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
             More Recipes
           </Text>
-
-          <FlatList
-            data={moreRecipes}
-            renderItem={renderMoreItem}
-            keyExtractor={(item) => `more-${item.id}`}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            scrollEnabled={false}
-            columnWrapperStyle={{ justifyContent: 'space-between' }}
-            ItemSeparatorComponent={() => <View className='h-2' />}
-          />
         </View>
+
+        <FlatList
+          data={moreRecipes}
+          renderItem={renderMoreItem}
+          keyExtractor={(item) => `more-${item.id}`}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
+          contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
+          columnWrapperStyle={{ justifyContent: 'space-between', gap: 6 }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

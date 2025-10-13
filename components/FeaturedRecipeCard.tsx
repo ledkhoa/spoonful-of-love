@@ -60,9 +60,8 @@ export default function FeaturedRecipeCard({
 
         {/* Description */}
         <Text
-          className='text-sm text-neutral-600 leading-5 mb-3'
+          className='text-sm text-neutral-600 leading-5 mb-3 h-[60]'
           numberOfLines={4}
-          style={{ height: 60 }}
         >
           {recipe.description}
         </Text>
