@@ -19,7 +19,7 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   return (
     <TouchableOpacity
-      className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/20 mb-4 flex-1'
+      className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-4 flex-1'
       onPress={onPress}
       activeOpacity={0.7}
     >

@@ -44,15 +44,13 @@ export default function Saved() {
     </View>
   );
 
-  const ItemSeparator = () => <View className='py-1' />;
-
   return (
     <SafeAreaView
       className='flex-1 bg-primary-500'
       edges={['top', 'left', 'right']}
     >
       {/* Header */}
-      <View className='flex-row items-center justify-between px-6 py-4 bg-primary-500'>
+      <View className='flex-row items-center justify-between px-4 py-4 bg-primary-500'>
         <TouchableOpacity
           onPress={handleBackPress}
           activeOpacity={0.7}
@@ -75,8 +73,7 @@ export default function Saved() {
         renderItem={renderRecipeItem}
         keyExtractor={(item) => `saved-${item.id}`}
         ListEmptyComponent={renderEmptyState}
-        ItemSeparatorComponent={ItemSeparator}
-        className='flex-1 px-6 bg-cream-100'
+        className='flex-1 px-4 bg-cream-100'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingTop: 24,

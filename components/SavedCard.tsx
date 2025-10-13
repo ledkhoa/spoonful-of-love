@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import type { Recipe } from '@/dummy-data/recipe-card';
 import AgeRange from './AgeRange';
+import PremiumBadge from './PremiumBadge';
 
 interface SavedCardProps {
   recipe: Recipe;
@@ -18,21 +19,24 @@ export default function SavedCard({
 }: SavedCardProps) {
   return (
     <TouchableOpacity
-      className='flex-row items-center bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/20 mb-3'
+      className='flex-row bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-3'
       onPress={onPress}
       activeOpacity={0.7}
     >
+      {/* Premium Badge */}
+      {recipe.isPremium && <PremiumBadge />}
+
       {/* Image Container */}
-      <View className='center p-3'>
+      <View className='w-1/3 aspect-square'>
         <Image
           source={{ uri: recipe.imageUrl }}
-          className='w-20 h-20 rounded-xl'
+          className='w-full h-full rounded-l-xl'
           resizeMode='cover'
         />
       </View>
 
       {/* Content Container */}
-      <View className='flex-1 justify-between pr-2 py-2'>
+      <View className='flex-1 justify-between px-3 py-2'>
         <View>
           {/* Title */}
           <Text
@@ -43,7 +47,7 @@ export default function SavedCard({
           </Text>
 
           {/* Description */}
-          <Text className='text-sm text-neutral-600 mb-2' numberOfLines={3}>
+          <Text className='text-sm text-neutral-600 mb-2' numberOfLines={2}>
             {recipe.description}
           </Text>
 
