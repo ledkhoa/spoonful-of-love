@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 
 interface AgeRangeProps {
@@ -15,8 +15,8 @@ export default function AgeRange({
 }: AgeRangeProps) {
   return (
     <View className='flex-row items-center mb-2'>
-      <Ionicons
-        name='accessibility-outline'
+      <MaterialCommunityIcons
+        name='baby-face-outline'
         size={compressedView ? 12 : 14}
         color={colors.accent[500]}
       />
