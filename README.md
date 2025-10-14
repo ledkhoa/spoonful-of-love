@@ -1,4 +1,8 @@
-# Spoonful of Love 🍼
+<div align="center">
+  <img src="./assets/images/logo.png" alt="Spoonful of Love Logo" width="120">
+</div>
+
+# Spoonful of Love
 
 A mobile app for discovering and saving toddler-friendly recipes. Built for busy parents who want to provide nutritious and age-appropriate meals for their little ones.
 
