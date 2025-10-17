@@ -1,4 +1,3 @@
-// Type definitions for Recipe data
 export type Recipe = {
   id: string;
   title: string;
@@ -31,19 +30,22 @@ export type Recipe = {
   updated_at: string;
 };
 
-// Simplified Recipe type for list views
-export type RecipeListItem = {
+export type RecipeCardItem = {
   id: string;
   title: string;
-  description: string | null;
-  is_vegan: boolean;
-  is_vegetarian: boolean;
-  is_gluten_free: boolean;
-  is_dairy_free: boolean;
-  is_nut_free: boolean;
-  min_age_months: number;
-  max_age_months: number | null;
-  featured_image_url: string | null;
-  average_rating: number;
-  total_ratings_count: number;
+  description: string;
+  isVegan: boolean;
+  isVegetarian: boolean;
+  isGlutenFree: boolean;
+  isDairyFree: boolean;
+  isNutFree: boolean;
+  imageUrl: string;
+  rating: number;
+  reviewCount: number;
+  minMonths: number;
+  maxMonths?: number;
+  // TODO: Make Non nullable
+  isSaved?: boolean;
+  isFeatured?: boolean;
+  isPremium?: boolean;
 };
