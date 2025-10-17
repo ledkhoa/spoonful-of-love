@@ -41,3 +41,7 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Supabase
+# Ignore until we have CI/CD set up to handle migrations and environments
+/supabase
