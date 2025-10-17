@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
-import { RecipeCardItem } from '@/recipes/models/recipes';
+import { RecipeCardItem } from '@/recipes/models/Recipes';
 
 interface RecipeCardProps {
   recipe: RecipeCardItem;

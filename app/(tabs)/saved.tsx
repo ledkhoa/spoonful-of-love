@@ -6,7 +6,7 @@ import { router } from 'expo-router';
 import SavedCard from '@/components/SavedCard';
 import { dummyRecipes } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
-import { RecipeCardItem } from '@/recipes/models/recipes';
+import { RecipeCardItem } from '@/recipes/models/Recipes';
 
 export default function Saved() {
   const savedRecipes = dummyRecipes.filter((recipe) => recipe.isSaved);
