@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { dummyRecipes } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
 import { useGetRecipes } from '@/recipes/hooks/useRecipes';
-import { RecipeCardItem } from '@/recipes/models/recipes';
+import { RecipeCardItem } from '@/recipes/models/Recipes';
 import FeaturedRecipeCard from '@/components/FeaturedRecipeCard';
 import RecipeCard from '@/components/RecipeCard';
 

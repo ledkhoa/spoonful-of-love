@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { Recipe, RecipeCardItem } from '../models/recipes';
+import { Recipe, RecipeCardItem } from '../models/Recipes';
 import { RecipeFilters } from '../models/RecipeFilters';
 
 export class RecipeService {
