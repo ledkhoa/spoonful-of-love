@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,7 +18,13 @@ import FeaturedRecipeCard from '@/components/FeaturedRecipeCard';
 import RecipeCard from '@/components/RecipeCard';
 
 export default function Index() {
-  const { data: moreRecipes, isLoading, error } = useGetRecipes();
+  const {
+    data: moreRecipes,
+    isLoading,
+    error,
+    refetch,
+    isRefetching,
+  } = useGetRecipes({});
 
   // Keep featured recipes from dummy data for now
   const featuredRecipes = dummyRecipes.filter((recipe) => recipe.isFeatured);
@@ -30,6 +37,10 @@ export default function Index() {
   const handleSavePress = (recipeId: string) => {
     console.log('Save pressed:', recipeId);
     // TODO: Toggle save state
+  };
+
+  const handleRefresh = () => {
+    refetch();
   };
 
   const renderFeaturedItem = ({ item }: { item: RecipeCardItem }) => (
@@ -72,6 +83,14 @@ export default function Index() {
         className='flex-1 bg-cream-100'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 24 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={handleRefresh}
+            tintColor={colors.primary[500]}
+            colors={[colors.primary[500]]}
+          />
+        }
       >
         <View className='px-4'>
           {/* Featured Recipes Section */}
