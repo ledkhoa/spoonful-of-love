@@ -2,12 +2,12 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
-import type { Recipe } from '@/dummy-data/recipe-card';
 import AgeRange from './AgeRange';
 import PremiumBadge from './PremiumBadge';
+import { RecipeCardItem } from '@/recipes/models/recipes';
 
 interface SavedCardProps {
-  recipe: Recipe;
+  recipe: RecipeCardItem;
   onPress?: () => void;
   onSavePress?: () => void;
 }

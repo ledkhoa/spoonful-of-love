@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { dummyRecipes, Recipe } from '@/dummy-data/recipe-card';
+import { dummyRecipes } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
 import { useGetRecipes } from '@/recipes/hooks/useRecipes';
-import FeaturedRecipeCard from '@/recipes/components/FeaturedRecipeCard';
-import { RecipeListItem } from '@/recipes/models/recipes';
-import RecipeCard from '@/recipes/components/RecipeCard';
+import { RecipeCardItem } from '@/recipes/models/recipes';
+import FeaturedRecipeCard from '@/components/FeaturedRecipeCard';
+import RecipeCard from '@/components/RecipeCard';
 
 export default function Index() {
   const { data: moreRecipes, isLoading, error } = useGetRecipes();
@@ -32,7 +32,7 @@ export default function Index() {
     // TODO: Toggle save state
   };
 
-  const renderFeaturedItem = ({ item }: { item: Recipe }) => (
+  const renderFeaturedItem = ({ item }: { item: RecipeCardItem }) => (
     <View className='w-[280]'>
       <FeaturedRecipeCard
         recipe={item}
@@ -43,37 +43,13 @@ export default function Index() {
   );
 
   // Updated render function for real recipe data
-  const renderMoreItem = ({ item }: { item: RecipeListItem }) => {
-    // Transform RecipeListItem to match RecipeCard's expected props
-    const transformedRecipe = {
-      id: item.id,
-      title: item.title,
-      description: item.description || '',
-      imageUrl: item.featured_image_url || '',
-      rating: item.average_rating,
-      reviewCount: item.total_ratings_count,
-      totalRatings: item.total_ratings_count,
-      minMonths: item.min_age_months,
-      maxMonths: item.max_age_months ?? undefined, // Convert null to undefined
-      isVegan: item.is_vegan,
-      isVegetarian: item.is_vegetarian,
-      isGlutenFree: item.is_gluten_free,
-      isDairyFree: item.is_dairy_free,
-      isNutFree: item.is_nut_free,
-      isSaved: true, // TODO: Get from user's saved recipes
-      isFeatured: false,
-      isPremium: true, // TODO: Add premium field to database if needed
-    };
-
-    return (
-      <RecipeCard
-        recipe={transformedRecipe}
-        onPress={() => handleRecipePress(item.id)}
-        onSavePress={() => handleSavePress(item.id)}
-      />
-    );
-  };
-
+  const renderMoreItem = ({ item }: { item: RecipeCardItem }) => (
+    <RecipeCard
+      recipe={item}
+      onPress={() => handleRecipePress(item.id)}
+      onSavePress={() => handleSavePress(item.id)}
+    />
+  );
   return (
     <SafeAreaView
       className='flex-1 bg-primary-500'
