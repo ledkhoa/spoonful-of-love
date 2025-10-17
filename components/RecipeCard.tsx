@@ -4,24 +4,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
-import { RecipeCardItem } from '@/recipes/models/Recipes';
+import { RecipeCardItem } from '@/models/Recipes';
 import { DietaryBadges } from './DietaryBadge';
+import { navigateToRecipeDetail } from '@/utils/navigation';
 
 interface RecipeCardProps {
   recipe: RecipeCardItem;
-  onPress?: () => void;
   onSavePress?: () => void;
 }
 
-export default function RecipeCard({
-  recipe,
-  onPress,
-  onSavePress,
-}: RecipeCardProps) {
+export default function RecipeCard({ recipe, onSavePress }: RecipeCardProps) {
   return (
     <TouchableOpacity
       className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-4 flex-1'
-      onPress={onPress}
+      onPress={() => navigateToRecipeDetail(recipe.id)}
       activeOpacity={0.7}
     >
       {/* Premium Badge */}

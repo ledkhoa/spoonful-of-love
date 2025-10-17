@@ -1,0 +1,55 @@
+export type Recipe = {
+  id: string;
+  title: string;
+  description: string | null;
+  prepTimeMinutes: number | null;
+  cookTimeMinutes: number | null;
+  totalTimeMinutes: number | null;
+  baseServingSize: number;
+  difficultyLevel: 'easy' | 'medium';
+  isVegan: boolean;
+  isVegetarian: boolean;
+  isGlutenFree: boolean;
+  isDairyFree: boolean;
+  isNutFree: boolean;
+  minAge: number;
+  maxAge: number | null;
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert' | null;
+  stage: 1 | 2 | 3 | 4;
+  isFreezerFriendly: boolean;
+  cuisineType: string | null;
+  imageUrl: string | null;
+  videoUrl: string | null;
+  isPublished: boolean;
+  publishedAt: string | null;
+  viewCount: number;
+  saveCount: number;
+  rating: number;
+  reviewCount: number;
+  createdAt: string;
+  updatedAt: string;
+  isSaved?: boolean;
+  isFeatured?: boolean;
+  isPremium?: boolean;
+};
+
+export type RecipeCardItem = {
+  id: string;
+  title: string;
+  description: string;
+  isVegan: boolean;
+  isVegetarian: boolean;
+  isGlutenFree: boolean;
+  isDairyFree: boolean;
+  isNutFree: boolean;
+  imageUrl: string;
+  rating: number;
+  reviewCount: number;
+  minMonths: number;
+  maxMonths?: number;
+  // TODO: Make Non nullable
+  isSaved?: boolean;
+  isFeatured?: boolean;
+  isPremium?: boolean;
+  isFreezerFriendly?: boolean;
+};
