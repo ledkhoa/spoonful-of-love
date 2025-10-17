@@ -48,4 +48,5 @@ export type RecipeCardItem = {
   isSaved?: boolean;
   isFeatured?: boolean;
   isPremium?: boolean;
+  isFreezerFriendly?: boolean;
 };

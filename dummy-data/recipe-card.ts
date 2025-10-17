@@ -18,6 +18,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 4,
     maxMonths: 6,
     isPremium: false,
+    isSaved: true,
     isFeatured: true,
   },
   {
@@ -37,6 +38,8 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 9,
     maxMonths: undefined,
     isPremium: true,
+    isSaved: true,
+    isFreezerFriendly: true,
   },
   {
     id: '3',
@@ -55,6 +58,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 10,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '4',
@@ -73,6 +77,8 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 12,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
+    isFreezerFriendly: true,
   },
   {
     id: '5',
@@ -91,6 +97,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 8,
     maxMonths: undefined,
     isPremium: true,
+    isSaved: true,
   },
   {
     id: '6',
@@ -108,7 +115,9 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 11,
     maxMonths: undefined,
     isPremium: true,
+    isSaved: true,
     isFeatured: true,
+    isFreezerFriendly: true,
   },
   {
     id: '7',
@@ -126,6 +135,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 5,
     maxMonths: 7,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '8',
@@ -143,6 +153,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 10,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '9',
@@ -159,6 +170,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 9,
     maxMonths: undefined,
     isPremium: true,
+    isSaved: true,
   },
   {
     id: '10',
@@ -177,6 +189,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 6,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
     isFeatured: true,
   },
   {
@@ -195,6 +208,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 12,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '12',
@@ -212,6 +226,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 8,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '13',
@@ -229,6 +244,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 6,
     maxMonths: 10,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '14',
@@ -246,6 +262,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 12,
     maxMonths: undefined,
     isPremium: true,
+    isSaved: true,
   },
   {
     id: '15',
@@ -263,6 +280,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 5,
     maxMonths: 7,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '16',
@@ -280,6 +298,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 11,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
     isFeatured: true,
   },
   {
@@ -298,6 +317,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 8,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '18',
@@ -314,6 +334,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 9,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '19',
@@ -332,6 +353,7 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 12,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
   {
     id: '20',
@@ -350,5 +372,6 @@ export const dummyRecipes: RecipeCardItem[] = [
     minMonths: 10,
     maxMonths: undefined,
     isPremium: false,
+    isSaved: true,
   },
 ];
