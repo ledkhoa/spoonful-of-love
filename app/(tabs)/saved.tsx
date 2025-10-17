@@ -6,15 +6,10 @@ import { router } from 'expo-router';
 import SavedCard from '@/components/SavedCard';
 import { dummyRecipes } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
-import { RecipeCardItem } from '@/recipes/models/Recipes';
+import { RecipeCardItem } from '@/models/Recipes';
 
 export default function Saved() {
   const savedRecipes = dummyRecipes.filter((recipe) => recipe.isSaved);
-
-  const handleRecipePress = (recipeId: string) => {
-    console.log('Recipe pressed:', recipeId);
-    // TODO: Navigate to recipe detail
-  };
 
   const handleSavePress = (recipeId: string) => {
     console.log('Save pressed:', recipeId);
@@ -26,11 +21,7 @@ export default function Saved() {
   };
 
   const renderRecipeItem = ({ item }: { item: RecipeCardItem }) => (
-    <SavedCard
-      recipe={item}
-      onPress={() => handleRecipePress(item.id)}
-      onSavePress={() => handleSavePress(item.id)}
-    />
+    <SavedCard recipe={item} onSavePress={() => handleSavePress(item.id)} />
   );
 
   const renderEmptyState = () => (

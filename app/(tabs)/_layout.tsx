@@ -9,9 +9,10 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.primary[500],
         tabBarInactiveTintColor: colors.neutral[400],
         tabBarStyle: {
-          backgroundColor: colors.cream[100],
+          backgroundColor: colors.cream[200],
           borderTopWidth: 0,
         },
+        animation: 'shift',
       }}
     >
       <Tabs.Screen

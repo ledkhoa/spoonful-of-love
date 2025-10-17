@@ -5,23 +5,22 @@ import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
 import { DietaryBadges } from '@/components/DietaryBadge';
-import { RecipeCardItem } from '@/recipes/models/Recipes';
+import { RecipeCardItem } from '@/models/Recipes';
+import { navigateToRecipeDetail } from '@/utils/navigation';
 
 interface FeaturedRecipeCardProps {
   recipe: RecipeCardItem;
-  onPress?: () => void;
   onSavePress?: () => void;
 }
 
 export default function FeaturedRecipeCard({
   recipe,
-  onPress,
   onSavePress,
 }: FeaturedRecipeCardProps) {
   return (
     <TouchableOpacity
       className='bg-cream-50 rounded-2xl shadow-sm shadow-neutral-400/30 mb-4 pb-4'
-      onPress={onPress}
+      onPress={() => navigateToRecipeDetail(recipe.id)}
       activeOpacity={0.7}
     >
       {/* Premium Badge */}

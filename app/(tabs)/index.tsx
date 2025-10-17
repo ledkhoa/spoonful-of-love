@@ -12,8 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { dummyRecipes } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
-import { useGetRecipes } from '@/recipes/hooks/useRecipes';
-import { RecipeCardItem } from '@/recipes/models/Recipes';
+import { useGetRecipes } from '@/hooks/useRecipes';
+import { RecipeCardItem } from '@/models/Recipes';
 import FeaturedRecipeCard from '@/components/FeaturedRecipeCard';
 import RecipeCard from '@/components/RecipeCard';
 
@@ -29,11 +29,6 @@ export default function Index() {
   // Keep featured recipes from dummy data for now
   const featuredRecipes = dummyRecipes.filter((recipe) => recipe.isFeatured);
 
-  const handleRecipePress = (recipeId: string) => {
-    console.log('Recipe pressed:', recipeId);
-    // TODO: Navigate to recipe detail
-  };
-
   const handleSavePress = (recipeId: string) => {
     console.log('Save pressed:', recipeId);
     // TODO: Toggle save state
@@ -47,7 +42,6 @@ export default function Index() {
     <View className='w-[280]'>
       <FeaturedRecipeCard
         recipe={item}
-        onPress={() => handleRecipePress(item.id)}
         onSavePress={() => handleSavePress(item.id)}
       />
     </View>
@@ -55,11 +49,7 @@ export default function Index() {
 
   // Updated render function for real recipe data
   const renderMoreItem = ({ item }: { item: RecipeCardItem }) => (
-    <RecipeCard
-      recipe={item}
-      onPress={() => handleRecipePress(item.id)}
-      onSavePress={() => handleSavePress(item.id)}
-    />
+    <RecipeCard recipe={item} onSavePress={() => handleSavePress(item.id)} />
   );
   return (
     <SafeAreaView
@@ -80,7 +70,7 @@ export default function Index() {
       </View>
 
       <ScrollView
-        className='flex-1 bg-cream-100'
+        className='flex-1 bg-cream-200'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 24 }}
         refreshControl={
@@ -95,7 +85,7 @@ export default function Index() {
         <View className='px-4'>
           {/* Featured Recipes Section */}
           <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
-            Popular Recipes
+            Featured Recipes
           </Text>
         </View>
 

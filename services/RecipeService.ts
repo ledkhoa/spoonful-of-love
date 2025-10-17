@@ -11,18 +11,51 @@ export class RecipeService {
   static async getRecipeById(id: string): Promise<Recipe | null> {
     const { data, error } = await supabase
       .from('recipes')
-      .select('*')
+      .select(
+        `
+        id,
+        title,
+        description,
+        prepTimeMinutes: prep_time_minutes,
+        cookTimeMinutes: cook_time_minutes,
+        totalTimeMinutes: total_time_minutes,
+        baseServingSize: base_serving_size,
+        difficultyLevel: difficulty_level,
+        isVegan: is_vegan,
+        isVegetarian: is_vegetarian,
+        isGlutenFree: is_gluten_free,
+        isDairyFree: is_dairy_free,
+        isNutFree: is_nut_free,
+        minAge: min_age_months,
+        maxAge: max_age_months,
+        mealType: meal_type,
+        stage,
+        isFreezerFriendly: is_freezer_friendly,
+        cuisineType: cuisine_type,
+        imageUrl: featured_image_url,
+        videoUrl: video_url,
+        isPublished: is_published,
+        publishedAt: published_at,
+        viewCount: view_count,
+        saveCount: save_count,
+        rating: average_rating,
+        reviewCount: total_ratings_count,
+        createdAt: created_at,
+        updatedAt: updated_at
+      `
+      )
       .eq('id', id)
       .eq('is_published', true)
       .single();
 
     if (error) {
+      console.log('Error fetching recipe by ID:', error);
       if (error.code === 'PGRST116') {
         // No rows returned
         return null;
       }
-      console.error('Error fetching recipe:', error);
-      throw new Error(`Failed to fetch recipe: ${error.message}`);
+      // console.error('Error fetching recipe:', error);
+      return null;
     }
 
     // Increment view count
@@ -51,6 +84,7 @@ export class RecipeService {
         isGlutenFree: is_gluten_free,
         isDairyFree: is_dairy_free,
         isNutFree: is_nut_free,
+        isFreezerFriendly: is_freezer_friendly,
         minMonths: min_age_months,
         maxMonths: max_age_months,
         imageUrl: featured_image_url,
@@ -69,54 +103,52 @@ export class RecipeService {
     if (filters.stage) {
       query = query.eq('stage', filters.stage);
     }
-    if (filters.difficulty_level) {
-      query = query.eq('difficulty_level', filters.difficulty_level);
+    if (filters.difficultyLevel) {
+      query = query.eq('difficulty_level', filters.difficultyLevel);
     }
-    if (filters.meal_type) {
-      query = query.eq('meal_type', filters.meal_type);
+    if (filters.mealType) {
+      query = query.eq('meal_type', filters.mealType);
     }
-    if (filters.cuisine_type) {
-      query = query.eq('cuisine_type', filters.cuisine_type);
+    if (filters.cuisineType) {
+      query = query.eq('cuisine_type', filters.cuisineType);
     }
 
     // Apply dietary restriction filters
-    if (filters.is_vegan !== undefined) {
-      query = query.eq('is_vegan', filters.is_vegan);
+    if (filters.isVegan !== undefined) {
+      query = query.eq('is_vegan', filters.isVegan);
     }
-    if (filters.is_vegetarian !== undefined) {
-      query = query.eq('is_vegetarian', filters.is_vegetarian);
+    if (filters.isVegetarian !== undefined) {
+      query = query.eq('is_vegetarian', filters.isVegetarian);
     }
-    if (filters.is_gluten_free !== undefined) {
-      query = query.eq('is_gluten_free', filters.is_gluten_free);
+    if (filters.isGlutenFree !== undefined) {
+      query = query.eq('is_gluten_free', filters.isGlutenFree);
     }
-    if (filters.is_dairy_free !== undefined) {
-      query = query.eq('is_dairy_free', filters.is_dairy_free);
+    if (filters.isDairyFree !== undefined) {
+      query = query.eq('is_dairy_free', filters.isDairyFree);
     }
-    if (filters.is_nut_free !== undefined) {
-      query = query.eq('is_nut_free', filters.is_nut_free);
+    if (filters.isNutFree !== undefined) {
+      query = query.eq('is_nut_free', filters.isNutFree);
     }
-    if (filters.is_freezer_friendly !== undefined) {
-      query = query.eq('is_freezer_friendly', filters.is_freezer_friendly);
+    if (filters.isFreezerFriendly !== undefined) {
+      query = query.eq('is_freezer_friendly', filters.isFreezerFriendly);
     }
 
     // Apply age filters
-    if (filters.age_in_months) {
+    if (filters.ageInMonths) {
       // Find recipes appropriate for specific age
       query = query
-        .lte('min_age_months', filters.age_in_months)
-        .or(
-          `max_age_months.is.null,max_age_months.gte.${filters.age_in_months}`
-        );
+        .lte('min_age_months', filters.ageInMonths)
+        .or(`max_age_months.is.null,max_age_months.gte.${filters.ageInMonths}`);
     }
 
     // Apply quality filters
-    if (filters.min_rating) {
-      query = query.gte('average_rating', filters.min_rating);
+    if (filters.minRating) {
+      query = query.gte('average_rating', filters.minRating);
     }
 
     // Apply sorting
-    const sortBy = filters.sort_by || 'rating';
-    const sortOrder = filters.sort_order || 'desc';
+    const sortBy = filters.sortBy || 'rating';
+    const sortOrder = filters.sortOrder || 'desc';
     const ascending = sortOrder === 'asc';
 
     switch (sortBy) {
@@ -145,7 +177,6 @@ export class RecipeService {
 
     if (error) {
       console.error('Error fetching filtered recipes:', error);
-      throw new Error(`Failed to fetch filtered recipes: ${error.message}`);
     }
 
     return data || [];

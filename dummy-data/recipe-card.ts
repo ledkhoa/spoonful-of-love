@@ -1,4 +1,4 @@
-import { RecipeCardItem } from '@/recipes/models/Recipes';
+import { RecipeCardItem } from '@/models/Recipes';
 
 export const dummyRecipes: RecipeCardItem[] = [
   {

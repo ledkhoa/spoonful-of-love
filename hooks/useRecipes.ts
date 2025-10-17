@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { RecipeService } from '@/recipes/services/RecipeService';
+import { RecipeService } from '@/services/RecipeService';
 import { RecipeFilters } from '../models/RecipeFilters';
 
 /**
