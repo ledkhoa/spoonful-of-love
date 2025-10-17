@@ -6,13 +6,10 @@ import { RecipeFilters } from '../models/RecipeFilters';
  * Hook to fetch all published recipes
  * @returns TanStack Query result with recipes data
  */
-export const useGetRecipes = () => {
+export const useGetRecipes = (filters: RecipeFilters) => {
   return useQuery({
-    queryKey: [...recipeQueryKeys.all],
-    queryFn: () =>
-      RecipeService.getRecipes({
-        search: 'vegetable',
-      }),
+    queryKey: [...recipeQueryKeys.all, filters],
+    queryFn: () => RecipeService.getRecipes(filters),
     staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
     gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
     retry: 3,
@@ -36,26 +33,8 @@ export const useGetRecipeDetails = (recipeId: string) => {
   });
 };
 
-/**
- * Hook to search recipes with debounced query and optional additional filters
- * @param searchQuery - Text to search for
- * @param additionalFilters - Optional additional filters to apply
- * @param enabled - Whether to enable the query (default: true when query exists)
- * @returns TanStack Query result with search results
- */
-export const useSearchRecipes = (filters: RecipeFilters) => {
-  return useQuery({
-    queryKey: ['recipes', 'search', filters],
-    queryFn: () => RecipeService.getRecipes(filters),
-    staleTime: 2 * 60 * 1000, // Search results stay fresh for 2 minutes
-    gcTime: 5 * 60 * 1000,
-    retry: 2,
-  });
-};
-
 // Query key factory for easier cache management
 export const recipeQueryKeys = {
   all: ['recipes'] as const,
   details: (id: string) => [...recipeQueryKeys.all, 'details', id] as const,
-  search: (query: string) => [...recipeQueryKeys.all, 'search', query] as const,
 };
