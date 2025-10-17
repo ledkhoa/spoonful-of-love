@@ -5,6 +5,7 @@ import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
 import { RecipeCardItem } from '@/recipes/models/Recipes';
+import { DietaryBadges } from './DietaryBadge';
 
 interface RecipeCardProps {
   recipe: RecipeCardItem;
@@ -46,6 +47,19 @@ export default function RecipeCard({
             color={colors.primary[500]}
           />
         </TouchableOpacity>
+
+        {/* Dietary Badges Overlay - Bottom Left */}
+        <View className='absolute bottom-3 left-3'>
+          <DietaryBadges
+            isVegan={recipe.isVegan}
+            isVegetarian={recipe.isVegetarian}
+            isGlutenFree={recipe.isGlutenFree}
+            isDairyFree={recipe.isDairyFree}
+            isNutFree={recipe.isNutFree}
+            isFreezerFriendly={recipe.isFreezerFriendly}
+            size='small'
+          />
+        </View>
       </View>
 
       {/* Content Container */}

@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
+import { DietaryBadges } from '@/components/DietaryBadge';
 import { RecipeCardItem } from '@/recipes/models/Recipes';
 
 interface FeaturedRecipeCardProps {
@@ -33,6 +34,19 @@ export default function FeaturedRecipeCard({
           className='w-full h-48 rounded-t-2xl'
           resizeMode='cover'
         />
+
+        {/* Dietary Badges Overlay - Bottom Left */}
+        <View className='absolute bottom-3 left-3'>
+          <DietaryBadges
+            isVegan={recipe.isVegan}
+            isVegetarian={recipe.isVegetarian}
+            isGlutenFree={recipe.isGlutenFree}
+            isDairyFree={recipe.isDairyFree}
+            isNutFree={recipe.isNutFree}
+            isFreezerFriendly={recipe.isFreezerFriendly}
+            size='medium'
+          />
+        </View>
 
         {/* Save Button Overlay */}
         <TouchableOpacity

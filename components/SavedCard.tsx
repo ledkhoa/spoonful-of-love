@@ -5,6 +5,7 @@ import { colors } from '@/constants/colors';
 import AgeRange from './AgeRange';
 import PremiumBadge from './PremiumBadge';
 import { RecipeCardItem } from '@/recipes/models/Recipes';
+import { DietaryBadges } from './DietaryBadge';
 
 interface SavedCardProps {
   recipe: RecipeCardItem;
@@ -33,6 +34,20 @@ export default function SavedCard({
           className='w-full h-full rounded-l-xl'
           resizeMode='cover'
         />
+
+        {/* Dietary Badges Overlay - Bottom Left */}
+        <View className='absolute bottom-3 left-3'>
+          <DietaryBadges
+            isVegan={recipe.isVegan}
+            isVegetarian={recipe.isVegetarian}
+            isGlutenFree={recipe.isGlutenFree}
+            isDairyFree={recipe.isDairyFree}
+            isNutFree={recipe.isNutFree}
+            isFreezerFriendly={recipe.isFreezerFriendly}
+            size='small'
+            maxDisplay={3}
+          />
+        </View>
       </View>
 
       {/* Content Container */}
