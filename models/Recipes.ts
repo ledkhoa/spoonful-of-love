@@ -1,3 +1,35 @@
+export type RecipeIngredient = {
+  id: string;
+  ingredientId: string;
+  ingredientName: string;
+  category: string | null;
+  quantityMetric: number;
+  unitMetric: string;
+  quantityImperial: number | null;
+  unitImperial: string | null;
+  preparationNote: string | null;
+  isOptional: boolean;
+  orderIndex: number;
+  isCommonAllergen: boolean;
+  allergenType: string | null;
+};
+
+export type RecipeInstruction = {
+  id: string;
+  stepNumber: number;
+  instructionText: string;
+  estimatedTimeMinutes: number | null;
+  imageUrl: string | null;
+  tipText: string | null;
+};
+
+export type RecipeEquipment = {
+  equipmentId: string;
+  equipmentName: string;
+  category: string | null;
+  isRequired: boolean;
+};
+
 export type Recipe = {
   id: string;
   title: string;
@@ -31,6 +63,10 @@ export type Recipe = {
   isSaved?: boolean;
   isFeatured?: boolean;
   isPremium?: boolean;
+  // Related data
+  ingredients?: RecipeIngredient[];
+  instructions?: RecipeInstruction[];
+  equipment?: RecipeEquipment[];
 };
 
 export type RecipeCardItem = {

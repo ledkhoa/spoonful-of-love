@@ -1,10 +1,16 @@
 import { supabase } from '@/lib/supabase';
-import { Recipe, RecipeCardItem } from '../models/Recipes';
+import {
+  Recipe,
+  RecipeCardItem,
+  RecipeIngredient,
+  RecipeInstruction,
+  RecipeEquipment,
+} from '../models/Recipes';
 import { RecipeFilters } from '../models/RecipeFilters';
 
 export class RecipeService {
   /**
-   * Get a single recipe by ID with full details
+   * Get a single recipe by ID with full details including ingredients, instructions, and equipment
    * @param id Recipe UUID
    * @returns Promise<Recipe | null>
    */
@@ -41,7 +47,40 @@ export class RecipeService {
         rating: average_rating,
         reviewCount: total_ratings_count,
         createdAt: created_at,
-        updatedAt: updated_at
+        updatedAt: updated_at,
+        recipe_ingredients!recipe_ingredients_recipe_id_fkey (
+          id,
+          ingredientId: ingredient_id,
+          quantityMetric: quantity_metric,
+          unitMetric: unit_metric,
+          quantityImperial: quantity_imperial,
+          unitImperial: unit_imperial,
+          preparationNote: preparation_note,
+          isOptional: is_optional,
+          orderIndex: order_index,
+          ingredients:ingredient_id (
+            name,
+            category,
+            isCommonAllergen: is_common_allergen,
+            allergenType: allergen_type
+          )
+        ),
+        instructions!instructions_recipe_id_fkey (
+          id,
+          stepNumber: step_number,
+          instructionText: instruction_text,
+          estimatedTimeMinutes: estimated_time_minutes,
+          imageUrl: image_url,
+          tipText: tip_text
+        ),
+        recipe_equipment!recipe_equipment_recipe_id_fkey (
+          isRequired: is_required,
+          equipment:equipment_id (
+            id,
+            name,
+            category
+          )
+        )
       `
       )
       .eq('id', id)
@@ -51,17 +90,70 @@ export class RecipeService {
     if (error) {
       console.log('Error fetching recipe by ID:', error);
       if (error.code === 'PGRST116') {
-        // No rows returned
         return null;
       }
-      // console.error('Error fetching recipe:', error);
       return null;
     }
+
+    if (!data) {
+      return null;
+    }
+
+    // Transform the nested data into our type structure
+    const ingredients: RecipeIngredient[] = (data.recipe_ingredients || [])
+      .map((item: any) => ({
+        id: item.id,
+        ingredientId: item.ingredientId,
+        ingredientName: item.ingredients?.name || '',
+        category: item.ingredients?.category || null,
+        quantityMetric: item.quantityMetric,
+        unitMetric: item.unitMetric,
+        quantityImperial: item.quantityImperial,
+        unitImperial: item.unitImperial,
+        preparationNote: item.preparationNote,
+        isOptional: item.isOptional,
+        orderIndex: item.orderIndex,
+        isCommonAllergen: item.ingredients?.isCommonAllergen || false,
+        allergenType: item.ingredients?.allergenType || null,
+      }))
+      .sort((a, b) => a.orderIndex - b.orderIndex);
+
+    const instructions: RecipeInstruction[] = (data.instructions || [])
+      .map((item: any) => ({
+        id: item.id,
+        stepNumber: item.stepNumber,
+        instructionText: item.instructionText,
+        estimatedTimeMinutes: item.estimatedTimeMinutes,
+        imageUrl: item.imageUrl,
+        tipText: item.tipText,
+      }))
+      .sort((a, b) => a.stepNumber - b.stepNumber);
+
+    const equipment: RecipeEquipment[] = (data.recipe_equipment || []).map(
+      (item: any) => ({
+        equipmentId: item.equipment?.id || '',
+        equipmentName: item.equipment?.name || '',
+        category: item.equipment?.category || null,
+        isRequired: item.isRequired,
+      })
+    );
 
     // Increment view count
     await this.incrementViewCount(id);
 
-    return data;
+    const {
+      recipe_ingredients,
+      instructions: _,
+      recipe_equipment,
+      ...recipeData
+    } = data;
+
+    return {
+      ...recipeData,
+      ingredients,
+      instructions,
+      equipment,
+    };
   }
 
   /**
@@ -89,7 +181,8 @@ export class RecipeService {
         maxMonths: max_age_months,
         imageUrl: featured_image_url,
         rating: average_rating,
-        reviewCount: total_ratings_count
+        reviewCount: total_ratings_count,
+        isPremium: is_premium
       `
       )
       .eq('is_published', true);
