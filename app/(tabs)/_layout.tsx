@@ -9,7 +9,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.primary[500],
         tabBarInactiveTintColor: colors.neutral[400],
         tabBarStyle: {
-          backgroundColor: colors.cream[200],
+          backgroundColor: colors.cream[300],
           borderTopWidth: 0,
         },
         animation: 'shift',
