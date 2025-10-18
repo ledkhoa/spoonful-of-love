@@ -24,7 +24,7 @@ export default function Index() {
     error,
     refetch,
     isRefetching,
-  } = useGetRecipes({});
+  } = useGetRecipes({ limit: 20 });
 
   // Keep featured recipes from dummy data for now
   const featuredRecipes = dummyRecipes.filter((recipe) => recipe.isFeatured);
@@ -70,7 +70,7 @@ export default function Index() {
       </View>
 
       <ScrollView
-        className='flex-1 bg-cream-200'
+        className='flex-1 screen-bg-color'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 24 }}
         refreshControl={
