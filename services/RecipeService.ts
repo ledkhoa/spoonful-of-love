@@ -42,6 +42,7 @@ export class RecipeService {
         videoUrl: video_url,
         isPublished: is_published,
         publishedAt: published_at,
+        isPremium: is_premium,
         viewCount: view_count,
         saveCount: save_count,
         rating: average_rating,

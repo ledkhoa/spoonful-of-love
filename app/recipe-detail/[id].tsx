@@ -1,6 +1,7 @@
 import AgeRange from '@/components/AgeRange';
 import { DietaryBadges } from '@/components/DietaryBadge';
 import LoadingIndicator from '@/components/LoadingIndicator';
+import PremiumBadge from '@/components/PremiumBadge';
 import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import { colors } from '@/constants/colors';
 import { useGetRecipeDetails } from '@/hooks/useRecipes';
@@ -114,13 +115,13 @@ export default function RecipeDetailScreen() {
             {recipe.title}
           </Text>
           <View className='flex-row'>
-            <TouchableOpacity activeOpacity={0.7}>
+            {/* <TouchableOpacity activeOpacity={0.7}>
               <Ionicons
                 name='share-outline'
                 size={24}
                 color={colors.primary[500]}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity activeOpacity={0.7} className='ml-2'>
               <Ionicons
                 name={recipe.isSaved ? 'bookmark' : 'bookmark-outline'}
@@ -132,7 +133,13 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Recipe Image */}
-        <View className='relative'>
+        <View className='relative px-2'>
+          {/* Premium Badge */}
+          {recipe.isPremium && (
+            <View className='px-2'>
+              <PremiumBadge />
+            </View>
+          )}
           <RecipeImagePlaceholder
             imageUrl={recipe.imageUrl}
             className='w-full h-64'
@@ -140,7 +147,7 @@ export default function RecipeDetailScreen() {
             borderRadius='all'
           />
           {/* Dietary Badges Overlay */}
-          <View className='absolute bottom-3 left-3'>
+          <View className='absolute bottom-3 left-3 px-2'>
             <DietaryBadges
               isVegan={recipe.isVegan}
               isVegetarian={recipe.isVegetarian}
@@ -175,7 +182,7 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Quick Info */}
-        <View className='flex-row items-center justify-between px-6 py-4'>
+        <View className='flex-row items-center justify-between px-10 py-4'>
           {recipe.prepTimeMinutes && (
             <QuickInfo
               header='Prep Time'
@@ -202,7 +209,7 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Cooking Info */}
-        <View className='flex-1 rounded-t-3xl bg-cream-50 p-4'>
+        <View className='flex-1 rounded-3xl bg-cream-50 p-4'>
           {/* Dietary Information */}
           {(recipe.isVegan ||
             recipe.isVegetarian ||
@@ -211,30 +218,28 @@ export default function RecipeDetailScreen() {
             recipe.isNutFree ||
             recipe.isFreezerFriendly) && (
             <View className='mb-6'>
-              <View className='bg-accent-50 rounded-xl p-4'>
-                <View className='flex-row items-start'>
-                  <Ionicons
-                    name='checkmark-circle'
-                    size={20}
-                    color={colors.accent[600]}
-                    style={{ marginTop: 2 }}
-                  />
-                  <Text className='text-base text-neutral-700 leading-6 ml-3 flex-1'>
-                    This recipe is{' '}
-                    {[
-                      recipe.isVegan && 'vegan friendly',
-                      recipe.isVegetarian && !recipe.isVegan && 'vegetarian',
-                      recipe.isGlutenFree && 'gluten-free',
-                      recipe.isDairyFree && 'dairy-free',
-                      recipe.isNutFree && 'nut-free',
-                      recipe.isFreezerFriendly && 'freezer-friendly',
-                    ]
-                      .filter(Boolean)
-                      .join(', ')
-                      .replace(/,([^,]*)$/, ' and$1')}
-                    .
-                  </Text>
-                </View>
+              <View className='flex-row items-start px-2'>
+                <Ionicons
+                  name='nutrition'
+                  size={20}
+                  color={colors.primary[500]}
+                  style={{ marginTop: 2 }}
+                />
+                <Text className='text-base text-neutral-700 leading-6 ml-3 flex-1'>
+                  This recipe is{' '}
+                  {[
+                    recipe.isVegan && 'vegan friendly',
+                    recipe.isVegetarian && !recipe.isVegan && 'vegetarian',
+                    recipe.isGlutenFree && 'gluten-free',
+                    recipe.isDairyFree && 'dairy-free',
+                    recipe.isNutFree && 'nut-free',
+                    recipe.isFreezerFriendly && 'freezer-friendly',
+                  ]
+                    .filter(Boolean)
+                    .join(', ')
+                    .replace(/,([^,]*)$/, ' and$1')}
+                  .
+                </Text>
               </View>
             </View>
           )}
@@ -346,7 +351,7 @@ export default function RecipeDetailScreen() {
                       style={{ marginRight: 12 }}
                     />
                     <View className='flex-1 mr-3'>
-                      <View className='flex-row items-center'>
+                      {/* <View className='flex-row items-center'>
                         <Text
                           className={`text-base font-medium ${
                             equipment.isRequired
@@ -360,13 +365,29 @@ export default function RecipeDetailScreen() {
                         >
                           {equipment.equipmentName}
                         </Text>
+                      </View> */}
+                      <View className='flex-row items-center'>
+                        <Text
+                          className={`text-base font-medium ${
+                            isChecked
+                              ? 'text-neutral-500 line-through'
+                              : 'text-neutral-800'
+                          }`}
+                        >
+                          {equipment.equipmentName}{' '}
+                          {!equipment.isRequired && (
+                            <Text className='text-xs text-neutral-500 ml-2 italic'>
+                              (optional)
+                            </Text>
+                          )}
+                        </Text>
                       </View>
                     </View>
                   </TouchableOpacity>
                 );
               })}
 
-              <View className='flex-row items-center border-t border-neutral-200 pt-3'>
+              {/* <View className='flex-row items-center border-t border-neutral-200 pt-3'>
                 <Ionicons
                   name='information-circle-outline'
                   size={16}
@@ -376,7 +397,7 @@ export default function RecipeDetailScreen() {
                   <Text className='font-semibold'>Bold</Text> equipment are
                   required, others are optional
                 </Text>
-              </View>
+              </View> */}
             </View>
           )}
           {/* Instructions */}
