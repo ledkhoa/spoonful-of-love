@@ -64,8 +64,8 @@ export type Recipe = {
   isFeatured?: boolean;
   isPremium?: boolean;
   // Related data
-  ingredients?: RecipeIngredient[];
-  instructions?: RecipeInstruction[];
+  ingredients: RecipeIngredient[];
+  instructions: RecipeInstruction[];
   equipment?: RecipeEquipment[];
 };
 
