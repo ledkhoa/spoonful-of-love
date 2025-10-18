@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
 import { DietaryBadges } from '@/components/DietaryBadge';
+import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import { RecipeCardItem } from '@/models/Recipes';
 import { navigateToRecipeDetail } from '@/utils/navigation';
 
@@ -28,10 +29,11 @@ export default function FeaturedRecipeCard({
 
       {/* Image Container */}
       <View className='relative'>
-        <Image
-          source={{ uri: recipe.imageUrl }}
-          className='w-full h-48 rounded-t-2xl'
+        <RecipeImagePlaceholder
+          imageUrl={recipe.imageUrl}
+          className='w-full h-48'
           resizeMode='cover'
+          borderRadius='top'
         />
 
         {/* Dietary Badges Overlay - Bottom Left */}

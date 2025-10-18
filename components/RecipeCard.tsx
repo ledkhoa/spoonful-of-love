@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
 import { RecipeCardItem } from '@/models/Recipes';
 import { DietaryBadges } from './DietaryBadge';
+import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import { navigateToRecipeDetail } from '@/utils/navigation';
 
 interface RecipeCardProps {
@@ -25,10 +26,11 @@ export default function RecipeCard({ recipe, onSavePress }: RecipeCardProps) {
 
       {/* Image Container */}
       <View className='relative'>
-        <Image
-          source={{ uri: recipe.imageUrl }}
-          className='w-full h-32 rounded-t-xl'
+        <RecipeImagePlaceholder
+          imageUrl={recipe.imageUrl}
+          className='w-full h-32'
           resizeMode='cover'
+          borderRadius='top'
         />
 
         {/* Save Button Overlay */}

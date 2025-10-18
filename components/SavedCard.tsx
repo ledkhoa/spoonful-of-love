@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import AgeRange from './AgeRange';
 import PremiumBadge from './PremiumBadge';
+import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import { RecipeCardItem } from '@/models/Recipes';
 import { DietaryBadges } from './DietaryBadge';
 import { navigateToRecipeDetail } from '@/utils/navigation';
@@ -25,10 +26,11 @@ export default function SavedCard({ recipe, onSavePress }: SavedCardProps) {
 
       {/* Image Container */}
       <View className='w-1/3 aspect-square'>
-        <Image
-          source={{ uri: recipe.imageUrl }}
-          className='w-full h-full rounded-l-xl'
+        <RecipeImagePlaceholder
+          imageUrl={recipe.imageUrl}
+          className='w-full h-full'
           resizeMode='cover'
+          borderRadius='left'
         />
 
         {/* Dietary Badges Overlay - Bottom Left */}
