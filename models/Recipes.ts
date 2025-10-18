@@ -8,7 +8,7 @@ export type RecipeIngredient = {
   quantityImperial: number | null;
   unitImperial: string | null;
   preparationNote: string | null;
-  isOptional: boolean;
+  isRequired: boolean;
   orderIndex: number;
   isCommonAllergen: boolean;
   allergenType: string | null;

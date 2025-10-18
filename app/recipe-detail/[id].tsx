@@ -77,7 +77,7 @@ export default function RecipeDetailScreen() {
   }
 
   return (
-    <SafeAreaView className='flex-1 screen-bg-color' edges={['top']}>
+    <SafeAreaView className='flex-1 bg-primary-500' edges={['top']}>
       <ScrollView
         className='flex-1 screen-bg-color'
         showsVerticalScrollIndicator={false}
@@ -85,11 +85,11 @@ export default function RecipeDetailScreen() {
         stickyHeaderIndices={[0]}
       >
         {/* Header */}
-        <View className='flex-row items-center justify-between p-4 screen-bg-color'>
+        <View className='flex-row items-center justify-between p-4 bg-primary-500'>
           <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
-            <Ionicons name='arrow-back' size={24} color={colors.primary[500]} />
+            <Ionicons name='arrow-back' size={24} color={colors.cream[200]} />
           </TouchableOpacity>
-          <Text className='text-2xl font-bold text-primary-500 text-center flex-1 mx-3'>
+          <Text className='text-2xl font-bold text-cream-200 text-center flex-1 mx-3'>
             {recipe.title}
           </Text>
           <View className='flex-row'>
@@ -104,20 +104,14 @@ export default function RecipeDetailScreen() {
               <Ionicons
                 name={recipe.isSaved ? 'bookmark' : 'bookmark-outline'}
                 size={24}
-                color={colors.primary[500]}
+                color={colors.cream[200]}
               />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Recipe Image */}
-        <View className='relative px-2'>
-          {/* Premium Badge */}
-          {recipe.isPremium && (
-            <View className='px-2'>
-              <PremiumBadge />
-            </View>
-          )}
+        <View className='relative p-2'>
           <RecipeImagePlaceholder
             imageUrl={recipe.imageUrl}
             className='w-full h-64'
@@ -125,7 +119,7 @@ export default function RecipeDetailScreen() {
             borderRadius='all'
           />
           {/* Dietary Badges Overlay */}
-          <View className='absolute bottom-3 left-3 px-2'>
+          <View className='absolute bottom-3 left-3 p-2'>
             <DietaryBadges
               isVegan={recipe.isVegan}
               isVegetarian={recipe.isVegetarian}
@@ -253,7 +247,7 @@ export default function RecipeDetailScreen() {
                       >
                         {ingredient.ingredientName}
                       </Text>
-                      {ingredient.isOptional && (
+                      {!ingredient.isRequired && (
                         <Text className='text-xs text-neutral-500 ml-2 italic'>
                           (optional)
                         </Text>

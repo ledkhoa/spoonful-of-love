@@ -302,7 +302,7 @@ export default function RecipeDetailScreen() {
                           >
                             {ingredient.ingredientName}
                           </Text>
-                          {ingredient.isOptional && (
+                          {!ingredient.isRequired && (
                             <Text className='text-xs text-neutral-500 ml-2 italic'>
                               (optional)
                             </Text>
