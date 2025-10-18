@@ -3,18 +3,13 @@ import { DietaryBadges } from '@/components/DietaryBadge';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import PremiumBadge from '@/components/PremiumBadge';
 import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
+import RecipeNotFound from '@/components/RecipeNotFound';
 import { colors } from '@/constants/colors';
 import { useGetRecipeDetails } from '@/hooks/useRecipes';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import {
-  ActivityIndicator,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RecipeDetailScreen() {
@@ -78,25 +73,7 @@ export default function RecipeDetailScreen() {
   }
 
   if (error || !recipe) {
-    return (
-      <SafeAreaView className='flex-1 screen-bg-color'>
-        <View className='flex-1 justify-center items-center px-6'>
-          <Ionicons name='alert-circle' size={64} color={colors.error[500]} />
-          <Text className='text-xl font-bold text-neutral-800 mt-4 text-center'>
-            Recipe Not Found
-          </Text>
-          <Text className='text-neutral-600 mt-2 text-center'>
-            We couldn't load this recipe. Please try again.
-          </Text>
-          <TouchableOpacity
-            className='mt-6 bg-primary-500 px-6 py-3 rounded-xl'
-            onPress={() => router.back()}
-          >
-            <Text className='text-cream-50 font-semibold'>Go Back</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
+    return <RecipeNotFound onGoBack={() => router.back()} />;
   }
 
   return (
@@ -105,9 +82,10 @@ export default function RecipeDetailScreen() {
         className='flex-1 screen-bg-color'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 24 }}
+        stickyHeaderIndices={[0]}
       >
         {/* Header */}
-        <View className='flex-row items-center justify-between p-4'>
+        <View className='flex-row items-center justify-between p-4 screen-bg-color'>
           <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
             <Ionicons name='arrow-back' size={24} color={colors.primary[500]} />
           </TouchableOpacity>
