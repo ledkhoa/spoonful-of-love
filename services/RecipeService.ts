@@ -140,4 +140,56 @@ export class RecipeService {
 
     return data || [];
   }
+
+  /**
+   * Get featured recipes
+   * @returns Promise<RecipeCardItem[]>
+   */
+  static async getFeaturedRecipes(): Promise<RecipeCardItem[]> {
+    console.log('Fetching featured recipes');
+
+    const { data, error } = await supabase
+      .from('featured_recipes')
+      .select(
+        `
+        display_order,
+        recipes!featured_recipes_recipe_id_fkey (
+          id,
+          title,
+          description,
+          isVegan: is_vegan,
+          isVegetarian: is_vegetarian,
+          isGlutenFree: is_gluten_free,
+          isDairyFree: is_dairy_free,
+          isNutFree: is_nut_free,
+          isFreezerFriendly: is_freezer_friendly,
+          minMonths: min_age_months,
+          maxMonths: max_age_months,
+          imageUrl: featured_image_url,
+          rating: average_rating,
+          reviewCount: total_ratings_count,
+          isPremium: is_premium
+        )
+      `
+      )
+      .eq('is_active', true)
+      .order('display_order', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching featured recipes:', error);
+      return [];
+    }
+
+    return (
+      (data as {
+        display_order: number;
+        recipes: RecipeCardItem | RecipeCardItem[] | null;
+      }[]) || []
+    )
+      .map((item) => item.recipes)
+      .filter(
+        (recipe): recipe is RecipeCardItem =>
+          recipe !== null && !Array.isArray(recipe)
+      );
+  }
 }

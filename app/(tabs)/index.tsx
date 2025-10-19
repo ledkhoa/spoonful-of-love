@@ -10,9 +10,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { dummyRecipes } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
-import { useGetRecipesInfinite } from '@/hooks/useRecipes';
+import {
+  useGetRecipesInfinite,
+  useGetFeaturedRecipes,
+} from '@/hooks/useRecipes';
 import { RecipeCardItem } from '@/models/Recipes';
 import FeaturedRecipeCard from '@/components/FeaturedRecipeCard';
 import RecipeCard from '@/components/RecipeCard';
@@ -33,13 +35,12 @@ export default function Index() {
     isFetchingNextPage,
   } = useGetRecipesInfinite({}, 20);
 
+  const { data: featuredRecipes } = useGetFeaturedRecipes();
+
   // Flatten the paginated data into a single array
   const moreRecipes = useMemo(() => {
     return data?.pages.flatMap((page) => page) ?? [];
   }, [data]);
-
-  // Keep featured recipes from dummy data for now
-  const featuredRecipes = dummyRecipes.filter((recipe) => recipe.isFeatured);
 
   const handleSavePress = (recipeId: string) => {
     console.log('Save pressed:', recipeId);
@@ -59,7 +60,6 @@ export default function Index() {
     </View>
   );
 
-  // Updated render function for real recipe data
   const renderMoreItem = ({ item }: { item: RecipeCardItem }) => (
     <RecipeCard recipe={item} onSavePress={() => handleSavePress(item.id)} />
   );

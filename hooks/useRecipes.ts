@@ -75,8 +75,25 @@ export const useGetRecipeDetails = (recipeId: string) => {
   });
 };
 
+/**
+ * Hook to fetch featured recipes
+ * @returns TanStack Query result with featured recipes data
+ */
+export const useGetFeaturedRecipes = () => {
+  return useQuery({
+    queryKey: [...recipeQueryKeys.featured],
+    queryFn: () => RecipeService.getFeaturedRecipes(),
+    staleTime: FIFTEEN_MINUTES,
+    gcTime: FIFTEEN_MINUTES,
+    retry: 3,
+    retryDelay: (attemptIndex) =>
+      Math.min(1000 * 2 ** attemptIndex, THIRTY_SECONDS),
+  });
+};
+
 // Query key factory for easier cache management
 export const recipeQueryKeys = {
   all: ['recipes'] as const,
+  featured: ['recipes', 'featured'] as const,
   details: (id: string) => [...recipeQueryKeys.all, 'details', id] as const,
 };

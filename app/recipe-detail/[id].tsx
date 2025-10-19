@@ -111,12 +111,12 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Recipe Image */}
-        <View className='relative p-2'>
+        <View className='relative'>
           <RecipeImagePlaceholder
             imageUrl={recipe.imageUrl}
             className='w-full h-64'
             resizeMode='cover'
-            borderRadius='all'
+            borderRadius='bottom'
           />
           {/* Dietary Badges Overlay */}
           <View className='absolute bottom-3 left-3 p-2'>
@@ -155,29 +155,36 @@ export default function RecipeDetailScreen() {
 
         {/* Quick Info */}
         <View className='flex-row items-center justify-between px-10 py-4'>
-          {recipe.prepTimeMinutes && (
+          {recipe.prepTimeMinutes != null && recipe.prepTimeMinutes > 0 && (
             <QuickInfo
               header='Prep Time'
               value={`${recipe.prepTimeMinutes} mins`}
             />
           )}
 
-          {recipe.cookTimeMinutes && (
+          {recipe.cookTimeMinutes != null && recipe.cookTimeMinutes > 0 && (
             <QuickInfo
               header='Cook Time'
               value={`${recipe.cookTimeMinutes} mins`}
             />
           )}
 
-          {recipe.baseServingSize && (
+          {recipe.baseServingSize != null && recipe.baseServingSize > 0 && (
             <QuickInfo
               header='Serving Size'
               value={`${recipe.baseServingSize} servings`}
             />
           )}
-          {recipe.stage && (
-            <QuickInfo header='Stage' value={recipe.stage.toString()} />
-          )}
+          {recipe.difficultyLevel != null &&
+            recipe.difficultyLevel.trim() !== '' && (
+              <QuickInfo
+                header='Difficulty'
+                value={
+                  recipe.difficultyLevel.charAt(0).toUpperCase() +
+                  recipe.difficultyLevel.slice(1)
+                }
+              />
+            )}
         </View>
 
         {/* Cooking Info */}

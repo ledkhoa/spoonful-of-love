@@ -6,7 +6,7 @@ interface RecipeImagePlaceholderProps {
   imageUrl?: string | null;
   className?: string;
   resizeMode?: 'cover' | 'contain' | 'stretch' | 'repeat' | 'center';
-  borderRadius?: 'top' | 'all' | 'left' | 'none';
+  borderRadius?: 'top' | 'bottom' | 'all' | 'left' | 'none';
 }
 
 export default function RecipeImagePlaceholder({
@@ -20,11 +20,13 @@ export default function RecipeImagePlaceholder({
   const borderRadiusClass =
     borderRadius === 'top'
       ? 'rounded-t-xl'
-      : borderRadius === 'all'
-        ? 'rounded-xl'
-        : borderRadius === 'left'
-          ? 'rounded-l-xl'
-          : '';
+      : borderRadius === 'bottom'
+        ? 'rounded-b-xl'
+        : borderRadius === 'all'
+          ? 'rounded-xl'
+          : borderRadius === 'left'
+            ? 'rounded-l-xl'
+            : '';
 
   if (imageUrl) {
     return (
