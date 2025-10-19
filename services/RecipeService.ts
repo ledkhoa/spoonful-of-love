@@ -23,6 +23,13 @@ export class RecipeService {
   static async getRecipes(
     filters: RecipeFilters = {}
   ): Promise<RecipeCardItem[]> {
+    console.log(
+      'Fetching recipes - offset:',
+      filters.offset,
+      'limit:',
+      filters.limit
+    );
+
     let query = supabase
       .from('recipes')
       .select(
