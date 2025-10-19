@@ -87,9 +87,9 @@ export default function RecipeDetailScreen() {
         {/* Header */}
         <View className='flex-row items-center justify-between p-4 bg-primary-500'>
           <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
-            <Ionicons name='arrow-back' size={24} color={colors.cream[200]} />
+            <Ionicons name='arrow-back' size={24} color={colors.cream[50]} />
           </TouchableOpacity>
-          <Text className='text-2xl font-bold text-cream-200 text-center flex-1 mx-3'>
+          <Text className='text-2xl font-bold text-cream-50 text-center flex-1 mx-3'>
             {recipe.title}
           </Text>
           <View className='flex-row'>
@@ -104,7 +104,7 @@ export default function RecipeDetailScreen() {
               <Ionicons
                 name={recipe.isSaved ? 'bookmark' : 'bookmark-outline'}
                 size={24}
-                color={colors.cream[200]}
+                color={colors.cream[50]}
               />
             </TouchableOpacity>
           </View>
@@ -145,12 +145,19 @@ export default function RecipeDetailScreen() {
             </Text>
           </View>
 
-          {/* Age Range */}
-          <AgeRange
-            minMonths={recipe.minAge}
-            maxMonths={recipe.maxAge ?? undefined}
-            compressedView={false}
-          />
+          {/* Stage & Age Range */}
+          <View className='flex-row items-center gap-3'>
+            <View className='bg-primary-500 px-3 py-1 rounded-full'>
+              <Text className='text-cream-50 font-semibold text-sm'>
+                Stage {recipe.stage}
+              </Text>
+            </View>
+            <AgeRange
+              minMonths={recipe.minAge}
+              maxMonths={recipe.maxAge ?? undefined}
+              compressedView={false}
+            />
+          </View>
         </View>
 
         {/* Quick Info */}
