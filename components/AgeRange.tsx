@@ -6,15 +6,17 @@ interface AgeRangeProps {
   minMonths: number;
   maxMonths?: number;
   compressedView: boolean;
+  className?: string;
 }
 
 export default function AgeRange({
   minMonths,
   maxMonths,
   compressedView,
+  className,
 }: AgeRangeProps) {
   return (
-    <View className='flex-row items-center mb-2'>
+    <View className={`flex-row items-center ${className ?? ''}`}>
       <MaterialCommunityIcons
         name='baby-face-outline'
         size={compressedView ? 12 : 14}

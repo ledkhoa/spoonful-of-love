@@ -86,6 +86,7 @@ export default function FeaturedRecipeCard({
           minMonths={recipe.minMonths}
           maxMonths={recipe.maxMonths}
           compressedView={false}
+          className='mb-2'
         />
 
         {/* Rating and Reviews */}

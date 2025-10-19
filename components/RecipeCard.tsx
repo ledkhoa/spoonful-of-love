@@ -75,6 +75,7 @@ export default function RecipeCard({ recipe, onSavePress }: RecipeCardProps) {
           minMonths={recipe.minMonths}
           maxMonths={recipe.maxMonths}
           compressedView={true}
+          className='mb-2'
         />
 
         {/* Rating */}
