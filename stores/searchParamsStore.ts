@@ -7,6 +7,7 @@ export interface SearchParams {
   isGlutenFree?: string;
   isDairyFree?: string;
   isNutFree?: string;
+  isFreezerFriendly?: string;
   stage?: string;
   ageInMonths?: string;
 }

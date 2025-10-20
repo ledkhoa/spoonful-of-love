@@ -21,6 +21,7 @@ import RecipeCard from '@/components/RecipeCard';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSearchParamsStore, SearchParams } from '@/stores/searchParamsStore';
+import { RecipeFilters } from '@/models/RecipeFilters';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const FEATURED_CARD_WIDTH = SCREEN_WIDTH * 0.75;
@@ -32,6 +33,7 @@ const DIETARY_FILTER_LABELS: Record<string, string> = {
   isGlutenFree: 'Gluten Free',
   isDairyFree: 'Dairy Free',
   isNutFree: 'Nut Free',
+  isFreezerFriendly: 'Freezer Friendly',
 };
 
 const STAGE_LABELS: Record<string, string> = {
@@ -46,6 +48,7 @@ export default function Index() {
   const params = useLocalSearchParams() as SearchParams;
   const { setParams } = useSearchParamsStore();
 
+  // Sync route params to store
   useEffect(() => {
     setParams(params);
   }, [
@@ -55,20 +58,22 @@ export default function Index() {
     params.isGlutenFree,
     params.isDairyFree,
     params.isNutFree,
+    params.isFreezerFriendly,
     params.stage,
     params.ageInMonths,
     setParams,
   ]);
 
-  // Build filters from URL params
+  // Build filters from route params
   const filters = useMemo(() => {
-    const f: any = {};
+    const f: RecipeFilters = {};
     if (params.q) f.search = params.q;
     if (params.isVegan === 'true') f.isVegan = true;
     if (params.isVegetarian === 'true') f.isVegetarian = true;
     if (params.isGlutenFree === 'true') f.isGlutenFree = true;
     if (params.isDairyFree === 'true') f.isDairyFree = true;
     if (params.isNutFree === 'true') f.isNutFree = true;
+    if (params.isFreezerFriendly === 'true') f.isFreezerFriendly = true;
     if (params.stage) f.stage = parseInt(params.stage);
     if (params.ageInMonths) f.ageInMonths = parseInt(params.ageInMonths);
     return f;
@@ -110,22 +115,18 @@ export default function Index() {
   const removeFilter = (filterKey: string) => {
     const newParams: Partial<SearchParams> = { ...params };
 
-    // If it's a dietary filter, just remove the boolean param
     if (DIETARY_FILTER_LABELS[filterKey]) {
       newParams[filterKey as keyof SearchParams] = undefined;
     }
 
-    // Remove stage related params
     if (filterKey === 'stage') {
       newParams.stage = undefined;
     }
 
-    // Remove month related params
     if (filterKey === 'ageInMonths') {
       newParams.ageInMonths = undefined;
     }
 
-    console.log('Removing filter:', filterKey, 'New params:', newParams);
     router.setParams(newParams);
   };
 
@@ -143,13 +144,13 @@ export default function Index() {
       isGlutenFree: undefined,
       isDairyFree: undefined,
       isNutFree: undefined,
+      isFreezerFriendly: undefined,
       stage: undefined,
       ageInMonths: undefined,
     };
     router.setParams(clearedParams);
   };
 
-  // Get active filter chips for display
   const activeFilters = useMemo(() => {
     const chips: Array<{ key: string; label: string }> = [];
 
@@ -174,7 +175,6 @@ export default function Index() {
       });
     }
 
-    console.log('Active filters:', chips);
     return chips;
   }, [params]);
 
@@ -229,7 +229,7 @@ export default function Index() {
           />
 
           <View className='px-4'>
-            {/* More Recipes Section */}
+            {/* More Recipes header */}
             <Text className='text-xl font-bold text-neutral-800 mb-4 mt-2'>
               More Recipes
             </Text>
