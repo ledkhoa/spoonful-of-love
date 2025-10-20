@@ -4,12 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import SavedCard from '@/components/SavedCard';
-import { dummyRecipes } from '@/dummy-data/recipe-card';
 import { colors } from '@/constants/colors';
 import { RecipeCardItem } from '@/models/Recipes';
 
 export default function Saved() {
-  const savedRecipes = dummyRecipes.filter((recipe) => recipe.isSaved);
+  const savedRecipes: RecipeCardItem[] = [];
 
   const handleSavePress = (recipeId: string) => {
     console.log('Save pressed:', recipeId);
