@@ -1,8 +1,14 @@
 import { colors } from '@/constants/colors';
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
+  const router = useRouter();
+
+  const handleSearchPress = () => {
+    router.push('/search-modal');
+  };
+
   return (
     <Tabs
       screenOptions={{
@@ -33,6 +39,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='search' size={size} color={color} />
           ),
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            handleSearchPress();
+          },
         }}
       />
       <Tabs.Screen

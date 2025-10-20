@@ -1,10 +1,4 @@
-import { Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
+// Search is handled by the search modal. This file is a placeholder to satisfy the tab navigator.
 export default function Search() {
-  return (
-    <SafeAreaView>
-      <Text>Hello from search!</Text>
-    </SafeAreaView>
-  );
+  return null;
 }
