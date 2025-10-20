@@ -6,6 +6,7 @@ import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
 import { DietaryBadges } from '@/components/DietaryBadge';
 import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
+import SaveButton from '@/components/SaveButton';
 import { RecipeCardItem } from '@/models/Recipes';
 import { navigateToRecipeDetail } from '@/utils/navigation';
 
@@ -50,17 +51,13 @@ export default function FeaturedRecipeCard({
         </View>
 
         {/* Save Button Overlay */}
-        <TouchableOpacity
-          className='absolute top-3 right-3 bg-cream-50/90 rounded-full p-2'
-          onPress={onSavePress}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name={recipe.isSaved ? 'bookmark' : 'bookmark-outline'}
-            size={20}
-            color={colors.primary[500]}
+        <View className='absolute top-3 right-3'>
+          <SaveButton
+            isSaved={recipe.isSaved}
+            onPress={onSavePress}
+            size='large'
           />
-        </TouchableOpacity>
+        </View>
       </View>
 
       {/* Content Container */}

@@ -84,7 +84,7 @@ export default function RecipeDetailScreen() {
         contentContainerStyle={{ paddingBottom: 24 }}
         stickyHeaderIndices={[0]}
       >
-        {/* Header */}
+        {/* Header - Recipe title */}
         <View className='flex-row items-center justify-between p-4 bg-primary-500'>
           <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
             <Ionicons name='arrow-back' size={24} color={colors.cream[50]} />
@@ -133,7 +133,7 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Rating & Age Range */}
-        <View className='flex-row items-center justify-between px-4 pt-5 pb-3'>
+        <View className='bg-cream-50 flex-row items-center justify-between px-4 pt-5 pb-3'>
           {/* Rating */}
           <View className='flex-row items-center'>
             <Ionicons name='star' size={20} color={colors.sunshine[500]} />
@@ -161,7 +161,7 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Quick Info */}
-        <View className='flex-row items-center justify-between px-10 py-4'>
+        <View className='bg-cream-50 flex-row items-center justify-between px-10 py-4'>
           {recipe.prepTimeMinutes != null && recipe.prepTimeMinutes > 0 && (
             <QuickInfo
               header='Prep Time'
@@ -195,7 +195,7 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Cooking Info */}
-        <View className='flex-1 rounded-3xl bg-cream-50 p-4'>
+        <View className='flex-1 rounded-3xl bg-screen-color p-4'>
           {/* Description */}
           <View className='mb-6'>
             <Text className='text-xl font-bold text-neutral-900 mb-3'>

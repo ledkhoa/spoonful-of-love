@@ -12,10 +12,10 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.primary[500],
-        tabBarInactiveTintColor: colors.neutral[400],
+        tabBarActiveTintColor: colors.cream[50],
+        tabBarInactiveTintColor: colors.cream[500],
         tabBarStyle: {
-          backgroundColor: colors.cream[300],
+          backgroundColor: colors.primary[500],
           borderTopWidth: 0,
         },
         animation: 'shift',

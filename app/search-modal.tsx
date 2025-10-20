@@ -220,7 +220,7 @@ export default function SearchModal() {
                   key={filter.id}
                   onPress={() => toggleDietary(filter.id)}
                   className={`flex-row items-center px-4 py-2.5 rounded-full ${
-                    isSelected ? 'bg-primary-500' : 'bg-cream-50'
+                    isSelected ? 'chip-active' : 'chip-inactive'
                   }`}
                 >
                   <IconComponent
@@ -250,7 +250,7 @@ export default function SearchModal() {
                 key={stage.id}
                 onPress={() => handleStageSelect(stage.id)}
                 className={`px-4 py-2.5 rounded-full ${
-                  selectedStage === stage.id ? 'bg-primary-500' : 'bg-cream-50'
+                  selectedStage === stage.id ? 'chip-active' : 'chip-inactive'
                 }`}
               >
                 <View>

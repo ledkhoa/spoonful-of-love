@@ -3,5 +3,13 @@
 @tailwind utilities;
 
 .screen-bg-color {
+  @apply bg-cream-100;
+}
+
+.chip-active {
+  @apply bg-primary-500;
+}
+
+.chip-inactive {
   @apply bg-cream-300;
 }
