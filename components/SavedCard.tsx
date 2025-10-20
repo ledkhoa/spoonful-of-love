@@ -7,6 +7,7 @@ import PremiumBadge from './PremiumBadge';
 import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import { RecipeCardItem } from '@/models/Recipes';
 import { DietaryBadges } from './DietaryBadge';
+import SaveButton from '@/components/SaveButton';
 import { navigateToRecipeDetail } from '@/utils/navigation';
 
 interface SavedCardProps {
@@ -82,17 +83,11 @@ export default function SavedCard({ recipe, onSavePress }: SavedCardProps) {
           </View>
 
           {/* Save Button */}
-          <TouchableOpacity
+          <SaveButton
+            isSaved={recipe.isSaved}
             onPress={onSavePress}
-            activeOpacity={0.7}
-            className='p-1'
-          >
-            <Ionicons
-              name={recipe.isSaved ? 'bookmark' : 'bookmark-outline'}
-              size={18}
-              color={colors.primary[500]}
-            />
-          </TouchableOpacity>
+            size='medium'
+          />
         </View>
       </View>
     </TouchableOpacity>

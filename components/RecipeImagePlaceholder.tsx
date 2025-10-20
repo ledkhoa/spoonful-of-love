@@ -41,7 +41,7 @@ export default function RecipeImagePlaceholder({
   return (
     <View
       className={`${className} ${borderRadiusClass} items-center justify-center`}
-      style={{ backgroundColor: colors.cream[100] }}
+      style={{ backgroundColor: colors.cream[200] }}
     >
       <Image
         source={logoSource}
