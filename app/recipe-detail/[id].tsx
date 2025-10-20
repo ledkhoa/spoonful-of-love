@@ -196,6 +196,15 @@ export default function RecipeDetailScreen() {
 
         {/* Cooking Info */}
         <View className='flex-1 rounded-3xl bg-cream-50 p-4'>
+          {/* Description */}
+          <View className='mb-6'>
+            <Text className='text-xl font-bold text-neutral-900 mb-3'>
+              About this recipe
+            </Text>
+            <Text className='text-base text-neutral-700 leading-6'>
+              {recipe.description}
+            </Text>
+          </View>
           {/* Dietary Information */}
           {(recipe.isVegan ||
             recipe.isVegetarian ||
@@ -211,7 +220,7 @@ export default function RecipeDetailScreen() {
                   color={colors.primary[500]}
                   style={{ marginTop: 2 }}
                 />
-                <Text className='text-base text-neutral-700 leading-6 ml-3 flex-1'>
+                <Text className='text-base text-neutral-700 leading-6 ml-3'>
                   This recipe is{' '}
                   {[
                     recipe.isVegan && 'vegan friendly',
