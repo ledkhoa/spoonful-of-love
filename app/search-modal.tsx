@@ -30,6 +30,7 @@ const DIETARY_FILTERS: DietaryFilter[] = [
   { id: 'isGlutenFree', label: 'Gluten Free', icon: 'barcode-outline' },
   { id: 'isDairyFree', label: 'Dairy Free', icon: 'water-outline' },
   { id: 'isNutFree', label: 'Nut Free', icon: 'close-circle-outline' },
+  { id: 'isFreezerFriendly', label: 'Freezer Friendly', icon: 'woman-sharp' },
 ];
 
 const STAGE_FILTERS: StageFilter[] = [
@@ -50,6 +51,8 @@ export default function SearchModal() {
   if (params.isGlutenFree === 'true') initialDietary.add('isGlutenFree');
   if (params.isDairyFree === 'true') initialDietary.add('isDairyFree');
   if (params.isNutFree === 'true') initialDietary.add('isNutFree');
+  if (params.isFreezerFriendly === 'true')
+    initialDietary.add('isFreezerFriendly');
 
   const [searchQuery, setSearchQuery] = useState(params.q || '');
   const [selectedDietary, setSelectedDietary] =
@@ -110,13 +113,10 @@ export default function SearchModal() {
 
     // Navigate back to index with query params
     const paramsObject = Object.fromEntries(queryParams);
-    console.log('Search modal - params to set:', paramsObject);
 
     // Build query string manually
     const queryString = queryParams.toString();
     const path = queryString ? `/(tabs)?${queryString}` : '/(tabs)';
-
-    console.log('Navigating to:', path);
 
     // Navigate to the tabs with the query params in the URL
     router.replace(path as any);
@@ -144,7 +144,7 @@ export default function SearchModal() {
         </TouchableOpacity>
 
         {/* Search Bar */}
-        <View className='flex-1 flex-row items-center bg-white rounded-xl px-4 py-3 shadow-sm'>
+        <View className='flex-1 flex-row items-center bg-cream-50 rounded-xl px-4 py-3 shadow-sm'>
           <Ionicons name='search' size={20} color={colors.neutral[400]} />
           <TextInput
             placeholder="Find your toddler's new favorite meal"
@@ -179,7 +179,9 @@ export default function SearchModal() {
                 key={filter.id}
                 onPress={() => toggleDietary(filter.id)}
                 className={`flex-row items-center px-4 py-2.5 rounded-full ${
-                  selectedDietary.has(filter.id) ? 'bg-primary-500' : 'bg-white'
+                  selectedDietary.has(filter.id)
+                    ? 'bg-primary-500'
+                    : 'bg-cream-50'
                 }`}
               >
                 <Ionicons
@@ -194,7 +196,7 @@ export default function SearchModal() {
                 <Text
                   className={`ml-2 text-sm font-medium ${
                     selectedDietary.has(filter.id)
-                      ? 'text-white'
+                      ? 'text-cream-50'
                       : 'text-neutral-600'
                   }`}
                 >
@@ -214,14 +216,14 @@ export default function SearchModal() {
                 key={stage.id}
                 onPress={() => handleStageSelect(stage.id)}
                 className={`px-4 py-2.5 rounded-full ${
-                  selectedStage === stage.id ? 'bg-primary-500' : 'bg-white'
+                  selectedStage === stage.id ? 'bg-primary-500' : 'bg-cream-50'
                 }`}
               >
                 <View>
                   <Text
                     className={`text-sm font-medium ${
                       selectedStage === stage.id
-                        ? 'text-white'
+                        ? 'text-cream-50'
                         : 'text-neutral-600'
                     }`}
                   >
@@ -230,7 +232,7 @@ export default function SearchModal() {
                   <Text
                     className={`text-xs ${
                       selectedStage === stage.id
-                        ? 'text-white opacity-80'
+                        ? 'text-cream-50 opacity-80'
                         : 'text-neutral-400'
                     }`}
                   >
@@ -247,7 +249,7 @@ export default function SearchModal() {
           <Text className='text-neutral-800 text-lg font-bold mb-4'>
             Or Specific Age (months)
           </Text>
-          <View className='flex-row items-center bg-white rounded-xl px-4 py-3 shadow-sm'>
+          <View className='flex-row items-center bg-cream-50 rounded-xl px-4 py-3 shadow-sm'>
             <TextInput
               placeholder='e.g., 8'
               placeholderTextColor={colors.neutral[400]}
@@ -274,7 +276,7 @@ export default function SearchModal() {
           onPress={handleSearch}
           className='bg-primary-500 rounded-xl py-4 items-center mb-8 shadow-sm'
         >
-          <Text className='text-white text-base font-bold'>Search</Text>
+          <Text className='text-cream-50 text-base font-bold'>Search</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
