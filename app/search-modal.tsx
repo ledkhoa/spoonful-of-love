@@ -7,15 +7,18 @@ import {
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { useSearchParamsStore } from '@/stores/searchParamsStore';
 
+type IconFamily = 'Ionicons' | 'MaterialCommunityIcons';
+
 interface DietaryFilter {
   id: string;
   label: string;
-  icon: keyof typeof Ionicons.glyphMap;
+  iconFamily: IconFamily;
+  iconName: string;
 }
 
 interface StageFilter {
@@ -25,12 +28,42 @@ interface StageFilter {
 }
 
 const DIETARY_FILTERS: DietaryFilter[] = [
-  { id: 'isVegan', label: 'Vegan', icon: 'leaf-outline' },
-  { id: 'isVegetarian', label: 'Vegetarian', icon: 'nutrition-outline' },
-  { id: 'isGlutenFree', label: 'Gluten Free', icon: 'barcode-outline' },
-  { id: 'isDairyFree', label: 'Dairy Free', icon: 'water-outline' },
-  { id: 'isNutFree', label: 'Nut Free', icon: 'close-circle-outline' },
-  { id: 'isFreezerFriendly', label: 'Freezer Friendly', icon: 'woman-sharp' },
+  {
+    id: 'isVegan',
+    label: 'Vegan',
+    iconFamily: 'Ionicons',
+    iconName: 'leaf-outline',
+  },
+  {
+    id: 'isVegetarian',
+    label: 'Vegetarian',
+    iconFamily: 'MaterialCommunityIcons',
+    iconName: 'food-apple-outline',
+  },
+  {
+    id: 'isGlutenFree',
+    label: 'Gluten Free',
+    iconFamily: 'MaterialCommunityIcons',
+    iconName: 'barley-off',
+  },
+  {
+    id: 'isDairyFree',
+    label: 'Dairy Free',
+    iconFamily: 'MaterialCommunityIcons',
+    iconName: 'cow-off',
+  },
+  {
+    id: 'isNutFree',
+    label: 'Nut Free',
+    iconFamily: 'MaterialCommunityIcons',
+    iconName: 'peanut-off-outline',
+  },
+  {
+    id: 'isFreezerFriendly',
+    label: 'Freezer Friendly',
+    iconFamily: 'Ionicons',
+    iconName: 'snow',
+  },
 ];
 
 const STAGE_FILTERS: StageFilter[] = [
@@ -174,36 +207,37 @@ export default function SearchModal() {
             Dietary Restrictions
           </Text>
           <View className='flex-row flex-wrap gap-2'>
-            {DIETARY_FILTERS.map((filter) => (
-              <TouchableOpacity
-                key={filter.id}
-                onPress={() => toggleDietary(filter.id)}
-                className={`flex-row items-center px-4 py-2.5 rounded-full ${
-                  selectedDietary.has(filter.id)
-                    ? 'bg-primary-500'
-                    : 'bg-cream-50'
-                }`}
-              >
-                <Ionicons
-                  name={filter.icon}
-                  size={16}
-                  color={
-                    selectedDietary.has(filter.id)
-                      ? '#FFFFFF'
-                      : colors.neutral[600]
-                  }
-                />
-                <Text
-                  className={`ml-2 text-sm font-medium ${
-                    selectedDietary.has(filter.id)
-                      ? 'text-cream-50'
-                      : 'text-neutral-600'
+            {DIETARY_FILTERS.map((filter) => {
+              const isSelected = selectedDietary.has(filter.id);
+              const iconColor = isSelected ? '#FFFFFF' : colors.neutral[600];
+              const IconComponent =
+                filter.iconFamily === 'Ionicons'
+                  ? Ionicons
+                  : MaterialCommunityIcons;
+
+              return (
+                <TouchableOpacity
+                  key={filter.id}
+                  onPress={() => toggleDietary(filter.id)}
+                  className={`flex-row items-center px-4 py-2.5 rounded-full ${
+                    isSelected ? 'bg-primary-500' : 'bg-cream-50'
                   }`}
                 >
-                  {filter.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  <IconComponent
+                    name={filter.iconName as any}
+                    size={16}
+                    color={iconColor}
+                  />
+                  <Text
+                    className={`ml-2 text-sm font-medium ${
+                      isSelected ? 'text-cream-50' : 'text-neutral-600'
+                    }`}
+                  >
+                    {filter.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
 
