@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -179,17 +179,23 @@ export default function Index() {
     return chips;
   }, [params]);
 
-  const renderFeaturedItem = ({ item }: { item: RecipeCardItem }) => (
-    <View style={{ width: FEATURED_CARD_WIDTH }}>
-      <FeaturedRecipeCard
-        recipe={item}
-        onSavePress={() => handleSavePress(item.id)}
-      />
-    </View>
+  const renderFeaturedItem = useCallback(
+    ({ item }: { item: RecipeCardItem }) => (
+      <View style={{ width: FEATURED_CARD_WIDTH }}>
+        <FeaturedRecipeCard
+          recipe={item}
+          onSavePress={() => handleSavePress(item.id)}
+        />
+      </View>
+    ),
+    []
   );
 
-  const renderMoreItem = ({ item }: { item: RecipeCardItem }) => (
-    <RecipeCard recipe={item} onSavePress={() => handleSavePress(item.id)} />
+  const renderMoreItem = useCallback(
+    ({ item }: { item: RecipeCardItem }) => (
+      <RecipeCard recipe={item} onSavePress={() => handleSavePress(item.id)} />
+    ),
+    []
   );
 
   const handleLoadMore = () => {
@@ -198,71 +204,74 @@ export default function Index() {
     }
   };
 
-  const renderFooter = () => {
+  const renderFooter = useCallback(() => {
     if (!isFetchingNextPage) return null;
     return (
       <View className='py-4 items-center'>
         <ActivityIndicator size='small' color={colors.primary[500]} />
       </View>
     );
-  };
+  }, [isFetchingNextPage]);
 
-  const renderListHeader = () => (
-    <>
-      {/* Only show featured recipes when no filters are applied */}
-      {!hasFilters && (
-        <>
-          <View className='px-4'>
-            {/* Featured Recipes Section */}
-            <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
-              Featured Recipes
+  const renderListHeader = useCallback(
+    () => (
+      <>
+        {/* Only show featured recipes when no filters are applied */}
+        {!hasFilters && (
+          <>
+            <View className='px-4'>
+              {/* Featured Recipes Section */}
+              <Text className='text-xl font-bold text-neutral-800 mb-4 mt-6'>
+                Featured Recipes
+              </Text>
+            </View>
+
+            <FlatList
+              data={featuredRecipes}
+              renderItem={renderFeaturedItem}
+              keyExtractor={(item) => `featured-${item.id}`}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
+              ItemSeparatorComponent={() => <View className='w-3' />}
+            />
+
+            <View className='px-4'>
+              {/* More Recipes header */}
+              <Text className='text-xl font-bold text-neutral-800 mb-4 mt-2'>
+                More Recipes
+              </Text>
+            </View>
+          </>
+        )}
+
+        {/* Show top spacing when filters are applied */}
+        {hasFilters && <View className='h-4' />}
+
+        {/* Loading State */}
+        {isLoading && <LoadingIndicator />}
+
+        {/* Error State */}
+        {error && (
+          <View className='px-4 py-8'>
+            <Text className='text-red-500 text-center'>
+              Failed to load recipes. Please try again.
             </Text>
           </View>
-
-          <FlatList
-            data={featuredRecipes}
-            renderItem={renderFeaturedItem}
-            keyExtractor={(item) => `featured-${item.id}`}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
-            ItemSeparatorComponent={() => <View className='w-3' />}
-          />
-
-          <View className='px-4'>
-            {/* More Recipes header */}
-            <Text className='text-xl font-bold text-neutral-800 mb-4 mt-2'>
-              More Recipes
-            </Text>
-          </View>
-        </>
-      )}
-
-      {/* Show top spacing when filters are applied */}
-      {hasFilters && <View className='h-4' />}
-
-      {/* Loading State */}
-      {isLoading && <LoadingIndicator />}
-
-      {/* Error State */}
-      {error && (
-        <View className='px-4 py-8'>
-          <Text className='text-red-500 text-center'>
-            Failed to load recipes. Please try again.
-          </Text>
-        </View>
-      )}
-    </>
+        )}
+      </>
+    ),
+    [hasFilters, featuredRecipes, renderFeaturedItem, isLoading, error]
   );
 
-  const renderListEmpty = () => {
+  const renderListEmpty = useCallback(() => {
     if (isLoading) return null;
     return (
       <View className='px-4 py-8'>
         <Text className='text-neutral-600 text-center'>No recipes found.</Text>
       </View>
     );
-  };
+  }, [isLoading]);
 
   return (
     <SafeAreaView

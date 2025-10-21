@@ -15,7 +15,7 @@ interface RecipeCardProps {
   onSavePress?: () => void;
 }
 
-export default function RecipeCard({ recipe, onSavePress }: RecipeCardProps) {
+const RecipeCard = ({ recipe, onSavePress }: RecipeCardProps) => {
   return (
     <TouchableOpacity
       className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-4 flex-1'
@@ -88,4 +88,6 @@ export default function RecipeCard({ recipe, onSavePress }: RecipeCardProps) {
       </View>
     </TouchableOpacity>
   );
-}
+};
+
+export default React.memo(RecipeCard);
