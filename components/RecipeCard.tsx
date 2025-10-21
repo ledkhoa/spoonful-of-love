@@ -12,10 +12,9 @@ import { navigateToRecipeDetail } from '@/utils/navigation';
 
 interface RecipeCardProps {
   recipe: RecipeCardItem;
-  onSavePress?: () => void;
 }
 
-const RecipeCard = ({ recipe, onSavePress }: RecipeCardProps) => {
+const RecipeCard = ({ recipe }: RecipeCardProps) => {
   return (
     <TouchableOpacity
       className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-4 flex-1'
@@ -37,8 +36,8 @@ const RecipeCard = ({ recipe, onSavePress }: RecipeCardProps) => {
         {/* Save Button Overlay */}
         <View className='absolute top-2 right-2'>
           <SaveButton
-            isSaved={recipe.isSaved}
-            onPress={onSavePress}
+            recipeId={recipe.id}
+            isSaved={recipe.isSaved ?? false}
             size='medium'
           />
         </View>

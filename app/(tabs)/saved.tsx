@@ -10,17 +10,12 @@ import { RecipeCardItem } from '@/models/Recipes';
 export default function Saved() {
   const savedRecipes: RecipeCardItem[] = [];
 
-  const handleSavePress = (recipeId: string) => {
-    console.log('Save pressed:', recipeId);
-    // TODO: Toggle save state
-  };
-
   const handleBackPress = () => {
     router.back();
   };
 
   const renderRecipeItem = ({ item }: { item: RecipeCardItem }) => (
-    <SavedCard recipe={item} onSavePress={() => handleSavePress(item.id)} />
+    <SavedCard recipe={item} />
   );
 
   const renderEmptyState = () => (

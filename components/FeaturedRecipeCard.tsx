@@ -12,13 +12,9 @@ import { navigateToRecipeDetail } from '@/utils/navigation';
 
 interface FeaturedRecipeCardProps {
   recipe: RecipeCardItem;
-  onSavePress?: () => void;
 }
 
-const FeaturedRecipeCard = ({
-  recipe,
-  onSavePress,
-}: FeaturedRecipeCardProps) => {
+const FeaturedRecipeCard = ({ recipe }: FeaturedRecipeCardProps) => {
   return (
     <TouchableOpacity
       className='bg-cream-50 rounded-2xl shadow-sm shadow-neutral-400/30 mb-4 pb-4'
@@ -53,8 +49,8 @@ const FeaturedRecipeCard = ({
         {/* Save Button Overlay */}
         <View className='absolute top-3 right-3'>
           <SaveButton
-            isSaved={recipe.isSaved}
-            onPress={onSavePress}
+            recipeId={recipe.id}
+            isSaved={recipe.isSaved ?? false}
             size='large'
           />
         </View>

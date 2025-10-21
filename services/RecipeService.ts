@@ -3,7 +3,10 @@ import { Recipe, RecipeCardItem } from '../models/Recipes';
 import { RecipeFilters } from '../models/RecipeFilters';
 
 export class RecipeService {
-  static async getRecipeById(id: string): Promise<Recipe | null> {
+  static async getRecipeById(
+    id: string,
+    userId?: string
+  ): Promise<Recipe | null> {
     const { data, error } = await supabase.rpc('get_recipe_by_id', {
       recipe_uuid: id,
     });
@@ -17,11 +20,28 @@ export class RecipeService {
       return null;
     }
 
-    return data as Recipe;
+    const recipe = data as Recipe;
+
+    // Check if recipe is saved by user
+    if (userId) {
+      const { data: savedData } = await supabase
+        .from('saved_recipes')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('recipe_id', id)
+        .single();
+
+      recipe.isSaved = !!savedData;
+    } else {
+      recipe.isSaved = false;
+    }
+
+    return recipe;
   }
 
   static async getRecipes(
-    filters: RecipeFilters = {}
+    filters: RecipeFilters = {},
+    userId?: string
   ): Promise<RecipeCardItem[]> {
     console.log(
       'Fetching recipes - offset:',
@@ -140,16 +160,44 @@ export class RecipeService {
 
     if (error) {
       console.error('Error fetching filtered recipes:', error);
+      return [];
     }
 
-    return data || [];
+    if (!data) {
+      return [];
+    }
+
+    // If user is authenticated, check which recipes are saved
+    if (userId) {
+      const recipeIds = data.map((recipe) => recipe.id);
+      const { data: savedRecipes } = await supabase
+        .from('saved_recipes')
+        .select('recipe_id')
+        .eq('user_id', userId)
+        .in('recipe_id', recipeIds);
+
+      const savedRecipeIds = new Set(
+        savedRecipes?.map((sr) => sr.recipe_id) || []
+      );
+
+      return data.map((recipe) => ({
+        ...recipe,
+        isSaved: savedRecipeIds.has(recipe.id),
+      }));
+    }
+
+    // Return recipes with isSaved = false for unauthenticated users
+    return data.map((recipe) => ({
+      ...recipe,
+      isSaved: false,
+    }));
   }
 
   /**
    * Get featured recipes
    * @returns Promise<RecipeCardItem[]>
    */
-  static async getFeaturedRecipes(): Promise<RecipeCardItem[]> {
+  static async getFeaturedRecipes(userId?: string): Promise<RecipeCardItem[]> {
     console.log('Fetching featured recipes');
 
     const { data, error } = await supabase
@@ -184,7 +232,7 @@ export class RecipeService {
       return [];
     }
 
-    return (
+    const recipes = (
       (data as {
         display_order: number;
         recipes: RecipeCardItem | RecipeCardItem[] | null;
@@ -195,5 +243,63 @@ export class RecipeService {
         (recipe): recipe is RecipeCardItem =>
           recipe !== null && !Array.isArray(recipe)
       );
+
+    // If user is authenticated, check which recipes are saved
+    if (userId && recipes.length > 0) {
+      const recipeIds = recipes.map((recipe) => recipe.id);
+      const { data: savedRecipes } = await supabase
+        .from('saved_recipes')
+        .select('recipe_id')
+        .eq('user_id', userId)
+        .in('recipe_id', recipeIds);
+
+      const savedRecipeIds = new Set(
+        savedRecipes?.map((sr) => sr.recipe_id) || []
+      );
+
+      return recipes.map((recipe) => ({
+        ...recipe,
+        isSaved: savedRecipeIds.has(recipe.id),
+      }));
+    }
+
+    // Return recipes with isSaved = false for unauthenticated users
+    return recipes.map((recipe) => ({
+      ...recipe,
+      isSaved: false,
+    }));
+  }
+
+  /**
+   * Save a recipe for the current user
+   * @param userId - The user's ID
+   * @param recipeId - The recipe's ID
+   */
+  static async saveRecipe(userId: string, recipeId: string): Promise<void> {
+    const { error } = await supabase.from('saved_recipes').insert({
+      user_id: userId,
+      recipe_id: recipeId,
+    });
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Unsave a recipe for the current user
+   * @param userId - The user's ID
+   * @param recipeId - The recipe's ID
+   */
+  static async unsaveRecipe(userId: string, recipeId: string): Promise<void> {
+    const { error } = await supabase
+      .from('saved_recipes')
+      .delete()
+      .eq('user_id', userId)
+      .eq('recipe_id', recipeId);
+
+    if (error) {
+      throw error;
+    }
   }
 }

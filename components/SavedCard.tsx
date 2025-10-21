@@ -12,10 +12,9 @@ import { navigateToRecipeDetail } from '@/utils/navigation';
 
 interface SavedCardProps {
   recipe: RecipeCardItem;
-  onSavePress?: () => void;
 }
 
-export default function SavedCard({ recipe, onSavePress }: SavedCardProps) {
+export default function SavedCard({ recipe }: SavedCardProps) {
   return (
     <TouchableOpacity
       className='flex-row bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-3'
@@ -84,8 +83,8 @@ export default function SavedCard({ recipe, onSavePress }: SavedCardProps) {
 
           {/* Save Button */}
           <SaveButton
-            isSaved={recipe.isSaved}
-            onPress={onSavePress}
+            recipeId={recipe.id}
+            isSaved={recipe.isSaved ?? false}
             size='medium'
           />
         </View>

@@ -1,9 +1,9 @@
 import AgeRange from '@/components/AgeRange';
 import { DietaryBadges } from '@/components/DietaryBadge';
 import LoadingIndicator from '@/components/LoadingIndicator';
-import PremiumBadge from '@/components/PremiumBadge';
 import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import RecipeNotFound from '@/components/RecipeNotFound';
+import SaveButton from '@/components/SaveButton';
 import { colors } from '@/constants/colors';
 import { useGetRecipeDetails } from '@/hooks/useRecipes';
 import { Ionicons } from '@expo/vector-icons';
@@ -93,20 +93,13 @@ export default function RecipeDetailScreen() {
             {recipe.title}
           </Text>
           <View className='flex-row'>
-            {/* <TouchableOpacity activeOpacity={0.7}>
-              <Ionicons
-                name='share-outline'
-                size={24}
-                color={colors.primary[500]}
-              />
-            </TouchableOpacity> */}
-            <TouchableOpacity activeOpacity={0.7} className='ml-2'>
-              <Ionicons
-                name={recipe.isSaved ? 'bookmark' : 'bookmark-outline'}
-                size={24}
-                color={colors.cream[50]}
-              />
-            </TouchableOpacity>
+            <SaveButton
+              recipeId={recipe.id}
+              isSaved={recipe.isSaved ?? false}
+              size='large'
+              iconColor={colors.cream[50]}
+              variant='transparent'
+            />
           </View>
         </View>
 
