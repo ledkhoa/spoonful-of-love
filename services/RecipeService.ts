@@ -55,7 +55,11 @@ export class RecipeService {
 
     // Use full-text search with GIN index
     if (filters.search && filters.search.trim() !== '') {
-      query = query.textSearch('title_description', filters.search.trim());
+      const searchTerm = filters.search.trim();
+      query = query.textSearch('search_vector', searchTerm, {
+        type: 'websearch',
+        config: 'english',
+      });
     }
 
     // Apply basic filters
