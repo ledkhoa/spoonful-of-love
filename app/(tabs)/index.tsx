@@ -100,11 +100,6 @@ export default function Index() {
     return data?.pages.flatMap((page) => page) ?? [];
   }, [data]);
 
-  const handleSavePress = (recipeId: string) => {
-    console.log('Save pressed:', recipeId);
-    // TODO: Toggle save state
-  };
-
   const handleRefresh = () => {
     refetch();
   };
@@ -182,19 +177,14 @@ export default function Index() {
   const renderFeaturedItem = useCallback(
     ({ item }: { item: RecipeCardItem }) => (
       <View style={{ width: FEATURED_CARD_WIDTH }}>
-        <FeaturedRecipeCard
-          recipe={item}
-          onSavePress={() => handleSavePress(item.id)}
-        />
+        <FeaturedRecipeCard recipe={item} />
       </View>
     ),
     []
   );
 
   const renderMoreItem = useCallback(
-    ({ item }: { item: RecipeCardItem }) => (
-      <RecipeCard recipe={item} onSavePress={() => handleSavePress(item.id)} />
-    ),
+    ({ item }: { item: RecipeCardItem }) => <RecipeCard recipe={item} />,
     []
   );
 

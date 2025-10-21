@@ -1,21 +1,37 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  useQuery,
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { RecipeService } from '@/services/RecipeService';
 import { RecipeFilters } from '../models/RecipeFilters';
+import {
+  THIRTY_SECONDS,
+  FIVE_MINUTES,
+  TEN_MINUTES,
+  FIFTEEN_MINUTES,
+} from '@/constants/cache';
+import { useAuth } from './useAuth';
 
-// Cache time constants
-const FIVE_MINUTES = 5 * 60 * 1000;
-const TEN_MINUTES = 10 * 60 * 1000;
-const FIFTEEN_MINUTES = 15 * 60 * 1000;
-const THIRTY_SECONDS = 30 * 1000;
+export const recipeQueryKeys = {
+  all: ['recipes'] as const,
+  featured: ['recipes', 'featured'] as const,
+  details: (id: string) => [...recipeQueryKeys.all, 'details', id] as const,
+  saved: (userId: string, recipeId: string) =>
+    ['recipes', 'saved', userId, recipeId] as const,
+};
 
 /**
  * Hook to fetch all published recipes
  * @returns TanStack Query result with recipes data
  */
 export const useGetRecipes = (filters: RecipeFilters) => {
+  const { user } = useAuth();
+
   return useQuery({
-    queryKey: [...recipeQueryKeys.all, filters],
-    queryFn: () => RecipeService.getRecipes(filters),
+    queryKey: [...recipeQueryKeys.all, filters, user?.id],
+    queryFn: () => RecipeService.getRecipes(filters, user?.id),
     staleTime: FIVE_MINUTES,
     gcTime: TEN_MINUTES,
     retry: 3,
@@ -34,14 +50,19 @@ export const useGetRecipesInfinite = (
   filters: Omit<RecipeFilters, 'limit' | 'offset'>,
   pageSize: number = 20
 ) => {
+  const { user } = useAuth();
+
   return useInfiniteQuery({
-    queryKey: [...recipeQueryKeys.all, 'infinite', filters, pageSize],
+    queryKey: [...recipeQueryKeys.all, 'infinite', filters, pageSize, user?.id],
     queryFn: ({ pageParam = 0 }) =>
-      RecipeService.getRecipes({
-        ...filters,
-        limit: pageSize,
-        offset: pageParam,
-      }),
+      RecipeService.getRecipes(
+        {
+          ...filters,
+          limit: pageSize,
+          offset: pageParam,
+        },
+        user?.id
+      ),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
       // If we received fewer recipes than the page size, we've reached the end
@@ -65,9 +86,11 @@ export const useGetRecipesInfinite = (
  * @returns TanStack Query result with recipe data
  */
 export const useGetRecipeDetails = (recipeId: string) => {
+  const { user } = useAuth();
+
   return useQuery({
-    queryKey: [...recipeQueryKeys.details(recipeId)],
-    queryFn: () => RecipeService.getRecipeById(recipeId),
+    queryKey: [...recipeQueryKeys.details(recipeId), user?.id],
+    queryFn: () => RecipeService.getRecipeById(recipeId, user?.id),
     enabled: !!recipeId, // Only run query if recipeId is provided
     staleTime: TEN_MINUTES,
     gcTime: FIFTEEN_MINUTES,
@@ -80,9 +103,11 @@ export const useGetRecipeDetails = (recipeId: string) => {
  * @returns TanStack Query result with featured recipes data
  */
 export const useGetFeaturedRecipes = () => {
+  const { user } = useAuth();
+
   return useQuery({
-    queryKey: [...recipeQueryKeys.featured],
-    queryFn: () => RecipeService.getFeaturedRecipes(),
+    queryKey: [...recipeQueryKeys.featured, user?.id],
+    queryFn: () => RecipeService.getFeaturedRecipes(user?.id),
     staleTime: FIFTEEN_MINUTES,
     gcTime: FIFTEEN_MINUTES,
     retry: 3,
@@ -91,9 +116,110 @@ export const useGetFeaturedRecipes = () => {
   });
 };
 
-// Query key factory for easier cache management
-export const recipeQueryKeys = {
-  all: ['recipes'] as const,
-  featured: ['recipes', 'featured'] as const,
-  details: (id: string) => [...recipeQueryKeys.all, 'details', id] as const,
+/**
+ * Hook to save a recipe
+ * @returns Mutation for saving a recipe
+ */
+export const useSaveRecipe = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, recipeId }: { userId: string; recipeId: string }) =>
+      RecipeService.saveRecipe(userId, recipeId),
+    onSuccess: (_data, variables) => {
+      // Update all recipe queries in cache to set isSaved = true for this recipe
+      queryClient.setQueriesData(
+        { queryKey: recipeQueryKeys.all },
+        (oldData: any) => {
+          if (!oldData) return oldData;
+
+          // Handle single recipe (RecipeCardItem or Recipe)
+          if (oldData.id === variables.recipeId) {
+            return { ...oldData, isSaved: true };
+          }
+
+          // Handle array of recipes
+          if (Array.isArray(oldData)) {
+            return oldData.map((recipe: any) =>
+              recipe.id === variables.recipeId
+                ? { ...recipe, isSaved: true }
+                : recipe
+            );
+          }
+
+          // Handle infinite query pages
+          if (oldData.pages) {
+            return {
+              ...oldData,
+              pages: oldData.pages.map((page: any) =>
+                Array.isArray(page)
+                  ? page.map((recipe: any) =>
+                      recipe.id === variables.recipeId
+                        ? { ...recipe, isSaved: true }
+                        : recipe
+                    )
+                  : page
+              ),
+            };
+          }
+
+          return oldData;
+        }
+      );
+    },
+  });
+};
+
+/**
+ * Hook to unsave a recipe
+ * @returns Mutation for unsaving a recipe
+ */
+export const useUnsaveRecipe = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, recipeId }: { userId: string; recipeId: string }) =>
+      RecipeService.unsaveRecipe(userId, recipeId),
+    onSuccess: (_data, variables) => {
+      // Update all recipe queries in cache to set isSaved = false for this recipe
+      queryClient.setQueriesData(
+        { queryKey: recipeQueryKeys.all },
+        (oldData: any) => {
+          if (!oldData) return oldData;
+
+          // Handle single recipe (RecipeCardItem or Recipe)
+          if (oldData.id === variables.recipeId) {
+            return { ...oldData, isSaved: false };
+          }
+
+          // Handle array of recipes
+          if (Array.isArray(oldData)) {
+            return oldData.map((recipe: any) =>
+              recipe.id === variables.recipeId
+                ? { ...recipe, isSaved: false }
+                : recipe
+            );
+          }
+
+          // Handle infinite query pages
+          if (oldData.pages) {
+            return {
+              ...oldData,
+              pages: oldData.pages.map((page: any) =>
+                Array.isArray(page)
+                  ? page.map((recipe: any) =>
+                      recipe.id === variables.recipeId
+                        ? { ...recipe, isSaved: false }
+                        : recipe
+                    )
+                  : page
+              ),
+            };
+          }
+
+          return oldData;
+        }
+      );
+    },
+  });
 };

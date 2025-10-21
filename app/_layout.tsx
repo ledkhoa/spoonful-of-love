@@ -17,6 +17,14 @@ export default function RootLayout() {
               animation: 'slide_from_bottom',
             }}
           />
+          <Stack.Screen
+            name='sign-in-prompt'
+            options={{
+              presentation: 'transparentModal',
+              animation: 'fade',
+              contentStyle: { backgroundColor: 'transparent' },
+            }}
+          />
         </Stack>
       </SafeAreaProvider>
     </QueryClientProvider>
