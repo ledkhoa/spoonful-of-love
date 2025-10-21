@@ -11,6 +11,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { useSearchParamsStore } from '@/stores/searchParamsStore';
+import { PLACEHOLDER_INPUT_TEXT } from '@/constants/placeholder';
 
 type IconFamily = 'Ionicons' | 'MaterialCommunityIcons';
 
@@ -171,9 +172,9 @@ export default function SearchModal() {
 
         {/* Search Bar */}
         <View className='flex-1 flex-row items-center bg-cream-50 rounded-xl px-4 py-3 shadow-sm'>
-          <Ionicons name='search' size={20} color={colors.neutral[400]} />
+          <Ionicons name='search' size={20} color={colors.primary[500]} />
           <TextInput
-            placeholder="Find your toddler's new favorite meal"
+            placeholder={PLACEHOLDER_INPUT_TEXT}
             placeholderTextColor={colors.neutral[400]}
             className='flex-1 ml-3 text-base text-neutral-800'
             value={searchQuery}

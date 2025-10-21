@@ -22,6 +22,7 @@ import LoadingIndicator from '@/components/LoadingIndicator';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSearchParamsStore, SearchParams } from '@/stores/searchParamsStore';
 import { RecipeFilters } from '@/models/RecipeFilters';
+import { PLACEHOLDER_INPUT_TEXT } from '@/constants/placeholder';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const FEATURED_CARD_WIDTH = SCREEN_WIDTH * 0.75;
@@ -278,7 +279,7 @@ export default function Index() {
         >
           <Ionicons name='search' size={20} color={colors.neutral[400]} />
           <Text className='flex-1 ml-3 text-base text-neutral-400'>
-            {params.q || "Find your toddler's new favorite meal"}
+            {params.q || PLACEHOLDER_INPUT_TEXT}
           </Text>
           {params.q && (
             <TouchableOpacity

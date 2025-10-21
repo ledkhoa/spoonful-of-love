@@ -16,19 +16,16 @@ export default function SaveButton({
 }: SaveButtonProps) {
   const iconSize = size === 'small' ? 16 : size === 'medium' ? 20 : 24;
 
-  const paddingClass =
-    size === 'small' ? 'p-1.5' : size === 'medium' ? 'p-2' : 'p-2.5';
-
   return (
     <TouchableOpacity
-      className={`bg-cream-50 rounded-full ${paddingClass}`}
+      className={'bg-primary-500 rounded-full p-2'}
       onPress={onPress}
       activeOpacity={0.7}
     >
       <Ionicons
         name={isSaved ? 'bookmark' : 'bookmark-outline'}
         size={iconSize}
-        color={colors.primary[500]}
+        color={colors.cream[50]}
       />
     </TouchableOpacity>
   );
