@@ -132,7 +132,7 @@ export class RecipeService {
     if (filters.offset) {
       query = query.range(
         filters.offset,
-        filters.offset + (filters.limit || 50) - 1
+        filters.offset + (filters.limit || 20) - 1
       );
     }
 

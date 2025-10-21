@@ -16,7 +16,6 @@ export default function SaveButton({
 }: SaveButtonProps) {
   const iconSize = size === 'small' ? 16 : size === 'medium' ? 20 : 24;
 
-  // Padding based on size and variant
   const paddingClass =
     size === 'small' ? 'p-1.5' : size === 'medium' ? 'p-2' : 'p-2.5';
 
