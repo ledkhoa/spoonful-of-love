@@ -132,26 +132,19 @@ export default function SearchModal() {
       queryParams.append('q', searchQuery.trim());
     }
 
-    // Add dietary filters as individual boolean params
     selectedDietary.forEach((dietId) => {
       queryParams.append(dietId, 'true');
     });
 
-    // Add stage or month filter (mutually exclusive)
     if (selectedStage) {
       queryParams.append('stage', selectedStage.toString());
     } else if (selectedMonth && parseInt(selectedMonth) > 0) {
       queryParams.append('ageInMonths', selectedMonth);
     }
 
-    // Navigate back to index with query params
-    const paramsObject = Object.fromEntries(queryParams);
-
-    // Build query string manually
     const queryString = queryParams.toString();
     const path = queryString ? `/(tabs)?${queryString}` : '/(tabs)';
 
-    // Navigate to the tabs with the query params in the URL
     router.replace(path as any);
   };
 

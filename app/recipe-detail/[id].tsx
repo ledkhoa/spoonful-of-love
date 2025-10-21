@@ -417,18 +417,11 @@ export default function RecipeDetailScreen() {
                         height: 40,
                         backgroundColor: isChecked
                           ? colors.accent[600]
-                          : colors.primary[500],
-                        borderWidth: 2,
+                          : 'transparent',
+                        borderWidth: 1,
                         borderColor: isChecked
                           ? colors.accent[600]
-                          : colors.primary[200],
-                        shadowColor: isChecked
-                          ? colors.accent[600]
                           : colors.primary[500],
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3.84,
-                        elevation: 5,
                       }}
                     >
                       {isChecked ? (
@@ -438,7 +431,7 @@ export default function RecipeDetailScreen() {
                           color={colors.cream[50]}
                         />
                       ) : (
-                        <Text className='text-cream-50 font-bold text-base'>
+                        <Text className='text-primary-500 font-bold text-base'>
                           {instruction.stepNumber}
                         </Text>
                       )}
