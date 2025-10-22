@@ -71,74 +71,16 @@ export class RecipeService {
   static async getFeaturedRecipes(userId?: string): Promise<RecipeCardItem[]> {
     console.log('Fetching featured recipes');
 
-    const { data, error } = await supabase
-      .from('featured_recipes')
-      .select(
-        `
-        display_order,
-        recipes!featured_recipes_recipe_id_fkey (
-          id,
-          title,
-          description,
-          isVegan: is_vegan,
-          isVegetarian: is_vegetarian,
-          isGlutenFree: is_gluten_free,
-          isDairyFree: is_dairy_free,
-          isNutFree: is_nut_free,
-          isFreezerFriendly: is_freezer_friendly,
-          minMonths: min_age_months,
-          maxMonths: max_age_months,
-          imageUrl: featured_image_url,
-          rating: average_rating,
-          reviewCount: total_ratings_count,
-          isPremium: is_premium
-        )
-      `
-      )
-      .eq('is_active', true)
-      .order('display_order', { ascending: true });
+    const { data, error } = await supabase.rpc('get_featured_recipes', {
+      user_uuid: userId || null,
+    });
 
     if (error) {
       console.error('Error fetching featured recipes:', error);
       return [];
     }
 
-    const recipes = (
-      (data as {
-        display_order: number;
-        recipes: RecipeCardItem | RecipeCardItem[] | null;
-      }[]) || []
-    )
-      .map((item) => item.recipes)
-      .filter(
-        (recipe): recipe is RecipeCardItem =>
-          recipe !== null && !Array.isArray(recipe)
-      );
-
-    // If user is authenticated, check which recipes are saved
-    if (userId && recipes.length > 0) {
-      const recipeIds = recipes.map((recipe) => recipe.id);
-      const { data: savedRecipes } = await supabase
-        .from('saved_recipes')
-        .select('recipe_id')
-        .eq('user_id', userId)
-        .in('recipe_id', recipeIds);
-
-      const savedRecipeIds = new Set(
-        savedRecipes?.map((sr) => sr.recipe_id) || []
-      );
-
-      return recipes.map((recipe) => ({
-        ...recipe,
-        isSaved: savedRecipeIds.has(recipe.id),
-      }));
-    }
-
-    // Return recipes with isSaved = false for unauthenticated users
-    return recipes.map((recipe) => ({
-      ...recipe,
-      isSaved: false,
-    }));
+    return (data as RecipeCardItem[]) || [];
   }
 
   /**
