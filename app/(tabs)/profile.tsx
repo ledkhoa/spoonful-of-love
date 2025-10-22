@@ -5,6 +5,7 @@ import {
   Alert,
   ScrollView,
   Switch,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -61,11 +62,11 @@ export default function Profile() {
         <View className='flex-1 p-6'>
           {/* Icon and Message */}
           <View className='flex-1 items-center justify-center'>
-            <View className='bg-primary-100 rounded-full p-6 mb-6'>
-              <Ionicons
-                name='person-outline'
-                size={64}
-                color={colors.primary[500]}
+            <View className='mb-6'>
+              <Image
+                source={require('@/assets/images/logo.png')}
+                style={{ width: 240, height: 240 }}
+                resizeMode='contain'
               />
             </View>
             <Text className='text-xl font-semibold text-neutral-800 mb-2 text-center'>
