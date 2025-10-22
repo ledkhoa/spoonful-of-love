@@ -9,6 +9,7 @@ export class RecipeService {
   ): Promise<Recipe | null> {
     const { data, error } = await supabase.rpc('get_recipe_by_id', {
       recipe_uuid: id,
+      user_uuid: userId || null,
     });
 
     if (error) {
@@ -20,23 +21,7 @@ export class RecipeService {
       return null;
     }
 
-    const recipe = data as Recipe;
-
-    // Check if recipe is saved by user
-    if (userId) {
-      const { data: savedData } = await supabase
-        .from('saved_recipes')
-        .select('id')
-        .eq('user_id', userId)
-        .eq('recipe_id', id)
-        .single();
-
-      recipe.isSaved = !!savedData;
-    } else {
-      recipe.isSaved = false;
-    }
-
-    return recipe;
+    return data as Recipe;
   }
 
   static async getRecipes(
