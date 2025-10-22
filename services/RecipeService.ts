@@ -13,7 +13,7 @@ export class RecipeService {
     });
 
     if (error) {
-      console.log('Error fetching recipe by ID:', error);
+      console.log('Error fetching recipe by ID:', error.message);
       return null;
     }
 
@@ -57,7 +57,7 @@ export class RecipeService {
     });
 
     if (error) {
-      console.error('Error fetching filtered recipes:', error);
+      console.error('Error fetching filtered recipes:', error.message);
       return [];
     }
 
@@ -76,7 +76,7 @@ export class RecipeService {
     });
 
     if (error) {
-      console.error('Error fetching featured recipes:', error);
+      console.error('Error fetching featured recipes:', error.message);
       return [];
     }
 
@@ -96,7 +96,7 @@ export class RecipeService {
     });
 
     if (error) {
-      console.error('Error fetching saved recipes:', error);
+      console.error('Error fetching saved recipes:', error.message);
       return [];
     }
 
@@ -115,7 +115,7 @@ export class RecipeService {
     });
 
     if (error) {
-      throw error;
+      console.error('Error saving recipe:', error.message);
     }
   }
 
@@ -132,7 +132,7 @@ export class RecipeService {
       .eq('recipe_id', recipeId);
 
     if (error) {
-      throw error;
+      console.error('Error unsaving recipe:', error.message);
     }
   }
 }
