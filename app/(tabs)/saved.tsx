@@ -67,10 +67,10 @@ export default function Saved() {
   );
 
   return (
-    <SafeAreaView className='flex-1 bg-cream-50' edges={['top']}>
+    <SafeAreaView className='flex-1 bg-primary-500' edges={['top']}>
       {/* Header */}
-      <View className='bg-primary-500 px-6 pt-6 pb-8 rounded-b-3xl'>
-        <Text className='text-3xl font-bold text-neutral-800 text-center'>
+      <View className='bg-primary-500 px-4 py-3'>
+        <Text className='text-2xl font-bold text-neutral-800 text-center'>
           Saved Recipes
         </Text>
       </View>
@@ -81,7 +81,7 @@ export default function Saved() {
         renderItem={renderRecipeItem}
         keyExtractor={(item) => `saved-${item.id}`}
         ListEmptyComponent={isLoading ? renderLoadingState : renderEmptyState}
-        className='flex-1 px-4'
+        className='flex-1 px-4 screen-bg-color'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingTop: 24,
