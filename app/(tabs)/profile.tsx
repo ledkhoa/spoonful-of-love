@@ -103,15 +103,10 @@ export default function Profile() {
 
   // Authenticated state
   return (
-    <SafeAreaView className='flex-1 bg-cream-50' edges={['top']}>
+    <SafeAreaView className='flex-1 bg-primary-500' edges={['top']}>
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
         {/* Header with Profile Info */}
         <View className='bg-primary-500 px-6 pt-6 pb-12 rounded-b-3xl'>
-          {/* Title */}
-          <Text className='text-3xl font-bold text-neutral-800 mb-8 text-center'>
-            Profile
-          </Text>
-
           {/* Profile Avatar and Info */}
           <View className='items-center'>
             {/* Avatar Circle */}
@@ -135,7 +130,7 @@ export default function Profile() {
         </View>
 
         {/* Settings Options */}
-        <View className='px-6 mt-6'>
+        <View className='p-6 mt-6 screen-bg-color'>
           {/* Measurement Units */}
           <View className='bg-white rounded-2xl p-4 mb-3 shadow-sm shadow-neutral-400/30'>
             <View className='flex-row items-center mb-2'>
@@ -172,8 +167,8 @@ export default function Profile() {
               </View>
             </View>
             <Text className='text-xs text-neutral-500 mt-2 pl-16'>
-              Note: Some recipes may use descriptive measurements (e.g., "1
-              whole apple") regardless of unit preference.
+              Some recipes may use descriptive measurements (e.g., "1 whole
+              apple") regardless of unit preference.
             </Text>
           </View>
 
