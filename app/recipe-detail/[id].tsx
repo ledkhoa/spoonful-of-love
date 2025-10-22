@@ -11,6 +11,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function RecipeDetailScreen() {
   const router = useRouter();
@@ -77,51 +78,71 @@ export default function RecipeDetailScreen() {
   }
 
   return (
-    <SafeAreaView className='flex-1 bg-primary-500' edges={['top']}>
+    <SafeAreaView className='flex-1 screen-bg-color' edges={['top']}>
       <ScrollView
-        className='flex-1 screen-bg-color'
+        className='flex-1'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 24 }}
-        stickyHeaderIndices={[0]}
       >
-        {/* Header - Recipe title */}
-        <View className='flex-row items-center justify-between p-4 bg-primary-500'>
-          <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
-            <Ionicons name='arrow-back' size={24} color={colors.cream[50]} />
-          </TouchableOpacity>
-          <Text className='text-2xl font-bold text-cream-50 text-center flex-1 mx-3'>
-            {recipe.title}
-          </Text>
-          <View className='flex-row'>
-            <SaveButton
-              recipeId={recipe.id}
-              isSaved={recipe.isSaved ?? false}
-              size='large'
-              iconColor={colors.cream[50]}
-              variant='transparent'
+        {/* Header with Image */}
+        <View className='rounded-b-3xl overflow-hidden'>
+          <View className='relative'>
+            {/* Recipe Image - Full height including title bar */}
+            <RecipeImagePlaceholder
+              imageUrl={recipe.imageUrl}
+              className='w-full h-80'
+              resizeMode='cover'
+              borderRadius='none'
             />
-          </View>
-        </View>
 
-        {/* Recipe Image */}
-        <View className='relative'>
-          <RecipeImagePlaceholder
-            imageUrl={recipe.imageUrl}
-            className='w-full h-64'
-            resizeMode='cover'
-            borderRadius='bottom'
-          />
-          {/* Dietary Badges Overlay */}
-          <View className='absolute bottom-3 left-3 p-2'>
-            <DietaryBadges
-              isVegan={recipe.isVegan}
-              isVegetarian={recipe.isVegetarian}
-              isGlutenFree={recipe.isGlutenFree}
-              isDairyFree={recipe.isDairyFree}
-              isNutFree={recipe.isNutFree}
-              isFreezerFriendly={recipe.isFreezerFriendly}
-              size='large'
+            {/* Gradient overlay for better text readability - darker at top, lighter at bottom */}
+            <LinearGradient
+              colors={['rgba(0,0,0,0.2)', 'rgba(0,0,0,0)']}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
             />
+
+            {/* Title Bar Overlay */}
+            <View className='absolute top-0 left-0 right-0 flex-row items-center justify-between px-4 py-4'>
+              <TouchableOpacity
+                onPress={() => router.back()}
+                activeOpacity={0.7}
+              >
+                <Ionicons
+                  name='arrow-back'
+                  size={24}
+                  color={colors.cream[50]}
+                />
+              </TouchableOpacity>
+              <Text className='text-2xl font-bold text-cream-50 text-center flex-1 mx-3'>
+                {recipe.title}
+              </Text>
+              <SaveButton
+                recipeId={recipe.id}
+                isSaved={recipe.isSaved ?? false}
+                size='large'
+                iconColor={colors.cream[50]}
+                variant='transparent'
+              />
+            </View>
+
+            {/* Dietary Badges Overlay */}
+            <View className='absolute bottom-3 left-3 p-2'>
+              <DietaryBadges
+                isVegan={recipe.isVegan}
+                isVegetarian={recipe.isVegetarian}
+                isGlutenFree={recipe.isGlutenFree}
+                isDairyFree={recipe.isDairyFree}
+                isNutFree={recipe.isNutFree}
+                isFreezerFriendly={recipe.isFreezerFriendly}
+                size='large'
+              />
+            </View>
           </View>
         </View>
 
@@ -188,7 +209,7 @@ export default function RecipeDetailScreen() {
         </View>
 
         {/* Cooking Info */}
-        <View className='flex-1 rounded-3xl bg-screen-color p-4'>
+        <View className='flex-1 screen-bg-color p-4'>
           {/* Description */}
           <View className='mb-6'>
             <Text className='text-xl font-bold text-neutral-900 mb-3'>
