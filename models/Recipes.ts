@@ -36,7 +36,6 @@ export type Recipe = {
   description: string | null;
   prepTimeMinutes: number | null;
   cookTimeMinutes: number | null;
-  totalTimeMinutes: number | null;
   baseServingSize: number;
   difficultyLevel: 'easy' | 'medium';
   isVegan: boolean;
@@ -60,9 +59,8 @@ export type Recipe = {
   reviewCount: number;
   createdAt: string;
   updatedAt: string;
-  isSaved?: boolean;
-  isFeatured?: boolean;
-  isPremium?: boolean;
+  isSaved: boolean;
+  isPremium: boolean;
   // Related data
   ingredients: RecipeIngredient[];
   instructions: RecipeInstruction[];
@@ -84,8 +82,7 @@ export type RecipeCardItem = {
   minMonths: number;
   maxMonths?: number;
   // TODO: Make Non nullable
-  isSaved?: boolean;
-  isFeatured?: boolean;
-  isPremium?: boolean;
-  isFreezerFriendly?: boolean;
+  isSaved: boolean;
+  isPremium: boolean;
+  isFreezerFriendly: boolean;
 };
