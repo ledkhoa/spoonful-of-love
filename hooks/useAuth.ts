@@ -32,6 +32,8 @@ export const useAuth = () => {
     onSuccess: () => {
       // Invalidate auth queries to refetch
       queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
+      // Invalidate all recipe queries since saved status will change
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
     },
   });
 
@@ -43,6 +45,8 @@ export const useAuth = () => {
       queryClient.setQueryData(authQueryKeys.session, null);
       queryClient.setQueryData(authQueryKeys.user, null);
       queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
+      // Invalidate all recipe queries since saved status will change
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
     },
   });
 
