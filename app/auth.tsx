@@ -30,7 +30,6 @@ export default function AuthScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Update mode when params change
   useEffect(() => {
     if (mode === 'signup') {
       setIsSignUp(true);
@@ -149,10 +148,7 @@ export default function AuthScreen() {
 
   return (
     <SafeAreaView className='flex-1 bg-primary-500' edges={['top']}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className='flex-1'
-      >
+      <View className='flex-1'>
         <ScrollView
           className='flex-1'
           contentContainerStyle={{ flexGrow: 1 }}
@@ -160,27 +156,26 @@ export default function AuthScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
-          <View className='px-6 pt-4 pb-8'>
+          <View className='bg-primary-500 px-4 py-3 flex-row items-center justify-center'>
             <TouchableOpacity
               onPress={() => router.back()}
-              className='mb-6'
+              className='absolute left-4'
               activeOpacity={0.7}
             >
-              <Ionicons name='arrow-back' size={24} color={colors.cream[50]} />
+              <Ionicons
+                name='arrow-back'
+                size={24}
+                color={colors.neutral[800]}
+              />
             </TouchableOpacity>
 
-            <Text className='text-4xl font-bold text-cream-50 mb-2'>
+            <Text className='text-2xl font-bold text-neutral-800 text-center'>
               {isSignUp ? 'Create Account' : 'Welcome Back'}
-            </Text>
-            <Text className='text-base text-cream-100'>
-              {isSignUp
-                ? 'Sign up to save your favorite recipes'
-                : 'Sign in to access your saved recipes'}
             </Text>
           </View>
 
           {/* Form */}
-          <View className='flex-1 bg-cream-50 rounded-t-3xl px-6 pt-8'>
+          <View className='flex-1 bg-cream-50 px-6 pt-8'>
             {/* Sign Up Fields */}
             {isSignUp && (
               <>
@@ -324,7 +319,7 @@ export default function AuthScreen() {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 }

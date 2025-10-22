@@ -28,8 +28,6 @@ export default function RecipeImagePlaceholder({
             ? 'rounded-l-xl'
             : '';
 
-  // imageUrl = 'https://m.media-amazon.com/images/I/61kh9Vs11YL._AC_SL1500_.jpg';
-
   if (imageUrl) {
     return (
       <Image

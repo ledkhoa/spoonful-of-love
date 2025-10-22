@@ -36,21 +36,17 @@ const SaveButton = ({
     if (!isAuthenticated || !user) {
       const title = 'Sign in to Save';
       const subtitle =
-        "To save your child's favorite recipes, please sign in or create an account.";
+        "To save your toddler's favorite recipes, please sign in or create an account.";
       router.push(
         `/sign-in-prompt?title=${encodeURIComponent(title)}&subtitle=${encodeURIComponent(subtitle)}`
       );
       return;
     }
 
-    try {
-      if (isSaved) {
-        await unsaveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
-      } else {
-        await saveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
-      }
-    } catch (error) {
-      console.error('Error toggling save status:', error);
+    if (isSaved) {
+      await unsaveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
+    } else {
+      await saveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
     }
   }, [
     recipeId,

@@ -43,7 +43,7 @@ export class AuthService {
 
       if (insertError) {
         // Log the error but don't throw - the auth user was created successfully
-        console.error('Error creating user profile:', insertError);
+        console.error('Error creating user profile:', insertError.message);
       }
     }
 
@@ -60,7 +60,7 @@ export class AuthService {
     });
 
     if (error) {
-      throw error;
+      console.error('Error signing in:', error.message);
     }
 
     return data;
@@ -73,7 +73,7 @@ export class AuthService {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      throw error;
+      console.error('Error signing out:', error.message);
     }
   }
 
@@ -84,7 +84,7 @@ export class AuthService {
     const { data, error } = await supabase.auth.getSession();
 
     if (error) {
-      throw error;
+      console.error('Error getting session:', error.message);
     }
 
     return data.session;
@@ -97,7 +97,7 @@ export class AuthService {
     const { data, error } = await supabase.auth.getUser();
 
     if (error) {
-      throw error;
+      console.error('Error getting current user:', error.message);
     }
 
     return data.user;

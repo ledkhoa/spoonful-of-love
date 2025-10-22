@@ -84,7 +84,7 @@ export default function Saved() {
         className='flex-1 px-4 screen-bg-color'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingTop: 24,
+          paddingTop: 16,
           paddingBottom: 24,
           flexGrow: 1, // Ensures empty state centers properly
         }}
