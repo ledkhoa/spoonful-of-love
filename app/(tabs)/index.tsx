@@ -265,11 +265,11 @@ export default function Index() {
 
   return (
     <SafeAreaView
-      className='flex-1 bg-primary-500 rounded-b-3xl'
+      className='flex-1 bg-primary-500'
       edges={['top', 'left', 'right']}
     >
       {/* Header */}
-      <View className='px-4 py-5 bg-primary-500 rounded-b-3xl'>
+      <View className='px-4 py-5 bg-primary-500'>
         {/* Search Bar */}
         <TouchableOpacity
           onPress={handleOpenSearchModal}
