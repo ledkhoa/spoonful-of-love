@@ -68,8 +68,8 @@ const DIETARY_FILTERS: DietaryFilter[] = [
 ];
 
 const STAGE_FILTERS: StageFilter[] = [
-  { id: 1, label: 'Stage 1', description: '4-6 months' },
-  { id: 2, label: 'Stage 2', description: '6-9 months' },
+  { id: 1, label: 'Stage 1', description: '6 months' },
+  { id: 2, label: 'Stage 2', description: '6-8 months' },
   { id: 3, label: 'Stage 3', description: '9-12 months' },
   { id: 4, label: 'Stage 4', description: '12+ months' },
 ];
