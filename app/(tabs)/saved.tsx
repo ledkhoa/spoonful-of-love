@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,10 +19,6 @@ import { useAuth } from '@/hooks/useAuth';
 export default function Saved() {
   const { isAuthenticated } = useAuth();
   const { data: savedRecipes = [], isLoading } = useGetSavedRecipes();
-
-  const handleBackPress = () => {
-    router.back();
-  };
 
   const renderRecipeItem = ({ item }: { item: RecipeCardItem }) => (
     <SavedCard recipe={item} />
@@ -70,26 +67,12 @@ export default function Saved() {
   );
 
   return (
-    <SafeAreaView
-      className='flex-1 bg-primary-500'
-      edges={['top', 'left', 'right']}
-    >
+    <SafeAreaView className='flex-1 bg-cream-50' edges={['top']}>
       {/* Header */}
-      <View className='flex-row items-center justify-between px-4 py-4 bg-primary-500'>
-        <TouchableOpacity
-          onPress={handleBackPress}
-          activeOpacity={0.7}
-          className='p-2'
-        >
-          <Ionicons name='arrow-back' size={24} color={colors.neutral[800]} />
-        </TouchableOpacity>
-
-        <Text className='text-lg font-semibold text-neutral-800'>
+      <View className='bg-primary-500 px-6 pt-6 pb-8 rounded-b-3xl'>
+        <Text className='text-3xl font-bold text-neutral-800 text-center'>
           Saved Recipes
         </Text>
-
-        {/* Empty view for spacing */}
-        <View className='w-10' />
       </View>
 
       {/* Recipe List */}
@@ -98,7 +81,7 @@ export default function Saved() {
         renderItem={renderRecipeItem}
         keyExtractor={(item) => `saved-${item.id}`}
         ListEmptyComponent={isLoading ? renderLoadingState : renderEmptyState}
-        className='flex-1 px-4 bg-cream-100'
+        className='flex-1 px-4'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingTop: 24,
