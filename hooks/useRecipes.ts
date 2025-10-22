@@ -17,8 +17,9 @@ import { useAuth } from './useAuth';
 export const recipeQueryKeys = {
   all: ['recipes'] as const,
   featured: ['recipes', 'featured'] as const,
+  saved: (userId: string) => [...recipeQueryKeys.all, 'saved', userId] as const,
   details: (id: string) => [...recipeQueryKeys.all, 'details', id] as const,
-  saved: (userId: string, recipeId: string) =>
+  savedStatus: (userId: string, recipeId: string) =>
     ['recipes', 'saved', userId, recipeId] as const,
 };
 
@@ -117,6 +118,28 @@ export const useGetFeaturedRecipes = () => {
 };
 
 /**
+ * Hook to fetch saved recipes for the current user
+ * @returns TanStack Query result with saved recipes data
+ */
+export const useGetSavedRecipes = () => {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: user?.id ? recipeQueryKeys.saved(user.id) : ['recipes', 'saved'],
+    queryFn: () => {
+      if (!user?.id) {
+        return [];
+      }
+      return RecipeService.getSavedRecipes(user.id);
+    },
+    enabled: !!user?.id, // Only fetch if user is authenticated
+    staleTime: FIVE_MINUTES,
+    gcTime: TEN_MINUTES,
+    retry: 2,
+  });
+};
+
+/**
  * Hook to save a recipe
  * @returns Mutation for saving a recipe
  */
@@ -166,6 +189,11 @@ export const useSaveRecipe = () => {
           return oldData;
         }
       );
+
+      // Invalidate saved recipes query to refetch the list
+      queryClient.invalidateQueries({
+        queryKey: recipeQueryKeys.saved(variables.userId),
+      });
     },
   });
 };
@@ -220,6 +248,11 @@ export const useUnsaveRecipe = () => {
           return oldData;
         }
       );
+
+      // Invalidate saved recipes query to refetch the list
+      queryClient.invalidateQueries({
+        queryKey: recipeQueryKeys.saved(variables.userId),
+      });
     },
   });
 };

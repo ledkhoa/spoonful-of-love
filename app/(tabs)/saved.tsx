@@ -1,14 +1,23 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import SavedCard from '@/components/SavedCard';
 import { colors } from '@/constants/colors';
 import { RecipeCardItem } from '@/models/Recipes';
+import { useGetSavedRecipes } from '@/hooks/useRecipes';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Saved() {
-  const savedRecipes: RecipeCardItem[] = [];
+  const { isAuthenticated } = useAuth();
+  const { data: savedRecipes = [], isLoading } = useGetSavedRecipes();
 
   const handleBackPress = () => {
     router.back();
@@ -18,15 +27,45 @@ export default function Saved() {
     <SavedCard recipe={item} />
   );
 
-  const renderEmptyState = () => (
-    <View className='flex-1 items-center justify-center mt-20'>
-      <Ionicons name='bookmark-outline' size={64} color={colors.primary[500]} />
-      <Text className='text-neutral-500 text-lg mt-4 text-center'>
-        No saved recipes yet
-      </Text>
-      <Text className='text-neutral-400 text-sm mt-2 text-center px-8'>
-        Save your toddler's favorite recipes to easily make them again!
-      </Text>
+  const renderEmptyState = () => {
+    if (!isAuthenticated) {
+      return (
+        <View className='flex-1 items-center justify-center mt-20'>
+          <Ionicons
+            name='bookmark-outline'
+            size={64}
+            color={colors.primary[500]}
+          />
+          <Text className='text-neutral-500 text-lg mt-4 text-center'>
+            Sign in to save recipes
+          </Text>
+          <Text className='text-neutral-400 text-sm mt-2 text-center px-8'>
+            Create an account to save your toddler's favorite recipes!
+          </Text>
+        </View>
+      );
+    }
+
+    return (
+      <View className='flex-1 items-center justify-center mt-20'>
+        <Ionicons
+          name='bookmark-outline'
+          size={64}
+          color={colors.primary[500]}
+        />
+        <Text className='text-neutral-500 text-lg mt-4 text-center'>
+          No saved recipes yet
+        </Text>
+        <Text className='text-neutral-400 text-sm mt-2 text-center px-8'>
+          Save your toddler's favorite recipes to easily make them again!
+        </Text>
+      </View>
+    );
+  };
+
+  const renderLoadingState = () => (
+    <View className='flex-1 items-center justify-center'>
+      <ActivityIndicator size='large' color={colors.primary[500]} />
     </View>
   );
 
@@ -58,7 +97,7 @@ export default function Saved() {
         data={savedRecipes}
         renderItem={renderRecipeItem}
         keyExtractor={(item) => `saved-${item.id}`}
-        ListEmptyComponent={renderEmptyState}
+        ListEmptyComponent={isLoading ? renderLoadingState : renderEmptyState}
         className='flex-1 px-4 bg-cream-100'
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{

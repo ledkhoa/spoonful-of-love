@@ -84,6 +84,26 @@ export class RecipeService {
   }
 
   /**
+   * Get saved recipes for a user
+   * @param userId - The user's ID
+   * @returns Promise<RecipeCardItem[]>
+   */
+  static async getSavedRecipes(userId: string): Promise<RecipeCardItem[]> {
+    console.log('Fetching saved recipes for user:', userId);
+
+    const { data, error } = await supabase.rpc('get_saved_recipes', {
+      user_uuid: userId,
+    });
+
+    if (error) {
+      console.error('Error fetching saved recipes:', error);
+      return [];
+    }
+
+    return (data as RecipeCardItem[]) || [];
+  }
+
+  /**
    * Save a recipe for the current user
    * @param userId - The user's ID
    * @param recipeId - The recipe's ID
