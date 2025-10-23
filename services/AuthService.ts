@@ -94,6 +94,8 @@ export class AuthService {
    * Get the current user
    */
   static async getCurrentUser() {
+    if (!(await this.isAuthenticated())) return null;
+
     const { data, error } = await supabase.auth.getUser();
 
     if (error) {
