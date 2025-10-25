@@ -90,13 +90,32 @@ export const useGetRecipeDetails = (recipeId: string) => {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: [...recipeQueryKeys.details(recipeId), user?.id],
-    queryFn: () => RecipeService.getRecipeById(recipeId, user?.id),
+    queryKey: recipeQueryKeys.details(recipeId),
+    queryFn: () => RecipeService.getRecipeDetails(recipeId, user?.id),
     enabled: !!recipeId, // Only run query if recipeId is provided
     staleTime: TEN_MINUTES,
     gcTime: FIFTEEN_MINUTES,
     retry: 2,
   });
+};
+
+/**
+ * Hook to prefetch recipe details
+ * Use this before navigation to preload recipe data
+ * @returns Function to prefetch recipe details by ID
+ */
+export const usePrefetchRecipeDetails = () => {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return async (recipeId: string) => {
+    await queryClient.prefetchQuery({
+      queryKey: recipeQueryKeys.details(recipeId),
+      queryFn: () => RecipeService.getRecipeDetails(recipeId, user?.id),
+      staleTime: TEN_MINUTES,
+      gcTime: FIFTEEN_MINUTES,
+    });
+  };
 };
 
 /**

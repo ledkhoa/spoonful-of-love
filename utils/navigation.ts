@@ -5,7 +5,7 @@ import { router } from 'expo-router';
  * @param recipeId - The ID of the recipe to view
  * @param onPress - Optional custom onPress handler that overrides default navigation
  */
-export const navigateToRecipeDetail = (
+export const navigateToRecipeDetails = async (
   recipeId: string,
   onPress?: () => void
 ) => {

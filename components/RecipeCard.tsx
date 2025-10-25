@@ -8,17 +8,29 @@ import { RecipeCardItem } from '@/models/Recipes';
 import { DietaryBadges } from './DietaryBadge';
 import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import SaveButton from '@/components/SaveButton';
-import { navigateToRecipeDetail } from '@/utils/navigation';
+import { navigateToRecipeDetails } from '@/utils/navigation';
+import { usePrefetchRecipeDetails } from '@/hooks/useRecipes';
 
 interface RecipeCardProps {
   recipe: RecipeCardItem;
 }
 
 const RecipeCard = ({ recipe }: RecipeCardProps) => {
+  const prefetchRecipeDetails = usePrefetchRecipeDetails();
+
+  const handlePressIn = () => {
+    prefetchRecipeDetails(recipe.id);
+  };
+
+  const handlePress = () => {
+    navigateToRecipeDetails(recipe.id);
+  };
+
   return (
     <TouchableOpacity
       className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-4 flex-1'
-      onPress={() => navigateToRecipeDetail(recipe.id)}
+      onPressIn={handlePressIn}
+      onPress={handlePress}
       activeOpacity={0.7}
     >
       {/* Premium Badge */}

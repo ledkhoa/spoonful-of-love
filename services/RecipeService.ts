@@ -3,11 +3,12 @@ import { Recipe, RecipeCardItem } from '../models/Recipes';
 import { RecipeFilters } from '../models/RecipeFilters';
 
 export class RecipeService {
-  static async getRecipeById(
+  static async getRecipeDetails(
     id: string,
     userId?: string
   ): Promise<Recipe | null> {
-    const { data, error } = await supabase.rpc('get_recipe_by_id', {
+    console.log('Fetching recipe details by ID:', id);
+    const { data, error } = await supabase.rpc('get_recipe_details', {
       recipe_uuid: id,
       user_uuid: userId || null,
     });
