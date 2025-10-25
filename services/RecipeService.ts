@@ -88,6 +88,7 @@ export class RecipeService {
    * @param userId - The user's ID
    * @returns Promise<RecipeCardItem[]>
    */
+  // TODO Implement infinite loading in function and tanstack
   static async getSavedRecipes(userId: string): Promise<RecipeCardItem[]> {
     console.log('Fetching saved recipes for user:', userId);
 
@@ -108,6 +109,7 @@ export class RecipeService {
    * @param userId - The user's ID
    * @param recipeId - The recipe's ID
    */
+  // TODO Move this to function
   static async saveRecipe(userId: string, recipeId: string): Promise<void> {
     const { error } = await supabase.from('saved_recipes').insert({
       user_id: userId,
@@ -116,6 +118,25 @@ export class RecipeService {
 
     if (error) {
       console.error('Error saving recipe:', error.message);
+      throw error;
+    }
+
+    // Increment the save_count in the recipes table
+    const { data: recipe } = await supabase
+      .from('recipes')
+      .select('save_count')
+      .eq('id', recipeId)
+      .single();
+
+    if (recipe) {
+      const { error: updateError } = await supabase
+        .from('recipes')
+        .update({ save_count: (recipe.save_count || 0) + 1 })
+        .eq('id', recipeId);
+
+      if (updateError) {
+        console.error('Error incrementing save count:', updateError.message);
+      }
     }
   }
 
@@ -124,6 +145,7 @@ export class RecipeService {
    * @param userId - The user's ID
    * @param recipeId - The recipe's ID
    */
+  // TODO Move this to function
   static async unsaveRecipe(userId: string, recipeId: string): Promise<void> {
     const { error } = await supabase
       .from('saved_recipes')
@@ -133,6 +155,25 @@ export class RecipeService {
 
     if (error) {
       console.error('Error unsaving recipe:', error.message);
+      throw error;
+    }
+
+    // Decrement the save_count in the recipes table
+    const { data: recipe } = await supabase
+      .from('recipes')
+      .select('save_count')
+      .eq('id', recipeId)
+      .single();
+
+    if (recipe) {
+      const { error: updateError } = await supabase
+        .from('recipes')
+        .update({ save_count: Math.max((recipe.save_count || 0) - 1, 0) })
+        .eq('id', recipeId);
+
+      if (updateError) {
+        console.error('Error decrementing save count:', updateError.message);
+      }
     }
   }
 }

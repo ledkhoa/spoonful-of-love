@@ -37,6 +37,10 @@ export type Recipe = {
   prepTimeMinutes: number | null;
   cookTimeMinutes: number | null;
   baseServingSize: number;
+  servingSizeImperial: number;
+  servingSizeUnitImperial: string;
+  servingSizeMetric: number;
+  servingSizeUnitMetric: string;
   difficultyLevel: 'easy' | 'medium';
   isVegan: boolean;
   isVegetarian: boolean;

@@ -192,8 +192,8 @@ export default function RecipeDetailScreen() {
 
           {recipe.baseServingSize != null && recipe.baseServingSize > 0 && (
             <QuickInfo
-              header='Serving Size'
-              value={`${recipe.baseServingSize} servings`}
+              header='Servings'
+              value={`${recipe.baseServingSize}${recipe.servingSizeImperial != null && recipe.servingSizeUnitImperial != null ? ` (${recipe.servingSizeImperial} ${recipe.servingSizeUnitImperial})` : ''}`}
             />
           )}
           {recipe.difficultyLevel != null &&
@@ -318,16 +318,15 @@ export default function RecipeDetailScreen() {
                         isChecked ? 'text-neutral-400' : 'text-neutral-800'
                       }`}
                     >
-                      {ingredient.quantityMetric} {ingredient.unitMetric}
+                      {ingredient.quantityImperial} {ingredient.unitImperial}
                     </Text>
-                    {ingredient.quantityImperial && ingredient.unitImperial && (
+                    {ingredient.quantityMetric && ingredient.unitMetric && (
                       <Text
                         className={`text-sm mt-1 ${
                           isChecked ? 'text-neutral-400' : 'text-neutral-500'
                         }`}
                       >
-                        ({ingredient.quantityImperial} {ingredient.unitImperial}
-                        )
+                        ({ingredient.quantityMetric} {ingredient.unitMetric})
                       </Text>
                     )}
                   </View>

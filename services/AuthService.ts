@@ -38,7 +38,6 @@ export class AuthService {
         id: data.user.id,
         first_name: firstName,
         last_name: lastName,
-        email: email,
       });
 
       if (insertError) {
