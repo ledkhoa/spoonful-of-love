@@ -4,8 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Alert,
   ActivityIndicator,
@@ -184,8 +182,9 @@ export default function AuthScreen() {
                     First Name
                   </Text>
                   <TextInput
-                    className='bg-white border border-neutral-200 rounded-xl px-4 py-3 text-base text-neutral-900'
+                    className='bg-white border border-neutral-200 rounded-xl px-4 py-3 text-base'
                     placeholder='Enter your first name'
+                    placeholderTextColor={colors.neutral[400]}
                     value={firstName}
                     onChangeText={setFirstName}
                     autoCapitalize='words'
@@ -198,8 +197,9 @@ export default function AuthScreen() {
                     Last Name
                   </Text>
                   <TextInput
-                    className='bg-white border border-neutral-200 rounded-xl px-4 py-3 text-base text-neutral-900'
+                    className='bg-white border border-neutral-200 rounded-xl px-4 py-3 text-base'
                     placeholder='Enter your last name'
+                    placeholderTextColor={colors.neutral[400]}
                     value={lastName}
                     onChangeText={setLastName}
                     autoCapitalize='words'
@@ -215,8 +215,9 @@ export default function AuthScreen() {
                 Email
               </Text>
               <TextInput
-                className='bg-white border border-neutral-200 rounded-xl px-4 py-3 text-base text-neutral-900'
+                className='bg-white border border-neutral-200 rounded-xl px-4 py-3 text-base'
                 placeholder='Enter your email'
+                placeholderTextColor={colors.neutral[400]}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType='email-address'
@@ -233,8 +234,9 @@ export default function AuthScreen() {
               </Text>
               <View className='relative'>
                 <TextInput
-                  className='bg-white border border-neutral-200 rounded-xl px-4 py-3 pr-12 text-base text-neutral-900'
+                  className='bg-white border border-neutral-200 rounded-xl px-4 py-3 pr-12 text-base'
                   placeholder='Enter your password'
+                  placeholderTextColor={colors.neutral[400]}
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
@@ -264,8 +266,9 @@ export default function AuthScreen() {
                 </Text>
                 <View className='relative'>
                   <TextInput
-                    className='bg-white border border-neutral-200 rounded-xl px-4 py-3 pr-12 text-base text-neutral-900'
+                    className='bg-white border border-neutral-200 rounded-xl px-4 py-3 pr-12 text-base'
                     placeholder='Confirm your password'
+                    placeholderTextColor={colors.neutral[400]}
                     value={confirmPassword}
                     onChangeText={setConfirmPassword}
                     secureTextEntry={!showConfirmPassword}
