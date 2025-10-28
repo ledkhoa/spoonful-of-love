@@ -39,7 +39,7 @@ const DIETARY_FILTER_LABELS: Record<string, string> = {
 
 const STAGE_LABELS: Record<string, string> = {
   '1': 'Stage 1 (4-6 months)',
-  '2': 'Stage 2 (6-9 months)',
+  '2': 'Stage 2 (6-8 months)',
   '3': 'Stage 3 (9-12 months)',
   '4': 'Stage 4 (12+ months)',
 };
