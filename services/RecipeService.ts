@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { Recipe, RecipeCardItem } from '../models/Recipes';
+import { Recipe, RecipeCardItem, RecipeReview } from '@/models/Recipes';
 import { RecipeFilters } from '../models/RecipeFilters';
 
 export class RecipeService {
@@ -82,6 +82,19 @@ export class RecipeService {
     }
 
     return (data as RecipeCardItem[]) || [];
+  }
+
+  static async getRecipeReviews(recipeId: string): Promise<RecipeReview[]> {
+    const { data, error } = await supabase.rpc('get_reviews_by_recipe', {
+      recipe_uuid: recipeId,
+    });
+
+    if (error) {
+      console.error('Error fetching recipe reviews:', error.message);
+      return [];
+    }
+
+    return (data as RecipeReview[]) || [];
   }
 
   /**
@@ -176,5 +189,48 @@ export class RecipeService {
         console.error('Error decrementing save count:', updateError.message);
       }
     }
+  }
+
+  /**
+   * Save or update a review for a recipe by a user
+   * If a review by the same user for the same recipe exists, it will be updated
+   * @returns the inserted/updated review row
+   */
+  static async saveReview({
+    userId,
+    recipeId,
+    rating,
+    reviewText,
+    images,
+    wouldMakeAgain,
+  }: {
+    userId: string;
+    recipeId: string;
+    rating: number;
+    reviewText?: string | null;
+    images?: string[] | null;
+    wouldMakeAgain?: boolean | null;
+  }): Promise<RecipeReview | null> {
+    const payload = {
+      user_id: userId,
+      recipe_id: recipeId,
+      rating,
+      review_text: reviewText,
+      review_images: images,
+      would_make_again: wouldMakeAgain,
+    };
+
+    const { data, error } = await supabase
+      .from('recipe_reviews')
+      .upsert(payload, { onConflict: 'user_id,recipe_id' })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error saving review:', error.message);
+      throw error;
+    }
+
+    return (data as unknown as RecipeReview) || null;
   }
 }
