@@ -5,7 +5,7 @@ import RecipeImagePlaceholder from '@/components/RecipeImagePlaceholder';
 import RecipeNotFound from '@/components/RecipeNotFound';
 import SaveButton from '@/components/SaveButton';
 import { colors } from '@/constants/colors';
-import { useGetRecipeDetails } from '@/hooks/useRecipes';
+import { useGetRecipeDetails, useGetRecipeReviews } from '@/hooks/useRecipes';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -18,6 +18,7 @@ export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const { data: recipe, isLoading, error } = useGetRecipeDetails(id);
+  const { data: reviews } = useGetRecipeReviews(id);
 
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(
     new Set()
