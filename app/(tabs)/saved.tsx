@@ -29,7 +29,7 @@ export default function Saved() {
       return (
         <View className='flex-1 items-center justify-center mt-20'>
           <Ionicons
-            name='bookmark-outline'
+            name='heart-outline'
             size={64}
             color={colors.primary[500]}
           />
@@ -45,11 +45,7 @@ export default function Saved() {
 
     return (
       <View className='flex-1 items-center justify-center mt-20'>
-        <Ionicons
-          name='bookmark-outline'
-          size={64}
-          color={colors.primary[500]}
-        />
+        <Ionicons name='heart-outline' size={64} color={colors.primary[500]} />
         <Text className='text-neutral-500 text-lg mt-4 text-center'>
           No saved recipes yet
         </Text>

@@ -53,8 +53,12 @@ export default function TabLayout() {
         options={{
           title: 'Saved',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='bookmark-outline' size={size} color={color} />
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? 'heart' : 'heart-outline'}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
