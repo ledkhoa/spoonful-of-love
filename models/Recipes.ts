@@ -90,3 +90,15 @@ export type RecipeCardItem = {
   isPremium: boolean;
   isFreezerFriendly: boolean;
 };
+
+export type RecipeReview = {
+  id: string;
+  userId: string;
+  firstName: string | null;
+  lastName: string | null;
+  rating: number;
+  text: string | null;
+  wouldMakeAgain: boolean;
+  images: string[] | null;
+  createdAt: string;
+};

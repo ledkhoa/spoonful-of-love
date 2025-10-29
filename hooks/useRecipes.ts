@@ -119,6 +119,20 @@ export const usePrefetchRecipeDetails = () => {
 };
 
 /**
+ * Hook to fetch reviews by recipe by ID
+ * @param recipeId - The recipe UUID
+ * @returns TanStack Query result with recipe data
+ */
+export const useGetRecipeReviews = (recipeId: string) => {
+  return useQuery({
+    queryKey: [...recipeQueryKeys.details(recipeId), 'reviews'],
+    queryFn: () => RecipeService.getRecipeReviews(recipeId),
+    staleTime: FIFTEEN_MINUTES,
+    gcTime: FIFTEEN_MINUTES,
+  });
+};
+
+/**
  * Hook to fetch featured recipes
  * @returns TanStack Query result with featured recipes data
  */
@@ -271,6 +285,42 @@ export const useUnsaveRecipe = () => {
       // Invalidate saved recipes query to refetch the list
       queryClient.invalidateQueries({
         queryKey: recipeQueryKeys.saved(variables.userId),
+      });
+    },
+  });
+};
+
+/**
+ * Hook to save or update a recipe review
+ */
+export const useSaveReview = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: {
+      recipeId: string;
+      userId: string;
+      rating: number;
+      reviewText?: string | null;
+      images?: string[] | null;
+      wouldMakeAgain?: boolean | null;
+    }) => {
+      return RecipeService.saveReview({
+        recipeId: payload.recipeId,
+        userId: payload.userId,
+        rating: payload.rating,
+        reviewText: payload.reviewText,
+        images: payload.images,
+        wouldMakeAgain: payload.wouldMakeAgain,
+      });
+    },
+    onSuccess: (_data, variables) => {
+      // Invalidate recipe details and reviews so UI refreshes
+      // queryClient.invalidateQueries({
+      //   queryKey: recipeQueryKeys.details(variables.recipeId),
+      // });
+      queryClient.invalidateQueries({
+        queryKey: [...recipeQueryKeys.details(variables.recipeId), 'reviews'],
       });
     },
   });
