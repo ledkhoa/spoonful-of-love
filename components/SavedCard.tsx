@@ -29,6 +29,7 @@ export default function SavedCard({ recipe }: SavedCardProps) {
   return (
     <TouchableOpacity
       className='flex-row bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-3'
+      // className='flex-row mb-2'
       onPressIn={handlePressIn}
       onPress={handlePress}
       activeOpacity={0.7}

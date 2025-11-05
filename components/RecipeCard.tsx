@@ -28,7 +28,8 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
 
   return (
     <TouchableOpacity
-      className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 mb-4 flex-1'
+      className='bg-cream-50 rounded-xl shadow-sm shadow-neutral-400/30 flex-1'
+      // className='flex-1'
       onPressIn={handlePressIn}
       onPress={handlePress}
       activeOpacity={0.7}
