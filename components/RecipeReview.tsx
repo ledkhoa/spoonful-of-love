@@ -57,7 +57,7 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
         <View className='flex-row items-center justify-between mb-3'>
           <Text className='text-xl font-bold text-neutral-900'>Reviews</Text>
         </View>
-        <View className='bg-cream-50 rounded-xl p-6'>
+        <View className='p-6'>
           <Text className='text-neutral-600 text-center text-base mb-3'>
             No reviews yet. Be the first to review this recipe!
           </Text>
@@ -90,83 +90,104 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
           <Text className='text-cream-50 font-semibold ml-1'>Review</Text>
         </TouchableOpacity>
       </View>
-      {reviews.map((review) => (
-        <View
-          key={review.id}
-          className='screen-bg-color rounded-xl p-4 mb-4 border border-neutral-200'
-        >
-          {/* Reviewer Info and Rating */}
-          <View className='flex-row items-center justify-between mb-3'>
-            <View className='flex-row items-center flex-1'>
-              <View className='bg-primary-500 rounded-full w-10 h-10 items-center justify-center mr-3'>
-                <Text className='text-cream-50 font-bold text-base'>
-                  {review.firstName
-                    ? review.firstName.charAt(0).toUpperCase()
-                    : 'U'}
-                </Text>
+      {reviews.map((review) => {
+        const isCurrentUserReview = user?.id === review.userId;
+
+        return (
+          <View
+            key={review.id}
+            className={`rounded-xl p-4 mb-4 border ${
+              isCurrentUserReview
+                ? 'border-primary-300 bg-primary-50'
+                : 'border-neutral-200'
+            }`}
+          >
+            {/* Reviewer Info and Rating */}
+            <View className='flex-row items-center justify-between mb-3'>
+              <View className='flex-row items-center flex-1'>
+                <View
+                  className={`rounded-full w-10 h-10 items-center justify-center mr-3 ${
+                    isCurrentUserReview ? 'bg-primary-600' : 'bg-primary-500'
+                  }`}
+                >
+                  <Text className='text-cream-50 font-bold text-base'>
+                    {review.firstName
+                      ? review.firstName.charAt(0).toUpperCase()
+                      : 'U'}
+                  </Text>
+                </View>
+                <View className='flex-1'>
+                  <View className='flex-row items-center gap-2'>
+                    <Text className='text-base font-semibold text-neutral-900'>
+                      {review.firstName && review.lastName
+                        ? `${review.firstName} ${review.lastName.charAt(0)}.`
+                        : review.firstName || 'Anonymous'}
+                    </Text>
+                    {isCurrentUserReview && (
+                      <View className='bg-primary-500 px-2 py-0.5 rounded-full'>
+                        <Text className='text-cream-50 text-xs font-semibold'>
+                          You
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <Text className='text-xs text-neutral-500'>
+                    {new Date(review.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </Text>
+                </View>
               </View>
-              <View className='flex-1'>
-                <Text className='text-base font-semibold text-neutral-900'>
-                  {review.firstName && review.lastName
-                    ? `${review.firstName} ${review.lastName.charAt(0)}.`
-                    : review.firstName || 'Anonymous'}
-                </Text>
-                <Text className='text-xs text-neutral-500'>
-                  {new Date(review.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  })}
+              <View className='flex-row items-center'>
+                <Ionicons name='star' size={16} color={colors.sunshine[500]} />
+                <Text className='text-base font-semibold text-neutral-900 ml-1'>
+                  {review.rating.toFixed(1)}
                 </Text>
               </View>
             </View>
-            <View className='flex-row items-center'>
-              <Ionicons name='star' size={16} color={colors.sunshine[500]} />
-              <Text className='text-base font-semibold text-neutral-900 ml-1'>
-                {review.rating.toFixed(1)}
+
+            {/* Would Make Again Badge */}
+            {review.wouldMakeAgain && (
+              <View className='flex-row items-center mb-3'>
+                <View className='bg-accent-100 px-3 py-1.5 rounded-full flex-row items-center'>
+                  <Ionicons name='heart' size={14} color={colors.accent[500]} />
+                  <Text className='text-accent-500 text-xs font-semibold ml-1'>
+                    Would make again
+                  </Text>
+                </View>
+              </View>
+            )}
+
+            {/* Review Text */}
+            {review.text && (
+              <Text className='text-base text-neutral-700 leading-6 mb-3'>
+                {review.text}
               </Text>
-            </View>
+            )}
+
+            {/* Review Images */}
+            {review.images && review.images.length > 0 && (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className='mt-2'
+                contentContainerStyle={{ gap: 8 }}
+              >
+                {review.images.map((imageUrl, index) => (
+                  <Image
+                    key={`${review.id}-image-${index}`}
+                    source={{ uri: imageUrl }}
+                    className='w-24 h-24 rounded-lg'
+                    resizeMode='cover'
+                  />
+                ))}
+              </ScrollView>
+            )}
           </View>
-
-          {/* Would Make Again Badge */}
-          {review.wouldMakeAgain && (
-            <View className='flex-row items-center mb-3'>
-              <View className='bg-accent-100 px-3 py-1.5 rounded-full flex-row items-center'>
-                <Ionicons name='heart' size={14} color={colors.accent[500]} />
-                <Text className='text-accent-500 text-xs font-semibold ml-1'>
-                  Would make again
-                </Text>
-              </View>
-            </View>
-          )}
-
-          {/* Review Text */}
-          {review.text && (
-            <Text className='text-base text-neutral-700 leading-6 mb-3'>
-              {review.text}
-            </Text>
-          )}
-
-          {/* Review Images */}
-          {review.images && review.images.length > 0 && (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              className='mt-2'
-              contentContainerStyle={{ gap: 8 }}
-            >
-              {review.images.map((imageUrl, index) => (
-                <Image
-                  key={`${review.id}-image-${index}`}
-                  source={{ uri: imageUrl }}
-                  className='w-24 h-24 rounded-lg'
-                  resizeMode='cover'
-                />
-              ))}
-            </ScrollView>
-          )}
-        </View>
-      ))}
+        );
+      })}
     </View>
   );
 }
