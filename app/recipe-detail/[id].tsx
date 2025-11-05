@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import RatingsOverview from '@/components/RatingsOverview';
 
 export default function RecipeDetailScreen() {
   const router = useRouter();
@@ -514,6 +515,7 @@ export default function RecipeDetailScreen() {
           </View>
 
           {/* Reviews Section */}
+          <RatingsOverview recipeId={id} />
           <RecipeReview recipeId={id} />
         </View>
       </ScrollView>

@@ -78,29 +78,24 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
   return (
     <View className='mb-6'>
       <View className='flex-row items-center justify-between mb-3'>
-        <Text className='text-xl font-bold text-neutral-900'>
-          Reviews ({reviews.length})
-        </Text>
+        <Text className='text-xl font-bold text-neutral-900'>Reviews</Text>
         <TouchableOpacity
           onPress={handleWriteReview}
           className='bg-primary-500 px-4 py-2 rounded-full flex-row items-center'
           activeOpacity={0.7}
         >
-          <Ionicons name='add' size={18} color={colors.cream[50]} />
-          <Text className='text-cream-50 font-semibold ml-1'>Review</Text>
+          <Text className='text-cream-50 font-semibold ml-1'>Write Review</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Reviews List */}
       {reviews.map((review) => {
         const isCurrentUserReview = user?.id === review.userId;
 
         return (
           <View
             key={review.id}
-            className={`rounded-xl p-4 mb-4 border ${
-              isCurrentUserReview
-                ? 'border-primary-300 bg-primary-50'
-                : 'border-neutral-200'
-            }`}
+            className='rounded-xl p-4 mb-4 border-b border-primary-200'
           >
             {/* Reviewer Info and Rating */}
             <View className='flex-row items-center justify-between mb-3'>
