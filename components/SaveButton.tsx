@@ -65,7 +65,7 @@ const SaveButton = ({
       activeOpacity={0.7}
     >
       <Ionicons
-        name={isSaved ? 'heart' : 'heart-outline'}
+        name={isSaved ? 'bookmark' : 'bookmark-outline'}
         size={iconSize}
         color={iconColor}
       />

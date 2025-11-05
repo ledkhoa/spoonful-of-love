@@ -55,7 +55,7 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? 'heart' : 'heart-outline'}
+              name={focused ? 'bookmark' : 'bookmark-outline'}
               size={size}
               color={color}
             />
