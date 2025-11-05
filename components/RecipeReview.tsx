@@ -21,7 +21,8 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
         pathname: '/sign-in-prompt',
         params: {
           title: 'Sign in to Review',
-          subtitle: 'Create an account or sign in to share your review.',
+          subtitle:
+            'Create an account or sign in to share how your little one liked this recipe.',
         },
       });
       return;
@@ -55,11 +56,14 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
     return (
       <View className='mb-6'>
         <View className='flex-row items-center justify-between mb-3'>
-          <Text className='text-xl font-bold text-neutral-900'>Reviews</Text>
+          <Text className='text-xl font-bold text-neutral-900'>
+            Parent Reviews
+          </Text>
         </View>
         <View className='p-6'>
           <Text className='text-neutral-600 text-center text-base mb-3'>
-            No reviews yet. Be the first to review this recipe!
+            No reviews yet. Be the first to share how your toddler liked this
+            recipe!
           </Text>
           <TouchableOpacity
             onPress={handleWriteReview}
@@ -67,7 +71,7 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
             className='bg-primary-500 p-4 rounded-full'
           >
             <Text className='text-cream-50 text-center text-base font-semibold'>
-              Write a review
+              Share Your Experience
             </Text>
           </TouchableOpacity>
         </View>
@@ -78,13 +82,15 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
   return (
     <View className='mb-6'>
       <View className='flex-row items-center justify-between mb-3'>
-        <Text className='text-xl font-bold text-neutral-900'>Reviews</Text>
+        <Text className='text-xl font-bold text-neutral-900'>
+          Parent Reviews
+        </Text>
         <TouchableOpacity
           onPress={handleWriteReview}
           className='bg-primary-500 px-4 py-2 rounded-full flex-row items-center'
           activeOpacity={0.7}
         >
-          <Text className='text-cream-50 font-semibold ml-1'>Write Review</Text>
+          <Text className='text-cream-50 font-semibold ml-1'>Share</Text>
         </TouchableOpacity>
       </View>
 
@@ -149,7 +155,7 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
                 <View className='bg-accent-100 px-3 py-1.5 rounded-full flex-row items-center'>
                   <Ionicons name='heart' size={14} color={colors.accent[500]} />
                   <Text className='text-accent-500 text-xs font-semibold ml-1'>
-                    Would make again
+                    Would make for them again
                   </Text>
                 </View>
               </View>

@@ -20,9 +20,8 @@ export default function RootLayout() {
           <Stack.Screen
             name='review-modal'
             options={{
-              presentation: 'transparentModal',
-              animation: 'fade',
-              contentStyle: { backgroundColor: 'transparent' },
+              presentation: 'modal',
+              animation: 'slide_from_bottom',
             }}
           />
           <Stack.Screen
