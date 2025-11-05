@@ -31,8 +31,6 @@ const SaveButton = ({
   }, [size]);
 
   const handlePress = useCallback(async () => {
-    console.log('Save pressed:', recipeId);
-
     if (!isAuthenticated || !user) {
       const title = 'Sign in to Save';
       const subtitle =

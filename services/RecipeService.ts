@@ -84,19 +84,6 @@ export class RecipeService {
     return (data as RecipeCardItem[]) || [];
   }
 
-  static async getRecipeReviews(recipeId: string): Promise<RecipeReview[]> {
-    const { data, error } = await supabase.rpc('get_reviews_by_recipe', {
-      recipe_uuid: recipeId,
-    });
-
-    if (error) {
-      console.error('Error fetching recipe reviews:', error.message);
-      return [];
-    }
-
-    return (data as RecipeReview[]) || [];
-  }
-
   /**
    * Get saved recipes for a user
    * @param userId - The user's ID
@@ -189,6 +176,23 @@ export class RecipeService {
         console.error('Error decrementing save count:', updateError.message);
       }
     }
+  }
+
+  /**
+   * Get reviews for a recipe
+   * @returns Promise<RecipeReview[]>
+   */
+  static async getRecipeReviews(recipeId: string): Promise<RecipeReview[]> {
+    const { data, error } = await supabase.rpc('get_reviews_by_recipe', {
+      recipe_uuid: recipeId,
+    });
+
+    if (error) {
+      console.error('Error fetching recipe reviews:', error.message);
+      return [];
+    }
+
+    return (data as RecipeReview[]) || [];
   }
 
   /**

@@ -1,17 +1,9 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Animated,
-  Dimensions,
-  PanResponder,
-} from 'react-native';
+import React, { useCallback } from 'react';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
-
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+import { useBottomSheetModal } from '@/hooks/useBottomSheetModal';
 
 export default function SignInPromptModal() {
   const router = useRouter();
@@ -19,59 +11,8 @@ export default function SignInPromptModal() {
     title: string;
     subtitle: string;
   }>();
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
-
-  const handleClose = useCallback(() => {
-    // Fade out backdrop and slide down content before closing
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: SCREEN_HEIGHT,
-        duration: 250,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      router.back();
-    });
-  }, [fadeAnim, slideAnim, router]);
-
-  // Create pan responder for swipe down gesture
-  const panResponder = useMemo(
-    () =>
-      PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onMoveShouldSetPanResponder: (_, gestureState) => {
-          // Only respond to downward swipes
-          return gestureState.dy > 5;
-        },
-        onPanResponderMove: (_, gestureState) => {
-          // Only allow downward movement
-          if (gestureState.dy > 0) {
-            slideAnim.setValue(gestureState.dy);
-          }
-        },
-        onPanResponderRelease: (_, gestureState) => {
-          // If swiped down more than 100px, close the modal
-          if (gestureState.dy > 100) {
-            handleClose();
-          } else {
-            // Otherwise, snap back to original position
-            Animated.spring(slideAnim, {
-              toValue: 0,
-              useNativeDriver: true,
-              tension: 65,
-              friction: 11,
-            }).start();
-          }
-        },
-      }),
-    [slideAnim, handleClose]
-  );
+  const { fadeAnim, slideAnim, panHandlers, handleClose } =
+    useBottomSheetModal();
 
   const handleSignIn = useCallback(() => {
     router.push('/auth?mode=signin');
@@ -80,22 +21,6 @@ export default function SignInPromptModal() {
   const handleSignUp = useCallback(() => {
     router.push('/auth?mode=signup');
   }, [router]);
-
-  useEffect(() => {
-    // Fade in backdrop and slide up content simultaneously
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [fadeAnim, slideAnim]);
 
   return (
     <View className='flex-1 justify-end'>
@@ -119,7 +44,7 @@ export default function SignInPromptModal() {
         style={{
           transform: [{ translateY: slideAnim }],
         }}
-        {...panResponder.panHandlers}
+        {...panHandlers}
       >
         {/* Handle Bar */}
         <View className='items-center pt-3 pb-2'>
