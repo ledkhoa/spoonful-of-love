@@ -29,6 +29,7 @@ const FeaturedRecipeCard = ({ recipe }: FeaturedRecipeCardProps) => {
   return (
     <TouchableOpacity
       className='bg-cream-50 rounded-2xl shadow-sm shadow-neutral-400/30 mb-4 pb-4'
+      // className='mb-4 pb-4'
       onPressIn={handlePressIn}
       onPress={handlePress}
       activeOpacity={0.7}

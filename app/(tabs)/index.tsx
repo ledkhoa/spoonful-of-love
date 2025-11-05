@@ -346,8 +346,9 @@ export default function Index() {
         }}
         columnWrapperStyle={{
           justifyContent: 'space-between',
-          gap: 6,
+          gap: 8,
           paddingHorizontal: 16,
+          marginBottom: 8,
         }}
         ListHeaderComponent={renderListHeader}
         ListEmptyComponent={renderListEmpty}
