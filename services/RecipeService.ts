@@ -1,5 +1,10 @@
 import { supabase } from '@/lib/supabase';
-import { Recipe, RecipeCardItem, RecipeReview } from '@/models/Recipes';
+import {
+  Recipe,
+  RecipeCardItem,
+  RecipeReview,
+  RecipeRatingsBreakdown,
+} from '@/models/Recipes';
 import { RecipeFilters } from '../models/RecipeFilters';
 
 export class RecipeService {
@@ -179,23 +184,6 @@ export class RecipeService {
   }
 
   /**
-   * Get reviews for a recipe
-   * @returns Promise<RecipeReview[]>
-   */
-  static async getRecipeReviews(recipeId: string): Promise<RecipeReview[]> {
-    const { data, error } = await supabase.rpc('get_reviews_by_recipe', {
-      recipe_uuid: recipeId,
-    });
-
-    if (error) {
-      console.error('Error fetching recipe reviews:', error.message);
-      return [];
-    }
-
-    return (data as RecipeReview[]) || [];
-  }
-
-  /**
    * Save or update a review for a recipe by a user
    * If a review by the same user for the same recipe exists, it will be updated
    * @returns the inserted/updated review row
@@ -235,6 +223,49 @@ export class RecipeService {
       throw error;
     }
 
-    return (data as unknown as RecipeReview) || null;
+    return (data as RecipeReview) || null;
+  }
+
+  /**
+   * Get reviews for a recipe
+   * @returns Promise<RecipeReview[]>
+   */
+  static async getRecipeReviews(recipeId: string): Promise<RecipeReview[]> {
+    const { data, error } = await supabase.rpc('get_reviews_by_recipe', {
+      recipe_uuid: recipeId,
+    });
+
+    if (error) {
+      console.error('Error fetching recipe reviews:', error.message);
+      return [];
+    }
+
+    return (data as RecipeReview[]) || [];
+  }
+
+  /**
+   * Get ratings breakdown for a recipe
+   * @param recipeId - The recipe UUID
+   * @returns Promise<RecipeRatingsBreakdown>
+   */
+  static async getRecipeRatingsBreakdown(
+    recipeId: string
+  ): Promise<RecipeRatingsBreakdown> {
+    const { data, error } = await supabase.rpc('get_recipe_ratings_breakdown', {
+      recipe_uuid: recipeId,
+    });
+
+    if (error) {
+      console.error('Error fetching recipe ratings breakdown:', error.message);
+      return {
+        totalRatings: 0,
+        averageRating: 0,
+        ratingCounts: { '5': 0, '4': 0, '3': 0, '2': 0, '1': 0 },
+      };
+    }
+
+    // The function returns a single row, so we need to get the first element
+    const result = Array.isArray(data) ? data[0] : data;
+    return result as RecipeRatingsBreakdown;
   }
 }

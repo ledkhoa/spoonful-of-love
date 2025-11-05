@@ -133,6 +133,20 @@ export const useGetRecipeReviews = (recipeId: string) => {
 };
 
 /**
+ * Hook to fetch ratings breakdown for a recipe
+ * @param recipeId - The recipe UUID
+ * @returns TanStack Query result with ratings breakdown data
+ */
+export const useGetRecipeRatingsBreakdown = (recipeId: string) => {
+  return useQuery({
+    queryKey: [...recipeQueryKeys.details(recipeId), 'ratings-breakdown'],
+    queryFn: () => RecipeService.getRecipeRatingsBreakdown(recipeId),
+    staleTime: FIFTEEN_MINUTES,
+    gcTime: FIFTEEN_MINUTES,
+  });
+};
+
+/**
  * Hook to fetch featured recipes
  * @returns TanStack Query result with featured recipes data
  */
@@ -321,6 +335,12 @@ export const useSaveReview = () => {
       // });
       queryClient.invalidateQueries({
         queryKey: [...recipeQueryKeys.details(variables.recipeId), 'reviews'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          ...recipeQueryKeys.details(variables.recipeId),
+          'ratings-breakdown',
+        ],
       });
     },
   });
