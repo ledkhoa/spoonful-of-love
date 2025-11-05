@@ -18,6 +18,14 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name='review-modal'
+            options={{
+              presentation: 'transparentModal',
+              animation: 'fade',
+              contentStyle: { backgroundColor: 'transparent' },
+            }}
+          />
+          <Stack.Screen
             name='sign-in-prompt'
             options={{
               presentation: 'transparentModal',
