@@ -1,17 +1,18 @@
+import { Config } from '@/constants/environment-config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'http://localhost:54321';
-const supabasePublishableKey = 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH';
+console.log(Config.SUPABASE_URL, Config.SUPABASE_PUBLISHABLE_KEY);
 
-// const supabaseUrl = 'https://icbsxipnzmxxolkrtdmn.supabase.co';
-// const supabasePublishableKey = 'sb_publishable_jHEhiZ6yyeQmQaFwLrDN2w_bqQ3pu-s';
-
-export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
-  auth: {
-    storage: AsyncStorage,
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
-  },
-});
+export const supabase = createClient(
+  Config.SUPABASE_URL,
+  Config.SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth: {
+      storage: AsyncStorage,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
+    },
+  }
+);
