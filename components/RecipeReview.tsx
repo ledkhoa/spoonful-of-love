@@ -5,6 +5,7 @@ import { colors } from '@/constants/colors';
 import LoadingIndicator from './LoadingIndicator';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
+import * as Haptics from 'expo-haptics';
 
 interface RecipeReviewProps {
   recipeId: string;
@@ -15,7 +16,9 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
   const { user } = useAuth();
   const { data: reviews, isLoading, error } = useGetRecipeReviews(recipeId);
 
-  const handleWriteReview = () => {
+  const handleWriteReview = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
     if (!user) {
       router.push({
         pathname: '/sign-in-prompt',

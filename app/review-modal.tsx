@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { useGetRecipeDetails, useSaveReview } from '@/hooks/useRecipes';
 import { useAuth } from '@/hooks/useAuth';
+import * as Haptics from 'expo-haptics';
 
 export default function ReviewModal() {
   const { recipeId } = useLocalSearchParams<{ recipeId: string }>();
@@ -30,6 +31,8 @@ export default function ReviewModal() {
   const [wouldMakeAgain, setWouldMakeAgain] = useState<boolean | null>(null);
 
   const handleSubmit = useCallback(async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
     // Validation
     if (rating === 0) {
       Alert.alert('Rating Required', 'Please select a star rating');
