@@ -32,7 +32,7 @@ const SaveButton = ({
   }, [size]);
 
   const handlePress = useCallback(async () => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
 
     if (!isAuthenticated || !user) {
       const title = 'Sign in to Save';

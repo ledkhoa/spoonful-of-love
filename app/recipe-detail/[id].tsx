@@ -14,6 +14,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import RatingsOverview from '@/components/RatingsOverview';
+import * as Haptics from 'expo-haptics';
 
 export default function RecipeDetailScreen() {
   const router = useRouter();
@@ -31,7 +32,13 @@ export default function RecipeDetailScreen() {
     new Set()
   );
 
-  const toggleIngredient = (ingredientId: string) => {
+  async function toggleFeedback() {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  }
+
+  const toggleIngredient = async (ingredientId: string) => {
+    await toggleFeedback();
+
     setCheckedIngredients((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(ingredientId)) {
@@ -43,7 +50,9 @@ export default function RecipeDetailScreen() {
     });
   };
 
-  const toggleEquipment = (equipmentId: string) => {
+  const toggleEquipment = async (equipmentId: string) => {
+    await toggleFeedback();
+
     setCheckedEquipment((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(equipmentId)) {
@@ -55,7 +64,9 @@ export default function RecipeDetailScreen() {
     });
   };
 
-  const toggleInstruction = (instructionId: string) => {
+  const toggleInstruction = async (instructionId: string) => {
+    await toggleFeedback();
+
     setCheckedInstructions((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(instructionId)) {
