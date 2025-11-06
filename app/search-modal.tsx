@@ -12,6 +12,7 @@ import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { useSearchParamsStore } from '@/stores/searchParamsStore';
 import { PLACEHOLDER_INPUT_TEXT } from '@/constants/placeholder';
+import * as Haptics from 'expo-haptics';
 
 type IconFamily = 'Ionicons' | 'MaterialCommunityIcons';
 
@@ -126,7 +127,7 @@ export default function SearchModal() {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const queryParams = new URLSearchParams();
 
     if (searchQuery.trim()) {
@@ -145,6 +146,8 @@ export default function SearchModal() {
 
     const queryString = queryParams.toString();
     const path = queryString ? `/(tabs)?${queryString}` : '/(tabs)';
+
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
     router.replace(path as any);
   };

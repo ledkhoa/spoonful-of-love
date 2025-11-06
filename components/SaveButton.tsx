@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 import { colors } from '@/constants/colors';
 import { useAuth } from '@/hooks/useAuth';
 import { useSaveRecipe, useUnsaveRecipe } from '@/hooks/useRecipes';
@@ -31,6 +32,8 @@ const SaveButton = ({
   }, [size]);
 
   const handlePress = useCallback(async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
     if (!isAuthenticated || !user) {
       const title = 'Sign in to Save';
       const subtitle =
@@ -41,10 +44,25 @@ const SaveButton = ({
       return;
     }
 
-    if (isSaved) {
-      await unsaveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
-    } else {
-      await saveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
+    try {
+      if (isSaved) {
+        await unsaveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
+      } else {
+        await saveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
+      }
+      // Success haptic after mutation completes
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(
+        () => {
+          // Silently fail if haptics not available
+        }
+      );
+    } catch (error) {
+      // Error haptic on failure
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(
+        () => {
+          // Silently fail if haptics not available
+        }
+      );
     }
   }, [
     recipeId,
