@@ -23,6 +23,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSearchParamsStore, SearchParams } from '@/stores/searchParamsStore';
 import { RecipeFilters } from '@/models/RecipeFilters';
 import { PLACEHOLDER_INPUT_TEXT } from '@/constants/placeholder';
+import * as Haptics from 'expo-haptics';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const FEATURED_CARD_WIDTH = SCREEN_WIDTH * 0.75;
@@ -100,7 +101,9 @@ export default function Index() {
     return data?.pages.flatMap((page) => page) ?? [];
   }, [data]);
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+
     refetch();
   };
 

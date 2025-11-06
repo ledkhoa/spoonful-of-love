@@ -22,7 +22,7 @@ const FeaturedRecipeCard = ({ recipe }: FeaturedRecipeCardProps) => {
     prefetchRecipeDetails(recipe.id);
   };
 
-  const handlePress = () => {
+  const handlePress = async () => {
     navigateToRecipeDetails(recipe.id);
   };
 

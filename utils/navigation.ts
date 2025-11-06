@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 
 /**
  * Navigate to recipe detail screen
@@ -9,6 +10,8 @@ export const navigateToRecipeDetails = async (
   recipeId: string,
   onPress?: () => void
 ) => {
+  await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
   if (onPress) {
     onPress();
   } else {
