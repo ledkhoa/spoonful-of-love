@@ -17,7 +17,8 @@ import { useAuth } from './useAuth';
 export const recipeQueryKeys = {
   all: ['recipes'] as const,
   featured: ['recipes', 'featured'] as const,
-  saved: (userId: string) => [...recipeQueryKeys.all, 'saved', userId] as const,
+  savedUser: (userId: string) => ['saved', userId] as const,
+  saved: ['saved'] as const,
   details: (id: string) => [...recipeQueryKeys.all, 'details', id] as const,
   savedStatus: (userId: string, recipeId: string) =>
     ['recipes', 'saved', userId, recipeId] as const,
@@ -172,7 +173,9 @@ export const useGetSavedRecipes = () => {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: user?.id ? recipeQueryKeys.saved(user.id) : ['recipes', 'saved'],
+    queryKey: user?.id
+      ? recipeQueryKeys.savedUser(user.id)
+      : recipeQueryKeys.saved,
     queryFn: () => {
       if (!user?.id) {
         return [];
@@ -188,7 +191,7 @@ export const useGetSavedRecipes = () => {
 
 /**
  * Hook to save a recipe
- * @returns Mutation for saving a recipe
+ * @returns Mutation for saving a recipe with optimistic updates
  */
 export const useSaveRecipe = () => {
   const queryClient = useQueryClient();
@@ -196,8 +199,16 @@ export const useSaveRecipe = () => {
   return useMutation({
     mutationFn: ({ userId, recipeId }: { userId: string; recipeId: string }) =>
       RecipeService.saveRecipe(userId, recipeId),
-    onSuccess: (_data, variables) => {
-      // Update all recipe queries in cache to set isSaved = true for this recipe
+    onMutate: async (variables) => {
+      // Cancel outgoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries({ queryKey: recipeQueryKeys.all });
+
+      // Snapshot the previous value
+      const previousData = queryClient.getQueriesData({
+        queryKey: recipeQueryKeys.all,
+      });
+
+      // Optimistically update to the new value
       queryClient.setQueriesData(
         { queryKey: recipeQueryKeys.all },
         (oldData: any) => {
@@ -237,9 +248,26 @@ export const useSaveRecipe = () => {
         }
       );
 
-      // Invalidate saved recipes query to refetch the list
+      // Return context with the snapshot
+      return { previousData };
+    },
+    onError: (_error, _variables, context) => {
+      // If the mutation fails, rollback to the previous value
+      if (context?.previousData) {
+        context.previousData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
+        });
+      }
+    },
+    onSettled: (_data, _error, variables) => {
+      // Always refetch after error or success to ensure we have the correct state
+      // queryClient.invalidateQueries({
+      //   queryKey: recipeQueryKeys.all,
+      // });
       queryClient.invalidateQueries({
-        queryKey: recipeQueryKeys.saved(variables.userId),
+        queryKey: variables.userId
+          ? recipeQueryKeys.savedUser(variables.userId)
+          : recipeQueryKeys.saved,
       });
     },
   });
@@ -247,7 +275,7 @@ export const useSaveRecipe = () => {
 
 /**
  * Hook to unsave a recipe
- * @returns Mutation for unsaving a recipe
+ * @returns Mutation for unsaving a recipe with optimistic updates
  */
 export const useUnsaveRecipe = () => {
   const queryClient = useQueryClient();
@@ -255,8 +283,16 @@ export const useUnsaveRecipe = () => {
   return useMutation({
     mutationFn: ({ userId, recipeId }: { userId: string; recipeId: string }) =>
       RecipeService.unsaveRecipe(userId, recipeId),
-    onSuccess: (_data, variables) => {
-      // Update all recipe queries in cache to set isSaved = false for this recipe
+    onMutate: async (variables) => {
+      // Cancel outgoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries({ queryKey: recipeQueryKeys.all });
+
+      // Snapshot the previous value
+      const previousData = queryClient.getQueriesData({
+        queryKey: recipeQueryKeys.all,
+      });
+
+      // Optimistically update to the new value
       queryClient.setQueriesData(
         { queryKey: recipeQueryKeys.all },
         (oldData: any) => {
@@ -296,9 +332,26 @@ export const useUnsaveRecipe = () => {
         }
       );
 
-      // Invalidate saved recipes query to refetch the list
+      // Return context with the snapshot
+      return { previousData };
+    },
+    onError: (_error, _variables, context) => {
+      // If the mutation fails, rollback to the previous value
+      if (context?.previousData) {
+        context.previousData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
+        });
+      }
+    },
+    onSettled: (_data, _error, variables) => {
+      // Always refetch after error or success to ensure we have the correct state
+      // queryClient.invalidateQueries({
+      //   queryKey: recipeQueryKeys.all,
+      // });
       queryClient.invalidateQueries({
-        queryKey: recipeQueryKeys.saved(variables.userId),
+        queryKey: variables.userId
+          ? recipeQueryKeys.savedUser(variables.userId)
+          : recipeQueryKeys.saved,
       });
     },
   });
