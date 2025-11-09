@@ -140,7 +140,6 @@ export default function RecipeDetailScreen() {
                 isSaved={recipe.isSaved ?? false}
                 size='large'
                 iconColor={colors.primary[500]}
-                variant='transparent'
               />
             </View>
 
