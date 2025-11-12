@@ -42,6 +42,7 @@ const FeaturedRecipeCard = ({ recipe }: FeaturedRecipeCardProps) => {
         <RecipeImagePlaceholder
           imageUrl={recipe.imageUrl}
           className='w-full h-48'
+          placeholderClassName='w-16'
           resizeMode='cover'
           borderRadius='top'
         />

@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Image, Text, ImageSourcePropType, Platform } from 'react-native';
+import { View, Image, Text, ImageSourcePropType } from 'react-native';
 import { colors } from '@/constants/colors';
 
 interface RecipeImagePlaceholderProps {
   imageUrl?: string | null;
   className?: string;
+  placeholderClassName?: string;
   resizeMode?: 'cover' | 'contain' | 'stretch' | 'repeat' | 'center';
   borderRadius?: 'top' | 'bottom' | 'all' | 'left' | 'none';
 }
@@ -12,6 +13,7 @@ interface RecipeImagePlaceholderProps {
 export default function RecipeImagePlaceholder({
   imageUrl,
   className = 'w-full h-32',
+  placeholderClassName = 'w-10',
   resizeMode = 'cover',
   borderRadius = 'top',
 }: RecipeImagePlaceholderProps) {
@@ -40,20 +42,18 @@ export default function RecipeImagePlaceholder({
 
   return (
     <View
-      className={`${className} ${borderRadiusClass} items-center justify-center overflow-hidden`}
-      style={{ backgroundColor: colors.cream[200] }}
+      className={`${className} ${borderRadiusClass} items-center justify-center overflow-hidden relative bg-cream-200`}
     >
       <Image
         source={logoSource}
-        style={{ width: 80, height: 120, opacity: 0.4 }}
+        className={`${placeholderClassName} opacity-30`}
         resizeMode='contain'
       />
-      <Text
-        className='text-neutral-500 font-medium text-xs mt-1'
-        style={{ opacity: 0.6 }}
-      >
-        Photo Coming Soon
-      </Text>
+      <View className='absolute inset-0 items-center justify-center z-1'>
+        <Text className='text-neutral-700 font-semibold text-xs opacity-70'>
+          Photo Coming Soon
+        </Text>
+      </View>
     </View>
   );
 }

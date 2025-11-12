@@ -124,6 +124,7 @@ export default function RecipeDetailScreen() {
               <RecipeImagePlaceholder
                 imageUrl={recipe.imageUrl}
                 className='w-full h-80'
+                placeholderClassName='w-20'
                 resizeMode='cover'
                 borderRadius='none'
               />
