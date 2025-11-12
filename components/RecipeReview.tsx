@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import { useGetRecipeReviews } from '@/hooks/useRecipes';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
@@ -47,7 +54,9 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
 
   if (error) {
     return (
-      <View className='bg-cream-50 rounded-xl p-4 mb-6'>
+      <View
+        className={`${Platform.OS === 'web' ? 'bg-cream-50' : 'bg-cream-50 rounded-xl'} p-4 mb-6`}
+      >
         <Text className='text-neutral-600 text-center'>
           Unable to load reviews
         </Text>
@@ -71,7 +80,7 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
           <TouchableOpacity
             onPress={handleWriteReview}
             activeOpacity={0.7}
-            className='bg-primary-500 p-4 rounded-full'
+            className={`bg-primary-500 p-4 ${Platform.OS === 'web' ? 'rounded-lg' : 'rounded-full'}`}
           >
             <Text className='text-cream-50 text-center text-base font-semibold'>
               Share Your Experience
@@ -90,7 +99,7 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
         </Text>
         <TouchableOpacity
           onPress={handleWriteReview}
-          className='bg-primary-500 px-4 py-2 rounded-full flex-row items-center'
+          className={`bg-primary-500 px-4 py-2 ${Platform.OS === 'web' ? 'rounded-lg' : 'rounded-full'} flex-row items-center`}
           activeOpacity={0.7}
         >
           <Text className='text-cream-50 font-semibold ml-1'>Share</Text>
@@ -104,13 +113,13 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
         return (
           <View
             key={review.id}
-            className='rounded-xl p-4 mb-4 border-b border-primary-200'
+            className={`${Platform.OS === 'web' ? '' : 'rounded-xl'} p-4 mb-4 border-b border-primary-200`}
           >
             {/* Reviewer Info and Rating */}
             <View className='flex-row items-center justify-between mb-3'>
               <View className='flex-row items-center flex-1'>
                 <View
-                  className={`rounded-full w-10 h-10 items-center justify-center mr-3 ${
+                  className={`${Platform.OS === 'web' ? 'rounded-lg' : 'rounded-full'} w-10 h-10 items-center justify-center mr-3 ${
                     isCurrentUserReview ? 'bg-primary-600' : 'bg-primary-500'
                   }`}
                 >
@@ -155,7 +164,9 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
             {/* Would Make Again Badge */}
             {review.wouldMakeAgain && (
               <View className='flex-row items-center mb-3'>
-                <View className='bg-accent-100 px-3 py-1.5 rounded-full flex-row items-center'>
+                <View
+                  className={`bg-accent-100 px-3 py-1.5 ${Platform.OS === 'web' ? 'rounded-lg' : 'rounded-full'} flex-row items-center`}
+                >
                   <Ionicons name='heart' size={14} color={colors.accent[500]} />
                   <Text className='text-accent-500 text-xs font-semibold ml-1'>
                     Would make for them again

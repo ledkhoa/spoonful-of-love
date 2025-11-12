@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, ImageSourcePropType } from 'react-native';
+import { View, Image, Text, ImageSourcePropType, Platform } from 'react-native';
 import { colors } from '@/constants/colors';
 
 interface RecipeImagePlaceholderProps {
@@ -40,17 +40,16 @@ export default function RecipeImagePlaceholder({
 
   return (
     <View
-      className={`${className} ${borderRadiusClass} items-center justify-center`}
+      className={`${className} ${borderRadiusClass} items-center justify-center overflow-hidden`}
       style={{ backgroundColor: colors.cream[200] }}
     >
       <Image
         source={logoSource}
-        className='w-20 h-20'
+        style={{ width: 80, height: 120, opacity: 0.4 }}
         resizeMode='contain'
-        style={{ opacity: 0.4 }}
       />
       <Text
-        className='text-neutral-500 font-medium text-sm mt-2'
+        className='text-neutral-500 font-medium text-xs mt-1'
         style={{ opacity: 0.6 }}
       >
         Photo Coming Soon
