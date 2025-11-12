@@ -50,19 +50,9 @@ const SaveButton = ({
       } else {
         await saveRecipeMutation.mutateAsync({ userId: user.id, recipeId });
       }
-      // Success haptic after mutation completes
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(
-        () => {
-          // Silently fail if haptics not available
-        }
-      );
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } catch (error) {
-      // Error haptic on failure
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(
-        () => {
-          // Silently fail if haptics not available
-        }
-      );
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
   }, [
     recipeId,
