@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Spoonful of Love",
-    "slug": "spoonful-of-love",
+    "name": "Spoonful",
+    "slug": "spoonful",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
