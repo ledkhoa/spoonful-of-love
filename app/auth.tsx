@@ -162,7 +162,7 @@ export default function AuthScreen() {
             >
               <ArrowLeftIcon
                 size={24}
-                weight='thin'
+                weight='light'
                 color={colors.neutral[800]}
               />
             </TouchableOpacity>

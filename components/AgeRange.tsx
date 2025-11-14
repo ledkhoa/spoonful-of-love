@@ -17,7 +17,7 @@ export default function AgeRange({
   return (
     <View className={`flex-row items-center ${className ?? ''}`}>
       <BabyIcon
-        weight='thin'
+        weight='regular'
         size={compressedView ? 12 : 14}
         color={colors.accent[500]}
       />

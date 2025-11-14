@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import {
   useGetRecipesInfinite,
@@ -24,6 +23,7 @@ import { useSearchParamsStore, SearchParams } from '@/stores/searchParamsStore';
 import { RecipeFilters } from '@/models/RecipeFilters';
 import { PLACEHOLDER_INPUT_TEXT } from '@/constants/placeholder';
 import * as Haptics from 'expo-haptics';
+import { MagnifyingGlassIcon, XCircleIcon } from 'phosphor-react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const FEATURED_CARD_WIDTH = SCREEN_WIDTH * 0.75;
@@ -279,7 +279,11 @@ export default function Index() {
           className='flex-row items-center bg-cream-50 rounded-xl px-4 py-3 shadow-sm'
           activeOpacity={0.7}
         >
-          <Ionicons name='search' size={20} color={colors.neutral[400]} />
+          <MagnifyingGlassIcon
+            weight='light'
+            size={20}
+            color={colors.neutral[400]}
+          />
           <Text className='flex-1 ml-3 text-base text-neutral-400'>
             {params.q || PLACEHOLDER_INPUT_TEXT}
           </Text>
@@ -291,8 +295,8 @@ export default function Index() {
               }}
               className='ml-2'
             >
-              <Ionicons
-                name='close-circle'
+              <XCircleIcon
+                weight='light'
                 size={20}
                 color={colors.neutral[400]}
               />
@@ -319,8 +323,8 @@ export default function Index() {
                     onPress={() => removeFilter(filter.key)}
                     className='ml-1.5'
                   >
-                    <Ionicons
-                      name='close-circle'
+                    <XCircleIcon
+                      weight='light'
                       size={16}
                       color={colors.cream[50]}
                     />

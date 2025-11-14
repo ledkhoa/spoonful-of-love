@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
+import { Icon, SnowflakeIcon } from 'phosphor-react-native';
 
 type DietaryType =
   | 'vegan'
@@ -18,7 +18,7 @@ interface DietaryBadgeProps {
 
 const DIETARY_CONFIG: Record<
   DietaryType,
-  { label?: string; icon?: string; bgColor: string; textColor: string }
+  { label?: string; icon?: Icon; bgColor: string; textColor: string }
 > = {
   vegan: {
     label: 'VG',
@@ -46,7 +46,7 @@ const DIETARY_CONFIG: Record<
     textColor: colors.cream[50],
   },
   'freezer-friendly': {
-    icon: 'snow',
+    icon: SnowflakeIcon,
     bgColor: colors.secondary[400], // Light teal/cyan
     textColor: colors.cream[50],
   },
@@ -83,11 +83,7 @@ export default function DietaryBadge({
       style={{ backgroundColor: config.bgColor }}
     >
       {config.icon ? (
-        <Ionicons
-          name={config.icon as any}
-          size={sizeConfig.icon}
-          color={config.textColor}
-        />
+        <config.icon size={sizeConfig.icon} color={config.textColor} />
       ) : (
         <Text
           className={`${sizeConfig.text} font-bold`}

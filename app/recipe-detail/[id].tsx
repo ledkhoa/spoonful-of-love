@@ -158,7 +158,7 @@ export default function RecipeDetailScreen() {
                 >
                   <ArrowLeftIcon
                     size={24}
-                    weight='thin'
+                    weight='light'
                     color={colors.cream[50]}
                   />
                 </TouchableOpacity>

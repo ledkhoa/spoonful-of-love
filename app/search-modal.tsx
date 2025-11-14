@@ -15,12 +15,14 @@ import * as Haptics from 'expo-haptics';
 import {
   XIcon,
   MagnifyingGlassIcon,
-  LeafIcon,
-  GrainsIcon,
   CowIcon,
   SnowflakeIcon,
   Icon,
   XCircleIcon,
+  CarrotIcon,
+  GrainsIcon,
+  PlantIcon,
+  AcornIcon,
 } from 'phosphor-react-native';
 
 interface DietaryFilter {
@@ -39,12 +41,12 @@ const DIETARY_FILTERS: DietaryFilter[] = [
   {
     id: 'isVegan',
     label: 'Vegan',
-    Icon: LeafIcon,
+    Icon: PlantIcon,
   },
   {
     id: 'isVegetarian',
     label: 'Vegetarian',
-    Icon: LeafIcon,
+    Icon: CarrotIcon,
   },
   {
     id: 'isGlutenFree',
@@ -59,7 +61,7 @@ const DIETARY_FILTERS: DietaryFilter[] = [
   {
     id: 'isNutFree',
     label: 'Nut Free',
-    Icon: LeafIcon,
+    Icon: AcornIcon,
   },
   {
     id: 'isFreezerFriendly',
@@ -176,7 +178,7 @@ export default function SearchModal() {
         {/* Search Bar */}
         <View className='flex-1 flex-row items-center bg-cream-50 rounded-xl px-4 py-3 shadow-sm'>
           <MagnifyingGlassIcon
-            weight='thin'
+            weight='light'
             size={20}
             color={colors.primary[500]}
           />
