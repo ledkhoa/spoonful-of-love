@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
@@ -10,6 +9,7 @@ import SaveButton from '@/components/SaveButton';
 import { RecipeCardItem } from '@/models/Recipes';
 import { navigateToRecipeDetails } from '@/utils/navigation';
 import { usePrefetchRecipeDetails } from '@/hooks/useRecipes';
+import { StarIcon } from 'phosphor-react-native';
 
 interface FeaturedRecipeCardProps {
   recipe: RecipeCardItem;
@@ -99,7 +99,7 @@ const FeaturedRecipeCard = ({ recipe }: FeaturedRecipeCardProps) => {
         {/* Rating and Reviews */}
         <View className='flex-row items-center'>
           <View className='flex-row items-center mr-2'>
-            <Ionicons name='star' size={16} color={colors.sunshine[500]} />
+            <StarIcon weight='fill' size={16} color={colors.sunshine[500]} />
             <Text className='text-sm font-medium text-neutral-700 ml-1'>
               {recipe.rating}
             </Text>

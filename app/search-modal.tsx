@@ -7,20 +7,26 @@ import {
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { useSearchParamsStore } from '@/stores/searchParamsStore';
 import { PLACEHOLDER_INPUT_TEXT } from '@/constants/placeholder';
 import * as Haptics from 'expo-haptics';
-
-type IconFamily = 'Ionicons' | 'MaterialCommunityIcons';
+import {
+  XIcon,
+  MagnifyingGlassIcon,
+  LeafIcon,
+  GrainsIcon,
+  CowIcon,
+  SnowflakeIcon,
+  Icon,
+  XCircleIcon,
+} from 'phosphor-react-native';
 
 interface DietaryFilter {
   id: string;
   label: string;
-  iconFamily: IconFamily;
-  iconName: string;
+  Icon: Icon;
 }
 
 interface StageFilter {
@@ -33,38 +39,32 @@ const DIETARY_FILTERS: DietaryFilter[] = [
   {
     id: 'isVegan',
     label: 'Vegan',
-    iconFamily: 'Ionicons',
-    iconName: 'leaf-outline',
+    Icon: LeafIcon,
   },
   {
     id: 'isVegetarian',
     label: 'Vegetarian',
-    iconFamily: 'MaterialCommunityIcons',
-    iconName: 'food-apple-outline',
+    Icon: LeafIcon,
   },
   {
     id: 'isGlutenFree',
     label: 'Gluten Free',
-    iconFamily: 'MaterialCommunityIcons',
-    iconName: 'barley-off',
+    Icon: GrainsIcon,
   },
   {
     id: 'isDairyFree',
     label: 'Dairy Free',
-    iconFamily: 'MaterialCommunityIcons',
-    iconName: 'cow-off',
+    Icon: CowIcon,
   },
   {
     id: 'isNutFree',
     label: 'Nut Free',
-    iconFamily: 'MaterialCommunityIcons',
-    iconName: 'peanut-off-outline',
+    Icon: LeafIcon,
   },
   {
     id: 'isFreezerFriendly',
     label: 'Freezer Friendly',
-    iconFamily: 'Ionicons',
-    iconName: 'snow',
+    Icon: SnowflakeIcon,
   },
 ];
 
@@ -170,12 +170,16 @@ export default function SearchModal() {
       {/* Header */}
       <View className='px-4 py-4 flex-row items-center screen-bg-color'>
         <TouchableOpacity onPress={() => router.back()} className='mr-3'>
-          <Ionicons name='close' size={28} color={colors.neutral[800]} />
+          <XIcon weight='thin' size={28} color={colors.neutral[800]} />
         </TouchableOpacity>
 
         {/* Search Bar */}
         <View className='flex-1 flex-row items-center bg-cream-50 rounded-xl px-4 py-3 shadow-sm'>
-          <Ionicons name='search' size={20} color={colors.primary[500]} />
+          <MagnifyingGlassIcon
+            weight='thin'
+            size={20}
+            color={colors.primary[500]}
+          />
           <TextInput
             placeholder={PLACEHOLDER_INPUT_TEXT}
             placeholderTextColor={colors.neutral[400]}
@@ -207,10 +211,7 @@ export default function SearchModal() {
             {DIETARY_FILTERS.map((filter) => {
               const isSelected = selectedDietary.has(filter.id);
               const iconColor = isSelected ? '#FFFFFF' : colors.neutral[600];
-              const IconComponent =
-                filter.iconFamily === 'Ionicons'
-                  ? Ionicons
-                  : MaterialCommunityIcons;
+              const IconComponent = filter.Icon;
 
               return (
                 <TouchableOpacity
@@ -220,11 +221,7 @@ export default function SearchModal() {
                     isSelected ? 'chip-active' : 'chip-inactive'
                   }`}
                 >
-                  <IconComponent
-                    name={filter.iconName as any}
-                    size={16}
-                    color={iconColor}
-                  />
+                  <IconComponent size={16} weight='thin' color={iconColor} />
                   <Text
                     className={`ml-2 text-sm font-medium ${
                       isSelected ? 'text-cream-50' : 'text-neutral-600'
@@ -292,9 +289,9 @@ export default function SearchModal() {
             />
             {selectedMonth && (
               <TouchableOpacity onPress={() => setSelectedMonth('')}>
-                <Ionicons
-                  name='close-circle'
+                <XCircleIcon
                   size={20}
+                  weight='thin'
                   color={colors.neutral[400]}
                 />
               </TouchableOpacity>

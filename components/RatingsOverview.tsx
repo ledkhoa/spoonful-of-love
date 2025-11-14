@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { useGetRecipeRatingsBreakdown } from '@/hooks/useRecipes';
+import { StarIcon } from 'phosphor-react-native';
 
 interface RatingsOverviewProps {
   recipeId: string;
@@ -29,9 +29,9 @@ export default function RatingsOverview({ recipeId }: RatingsOverviewProps) {
     return (
       <View className='flex-row'>
         {[1, 2, 3, 4, 5].map((star) => (
-          <Ionicons
+          <StarIcon
             key={star}
-            name={star <= rating ? 'star' : 'star-outline'}
+            weight='fill'
             size={16}
             color={star <= rating ? colors.sunshine[500] : colors.neutral[300]}
           />

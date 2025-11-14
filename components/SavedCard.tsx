@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import AgeRange from './AgeRange';
 import PremiumBadge from './PremiumBadge';
@@ -10,6 +9,7 @@ import { DietaryBadges } from './DietaryBadge';
 import SaveButton from '@/components/SaveButton';
 import { navigateToRecipeDetails } from '@/utils/navigation';
 import { usePrefetchRecipeDetails } from '@/hooks/useRecipes';
+import { StarIcon } from 'phosphor-react-native';
 
 interface SavedCardProps {
   recipe: RecipeCardItem;
@@ -88,7 +88,7 @@ export default function SavedCard({ recipe }: SavedCardProps) {
         {/* Rating Row */}
         <View className='flex-row items-center justify-between'>
           <View className='flex-row items-center'>
-            <Ionicons name='star' size={14} color={colors.sunshine[500]} />
+            <StarIcon size={14} color={colors.sunshine[500]} weight='fill' />
             <Text className='text-sm font-medium text-neutral-700 ml-1'>
               {recipe.rating}
             </Text>

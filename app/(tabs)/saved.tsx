@@ -1,20 +1,12 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
-  ScrollView,
-} from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import SavedCard from '@/components/SavedCard';
 import { colors } from '@/constants/colors';
 import { RecipeCardItem } from '@/models/Recipes';
 import { useGetSavedRecipes } from '@/hooks/useRecipes';
 import { useAuth } from '@/hooks/useAuth';
+import { BookmarkSimpleIcon } from 'phosphor-react-native';
 
 export default function Saved() {
   const { isAuthenticated } = useAuth();
@@ -28,11 +20,12 @@ export default function Saved() {
     if (!isAuthenticated) {
       return (
         <View className='flex-1 items-center justify-center mt-20'>
-          <Ionicons
-            name='bookmark-outline'
+          <BookmarkSimpleIcon
             size={64}
+            weight='thin'
             color={colors.primary[500]}
           />
+
           <Text className='text-neutral-500 text-lg mt-4 text-center'>
             Sign in to save recipes
           </Text>
@@ -45,11 +38,12 @@ export default function Saved() {
 
     return (
       <View className='flex-1 items-center justify-center mt-20'>
-        <Ionicons
-          name='bookmark-outline'
+        <BookmarkSimpleIcon
           size={64}
+          weight='thin'
           color={colors.primary[500]}
         />
+
         <Text className='text-neutral-500 text-lg mt-4 text-center'>
           No saved recipes yet
         </Text>

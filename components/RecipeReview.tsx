@@ -7,12 +7,12 @@ import {
   Platform,
 } from 'react-native';
 import { useGetRecipeReviews } from '@/hooks/useRecipes';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import LoadingIndicator from './LoadingIndicator';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
 import * as Haptics from 'expo-haptics';
+import { StarIcon, HeartIcon } from 'phosphor-react-native';
 
 interface RecipeReviewProps {
   recipeId: string;
@@ -154,7 +154,11 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
                 </View>
               </View>
               <View className='flex-row items-center'>
-                <Ionicons name='star' size={16} color={colors.sunshine[500]} />
+                <StarIcon
+                  weight='fill'
+                  size={16}
+                  color={colors.sunshine[500]}
+                />
                 <Text className='text-base font-semibold text-neutral-900 ml-1'>
                   {review.rating.toFixed(1)}
                 </Text>
@@ -167,7 +171,11 @@ export default function RecipeReview({ recipeId }: RecipeReviewProps) {
                 <View
                   className={`bg-accent-100 px-3 py-1.5 ${Platform.OS === 'web' ? 'rounded-lg' : 'rounded-full'} flex-row items-center`}
                 >
-                  <Ionicons name='heart' size={14} color={colors.accent[500]} />
+                  <HeartIcon
+                    weight='fill'
+                    size={14}
+                    color={colors.accent[500]}
+                  />
                   <Text className='text-accent-500 text-xs font-semibold ml-1'>
                     Would make for them again
                   </Text>

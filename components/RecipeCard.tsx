@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StarIcon } from 'phosphor-react-native';
 import { colors } from '@/constants/colors';
 import PremiumBadge from '@/components/PremiumBadge';
 import AgeRange from '@/components/AgeRange';
@@ -89,7 +89,8 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
 
         {/* Rating */}
         <View className='flex-row items-center'>
-          <Ionicons name='star' size={12} color={colors.sunshine[500]} />
+          <StarIcon weight='fill' size={12} color={colors.sunshine[500]} />
+
           <Text className='text-xs font-medium text-neutral-700 ml-1'>
             {recipe.rating}
           </Text>

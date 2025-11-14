@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { BookmarkSimpleIcon } from 'phosphor-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { colors } from '@/constants/colors';
@@ -72,11 +72,11 @@ const SaveButton = ({
       onPress={handlePress}
       activeOpacity={0.7}
     >
-      <Ionicons
-        name={isSaved ? 'bookmark' : 'bookmark-outline'}
-        size={iconSize}
-        color={iconColor}
-      />
+      {isSaved ? (
+        <BookmarkSimpleIcon size={iconSize} weight='fill' color={iconColor} />
+      ) : (
+        <BookmarkSimpleIcon size={iconSize} weight='thin' color={iconColor} />
+      )}
     </TouchableOpacity>
   );
 };

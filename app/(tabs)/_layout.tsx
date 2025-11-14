@@ -1,6 +1,13 @@
 import { colors } from '@/constants/colors';
 import { Tabs, useRouter } from 'expo-router';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import {
+  BookmarkIcon,
+  BookmarkSimpleIcon,
+  ChefHatIcon,
+  MagnifyingGlassIcon,
+  UserCheckIcon,
+  UserIcon,
+} from 'phosphor-react-native';
 
 export default function TabLayout() {
   const router = useRouter();
@@ -27,9 +34,12 @@ export default function TabLayout() {
         options={{
           title: 'Recipes',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name='restaurant-menu' size={size} color={color} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <ChefHatIcon size={size} weight='fill' color={color} />
+            ) : (
+              <ChefHatIcon size={size} weight='thin' color={color} />
+            ),
         }}
       />
       <Tabs.Screen
@@ -38,7 +48,7 @@ export default function TabLayout() {
           title: 'Search',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name='search' size={size} color={color} />
+            <MagnifyingGlassIcon size={size} weight='thin' color={color} />
           ),
         }}
         listeners={{
@@ -53,13 +63,12 @@ export default function TabLayout() {
         options={{
           title: 'Saved',
           headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'bookmark' : 'bookmark-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <BookmarkIcon size={size} weight='thin' color={color} />
+            ) : (
+              <BookmarkSimpleIcon size={size} weight='thin' color={color} />
+            ),
         }}
       />
       <Tabs.Screen
@@ -67,9 +76,12 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='person' size={size} color={color} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <UserCheckIcon size={size} color={color} weight='thin' />
+            ) : (
+              <UserIcon size={size} color={color} weight='thin' />
+            ),
         }}
       />
     </Tabs>

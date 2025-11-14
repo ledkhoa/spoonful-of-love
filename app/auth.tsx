@@ -9,10 +9,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { useAuth } from '@/hooks/useAuth';
+import { EyeIcon, EyeSlashIcon, ArrowLeftIcon } from 'phosphor-react-native';
 
 export default function AuthScreen() {
   const router = useRouter();
@@ -160,9 +160,9 @@ export default function AuthScreen() {
               className='absolute left-4'
               activeOpacity={0.7}
             >
-              <Ionicons
-                name='arrow-back'
+              <ArrowLeftIcon
                 size={24}
+                weight='thin'
                 color={colors.neutral[800]}
               />
             </TouchableOpacity>
@@ -249,11 +249,19 @@ export default function AuthScreen() {
                   onPress={() => setShowPassword(!showPassword)}
                   activeOpacity={0.7}
                 >
-                  <Ionicons
-                    name={showPassword ? 'eye-off' : 'eye'}
-                    size={24}
-                    color={colors.neutral[400]}
-                  />
+                  {showPassword ? (
+                    <EyeSlashIcon
+                      size={24}
+                      weight='thin'
+                      color={colors.neutral[400]}
+                    />
+                  ) : (
+                    <EyeIcon
+                      size={24}
+                      weight='thin'
+                      color={colors.neutral[400]}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -281,11 +289,19 @@ export default function AuthScreen() {
                     onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                     activeOpacity={0.7}
                   >
-                    <Ionicons
-                      name={showConfirmPassword ? 'eye-off' : 'eye'}
-                      size={24}
-                      color={colors.neutral[400]}
-                    />
+                    {showConfirmPassword ? (
+                      <EyeSlashIcon
+                        size={24}
+                        weight='thin'
+                        color={colors.neutral[400]}
+                      />
+                    ) : (
+                      <EyeIcon
+                        size={24}
+                        weight='thin'
+                        color={colors.neutral[400]}
+                      />
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>

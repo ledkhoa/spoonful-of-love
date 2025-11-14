@@ -1,7 +1,6 @@
 import { colors } from '@/constants/colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
-
+import { BabyIcon } from 'phosphor-react-native';
 interface AgeRangeProps {
   minMonths: number;
   maxMonths?: number;
@@ -17,8 +16,8 @@ export default function AgeRange({
 }: AgeRangeProps) {
   return (
     <View className={`flex-row items-center ${className ?? ''}`}>
-      <MaterialCommunityIcons
-        name='baby-face-outline'
+      <BabyIcon
+        weight='thin'
         size={compressedView ? 12 : 14}
         color={colors.accent[500]}
       />

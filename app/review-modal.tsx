@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { useGetRecipeDetails, useSaveReview } from '@/hooks/useRecipes';
 import { useAuth } from '@/hooks/useAuth';
 import * as Haptics from 'expo-haptics';
+import { XIcon, XCircleIcon, StarIcon, HeartIcon } from 'phosphor-react-native';
 
 export default function ReviewModal() {
   const { recipeId } = useLocalSearchParams<{ recipeId: string }>();
@@ -105,7 +105,7 @@ export default function ReviewModal() {
           onPress={() => router.back()}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
-          <Ionicons name='close' size={28} color={colors.neutral[600]} />
+          <XIcon weight='thin' size={28} color={colors.neutral[600]} />
         </TouchableOpacity>
       </View>
 
@@ -131,8 +131,8 @@ export default function ReviewModal() {
                   onPress={() => setRating(star)}
                   activeOpacity={0.7}
                 >
-                  <Ionicons
-                    name={star <= rating ? 'star' : 'star-outline'}
+                  <StarIcon
+                    weight='fill'
                     size={40}
                     color={
                       star <= rating
@@ -170,8 +170,8 @@ export default function ReviewModal() {
                 activeOpacity={0.7}
               >
                 <View className='flex-row items-center justify-center'>
-                  <Ionicons
-                    name='heart'
+                  <HeartIcon
+                    weight='fill'
                     size={20}
                     color={
                       wouldMakeAgain === true
@@ -200,8 +200,8 @@ export default function ReviewModal() {
                 activeOpacity={0.7}
               >
                 <View className='flex-row items-center justify-center'>
-                  <Ionicons
-                    name='close-circle'
+                  <XCircleIcon
+                    weight='thin'
                     size={20}
                     color={
                       wouldMakeAgain === false

@@ -7,7 +7,6 @@ import RecipeReview from '@/components/RecipeReview';
 import SaveButton from '@/components/SaveButton';
 import { colors } from '@/constants/colors';
 import { useGetRecipeDetails } from '@/hooks/useRecipes';
-import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -21,6 +20,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import RatingsOverview from '@/components/RatingsOverview';
 import * as Haptics from 'expo-haptics';
+import {
+  ArrowLeftIcon,
+  HeartIcon,
+  StarIcon,
+  CheckIcon,
+  CheckCircleIcon,
+  CircleIcon,
+  WarningIcon,
+  LightbulbIcon,
+} from 'phosphor-react-native';
 
 export default function RecipeDetailScreen() {
   const router = useRouter();
@@ -147,9 +156,9 @@ export default function RecipeDetailScreen() {
                   onPress={() => router.back()}
                   activeOpacity={0.7}
                 >
-                  <Ionicons
-                    name='arrow-back'
+                  <ArrowLeftIcon
                     size={24}
+                    weight='thin'
                     color={colors.cream[50]}
                   />
                 </TouchableOpacity>
@@ -183,7 +192,8 @@ export default function RecipeDetailScreen() {
           <View className='bg-cream-50 flex-row items-center justify-between px-4 pt-5 pb-3'>
             {/* Rating */}
             <View className='flex-row items-center'>
-              <Ionicons name='star' size={20} color={colors.sunshine[500]} />
+              <StarIcon size={20} color={colors.sunshine[500]} weight='fill' />
+
               <Text className='text-lg font-semibold text-neutral-700 ml-2'>
                 {recipe.rating.toFixed(1)}
               </Text>
@@ -261,10 +271,10 @@ export default function RecipeDetailScreen() {
               recipe.isFreezerFriendly) && (
               <View className='mb-6'>
                 <View className='flex-row items-start px-2'>
-                  <Ionicons
-                    name='nutrition'
+                  <HeartIcon
                     size={20}
                     color={colors.primary[500]}
+                    weight='fill'
                     style={{ marginTop: 2 }}
                   />
                   <Text className='text-base text-neutral-700 leading-6 ml-3'>
@@ -300,14 +310,21 @@ export default function RecipeDetailScreen() {
                     onPress={() => toggleIngredient(ingredient.id)}
                     className='flex-row justify-between py-3'
                   >
-                    <Ionicons
-                      name={isChecked ? 'checkmark-circle' : 'ellipse-outline'}
-                      size={24}
-                      color={
-                        isChecked ? colors.accent[600] : colors.neutral[400]
-                      }
-                      style={{ marginRight: 12 }}
-                    />
+                    {isChecked ? (
+                      <CheckCircleIcon
+                        size={24}
+                        weight='thin'
+                        color={colors.accent[600]}
+                        style={{ marginRight: 12 }}
+                      />
+                    ) : (
+                      <CircleIcon
+                        size={24}
+                        weight='thin'
+                        color={colors.neutral[400]}
+                        style={{ marginRight: 12 }}
+                      />
+                    )}
                     <View className='flex-1 mr-3'>
                       <View className='flex-row items-center'>
                         <Text
@@ -336,9 +353,9 @@ export default function RecipeDetailScreen() {
                       )}
                       {ingredient.isCommonAllergen && (
                         <View className='flex-row items-center mt-1'>
-                          <Ionicons
-                            name='warning'
+                          <WarningIcon
                             size={14}
+                            weight='thin'
                             color={colors.error[500]}
                           />
                           <Text className='text-xs text-error-600 ml-1'>
@@ -385,16 +402,21 @@ export default function RecipeDetailScreen() {
                       onPress={() => toggleEquipment(equipment.equipmentId)}
                       className='flex-row justify-between py-3'
                     >
-                      <Ionicons
-                        name={
-                          isChecked ? 'checkmark-circle' : 'ellipse-outline'
-                        }
-                        size={24}
-                        color={
-                          isChecked ? colors.accent[600] : colors.neutral[400]
-                        }
-                        style={{ marginRight: 12 }}
-                      />
+                      {isChecked ? (
+                        <CheckCircleIcon
+                          size={24}
+                          weight='thin'
+                          color={colors.accent[600]}
+                          style={{ marginRight: 12 }}
+                        />
+                      ) : (
+                        <CircleIcon
+                          size={24}
+                          weight='thin'
+                          color={colors.neutral[400]}
+                          style={{ marginRight: 12 }}
+                        />
+                      )}
                       <View className='flex-1 mr-3'>
                         {/* <View className='flex-row items-center'>
                         <Text
@@ -475,9 +497,9 @@ export default function RecipeDetailScreen() {
                         }}
                       >
                         {isChecked ? (
-                          <Ionicons
-                            name='checkmark'
+                          <CheckIcon
                             size={24}
+                            weight='thin'
                             color={colors.cream[50]}
                           />
                         ) : (
@@ -520,9 +542,9 @@ export default function RecipeDetailScreen() {
                             className={`rounded-lg p-3 mt-2 ${isChecked ? 'bg-neutral-100' : 'bg-sunshine-100'}`}
                           >
                             <View className='flex-row items-start'>
-                              <Ionicons
-                                name='bulb'
+                              <LightbulbIcon
                                 size={16}
+                                weight='thin'
                                 color={
                                   isChecked
                                     ? colors.neutral[400]

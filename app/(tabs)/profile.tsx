@@ -1,23 +1,13 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-  Switch,
-  Image,
-} from 'react-native';
+import { Text, View, TouchableOpacity, Alert, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/hooks/useAuth';
 import { colors } from '@/constants/colors';
-import { useState } from 'react';
+import { UserCircleIcon, SignOutIcon } from 'phosphor-react-native';
 
 export default function Profile() {
   const router = useRouter();
   const { user, isAuthenticated, signOut, isSigningOut } = useAuth();
-  const [isMetric, setIsMetric] = useState(false); // false = Imperial, true = Metric
 
   const handleSignOut = async () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
@@ -113,7 +103,11 @@ export default function Profile() {
             {/* Avatar Circle */}
             <View className='bg-cream-50 rounded-full p-1 mb-4'>
               <View className='bg-primary-100 rounded-full w-32 h-32 items-center justify-center'>
-                <Ionicons name='person' size={64} color={colors.primary[500]} />
+                <UserCircleIcon
+                  size={64}
+                  weight='thin'
+                  color={colors.primary[500]}
+                />
               </View>
             </View>
 
@@ -142,9 +136,9 @@ export default function Profile() {
             disabled={isSigningOut}
             activeOpacity={0.7}
           >
-            <Ionicons
-              name='log-out-outline'
+            <SignOutIcon
               size={24}
+              weight='thin'
               color={colors.cream[50]}
               style={{ marginRight: 8 }}
             />

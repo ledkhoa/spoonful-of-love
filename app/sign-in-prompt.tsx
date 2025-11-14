@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
 import { useBottomSheetModal } from '@/hooks/useBottomSheetModal';
+import { UserCircleIcon } from 'phosphor-react-native';
 
 export default function SignInPromptModal() {
   const router = useRouter();
@@ -56,9 +56,9 @@ export default function SignInPromptModal() {
           {/* Icon */}
           <View className='items-center mb-6'>
             <View className='w-20 h-20 bg-primary-100 rounded-full items-center justify-center'>
-              <Ionicons
-                name='person-circle-outline'
+              <UserCircleIcon
                 size={48}
+                weight='thin'
                 color={colors.primary[500]}
               />
             </View>
