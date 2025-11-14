@@ -138,7 +138,7 @@ export default function Profile() {
           >
             <SignOutIcon
               size={24}
-              weight='thin'
+              weight='light'
               color={colors.cream[50]}
               style={{ marginRight: 8 }}
             />

@@ -1,11 +1,9 @@
 import { colors } from '@/constants/colors';
 import { Tabs, useRouter } from 'expo-router';
 import {
-  BookmarkIcon,
   BookmarkSimpleIcon,
   ChefHatIcon,
   MagnifyingGlassIcon,
-  UserCheckIcon,
   UserIcon,
 } from 'phosphor-react-native';
 
@@ -65,7 +63,7 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) =>
             focused ? (
-              <BookmarkIcon size={size} weight='thin' color={color} />
+              <BookmarkSimpleIcon size={size} weight='fill' color={color} />
             ) : (
               <BookmarkSimpleIcon size={size} weight='thin' color={color} />
             ),
@@ -78,7 +76,7 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) =>
             focused ? (
-              <UserCheckIcon size={size} color={color} weight='thin' />
+              <UserIcon size={size} color={color} weight='fill' />
             ) : (
               <UserIcon size={size} color={color} weight='thin' />
             ),
